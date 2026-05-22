@@ -22,8 +22,6 @@ background:#6d4df5;
 min-height:100vh;
 }
 
-/* TOP SECTION */
-
 .top{
 padding:40px 30px;
 color:white;
@@ -49,8 +47,6 @@ margin-top:10px;
 font-size:18px;
 opacity:.9;
 }
-
-/* FORM */
 
 .form-box{
 background:#f8f8fb;
@@ -127,49 +123,27 @@ display:none;
 
 <h1>Welcome Back</h1>
 
-<p>
-Sign in to continue earning rewards
-</p>
+<p>Sign in to continue earning rewards</p>
 
 </div>
 
 <div class="form-box">
 
 <div class="input-box">
-
 <label>Phone Number</label>
-
-<input type="text"
-id="loginPhone"
-placeholder="Enter phone number">
-
+<input type="text" id="loginPhone" placeholder="Enter phone number">
 </div>
 
 <div class="input-box">
-
 <label>Password</label>
-
-<input type="password"
-id="loginPassword"
-placeholder="Enter your password">
-
+<input type="password" id="loginPassword" placeholder="Enter your password">
 </div>
 
-<button class="btn"
-onclick="login()">
-
-Sign In →
-
-</button>
+<button class="btn" onclick="login()">Sign In →</button>
 
 <div class="switch">
-
 New here?
-
-<span onclick="showSignup()">
-Create Account
-</span>
-
+<span onclick="showSignup()">Create Account</span>
 </div>
 
 </div>
@@ -178,8 +152,7 @@ Create Account
 
 <!-- SIGNUP PAGE -->
 
-<div id="signupPage"
-class="hidden">
+<div id="signupPage" class="hidden">
 
 <div class="top">
 
@@ -187,79 +160,42 @@ class="hidden">
 
 <h1>Create Account</h1>
 
-<p>
-Create your wallet account
-</p>
+<p>Create your wallet account</p>
 
 </div>
 
 <div class="form-box">
 
 <div class="input-box">
-
 <label>Full Name</label>
-
-<input type="text"
-id="signupName"
-placeholder="Enter your name">
-
+<input type="text" id="signupName" placeholder="Enter your name">
 </div>
 
 <div class="input-box">
-
 <label>Email</label>
-
-<input type="email"
-id="signupEmail"
-placeholder="Enter email">
-
+<input type="email" id="signupEmail" placeholder="Enter email">
 </div>
 
 <div class="input-box">
-
 <label>Phone Number</label>
-
-<input type="text"
-id="signupPhone"
-placeholder="Enter phone number">
-
+<input type="text" id="signupPhone" placeholder="Enter phone number">
 </div>
 
 <div class="input-box">
-
 <label>Password</label>
-
-<input type="password"
-id="signupPassword"
-placeholder="Create password">
-
+<input type="password" id="signupPassword" placeholder="Create password">
 </div>
 
 <div class="input-box">
-
 <label>Referral Code</label>
-
-<input type="text"
-id="referCode"
-placeholder="Optional">
-
+<input type="text" id="referCode" placeholder="Optional">
 </div>
 
-<button class="btn"
-onclick="signup()">
-
-Continue →
-
-</button>
+<button class="btn" onclick="signup()">Continue →</button>
 
 <div class="switch">
-
 Already have account?
-
-<span onclick="showLogin()">
-Login
-</span>
-
+<span onclick="showLogin()">Login</span>
 </div>
 
 </div>
@@ -268,48 +204,25 @@ Login
 
 <script>
 
-/* SHOW SIGNUP */
-
 function showSignup(){
-
-document.getElementById("loginPage")
-.classList.add("hidden");
-
-document.getElementById("signupPage")
-.classList.remove("hidden");
-
+document.getElementById("loginPage").classList.add("hidden");
+document.getElementById("signupPage").classList.remove("hidden");
 }
-
-/* SHOW LOGIN */
 
 function showLogin(){
-
-document.getElementById("signupPage")
-.classList.add("hidden");
-
-document.getElementById("loginPage")
-.classList.remove("hidden");
-
+document.getElementById("signupPage").classList.add("hidden");
+document.getElementById("loginPage").classList.remove("hidden");
 }
-
-/* SIGNUP */
 
 function signup(){
 
 let user = {
-
-name:
-document.getElementById("signupName").value,
-
-email:
-document.getElementById("signupEmail").value,
-
-phone:
-document.getElementById("signupPhone").value,
-
-password:
-document.getElementById("signupPassword").value
-
+name: document.getElementById("signupName").value,
+email: document.getElementById("signupEmail").value,
+phone: document.getElementById("signupPhone").value,
+password: document.getElementById("signupPassword").value,
+referCode: document.getElementById("referCode").value,
+joined: new Date().toLocaleString()
 };
 
 if(
@@ -318,56 +231,59 @@ user.email === "" ||
 user.phone === "" ||
 user.password === ""
 ){
-
 alert("All details required");
-
 return;
-
 }
 
-localStorage.setItem(
-"user",
-JSON.stringify(user)
-);
+/* CURRENT USER SAVE */
+localStorage.setItem("user", JSON.stringify(user));
 
-localStorage.setItem(
-"loggedIn",
-"yes"
-);
+/* ALL USERS SAVE FOR ADMIN PANEL */
+let users = JSON.parse(localStorage.getItem("users")) || [];
+
+let alreadyExists = users.some(u => u.phone === user.phone);
+
+if(alreadyExists){
+alert("This phone number already registered");
+return;
+}
+
+users.push({
+name: user.name,
+email: user.email,
+phone: user.phone,
+referCode: user.referCode,
+joined: user.joined
+});
+
+localStorage.setItem("users", JSON.stringify(users));
+
+/* LOGIN SET */
+localStorage.setItem("loggedIn", "yes");
 
 alert("Account Created Successfully");
 
-window.location.href =
-"index.html";
+window.location.href = "index.html";
 
 }
 
-/* LOGIN */
-
 function login(){
 
-let phone =
-document.getElementById("loginPhone").value;
+let phone = document.getElementById("loginPhone").value;
+let password = document.getElementById("loginPassword").value;
 
-let password =
-document.getElementById("loginPassword").value;
-
-/* ADMIN LOGIN */
+/* FIXED ADMIN LOGIN */
 
 if(
 phone === "8119959070" &&
 password === "Jutondas"
 ){
 
-localStorage.setItem(
-"adminLoggedIn",
-"yes"
-);
+localStorage.setItem("adminLoggedIn", "yes");
 
 alert("Admin Login Successful");
 
-window.location.href =
-"admin.html";
+window.location.href = "admin.html";
 
 return;
 
@@ -375,38 +291,28 @@ return;
 
 /* USER LOGIN */
 
-let saved =
-JSON.parse(localStorage.getItem("user"));
+let users = JSON.parse(localStorage.getItem("users")) || [];
 
-if(!saved){
+let matchedUser = users.find(u => u.phone === phone);
 
-alert("Create account first");
+let saved = JSON.parse(localStorage.getItem("user"));
+
+if(saved && saved.phone === phone && saved.password === password){
+
+localStorage.setItem("loggedIn", "yes");
+
+window.location.href = "index.html";
 
 return;
 
 }
 
-if(
-phone === saved.phone &&
-password === saved.password
-){
-
-localStorage.setItem(
-"loggedIn",
-"yes"
-);
-
-alert("Login Successful");
-
-window.location.href =
-"index.html";
-
+if(!matchedUser){
+alert("Create account first");
+return;
 }
-else{
 
 alert("Wrong phone or password");
-
-}
 
 }
 
