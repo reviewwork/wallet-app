@@ -747,7 +747,90 @@ alert("Comment Copied");
 
 }
 
-function submitTask(index){
+async function submitTask(taskId){
+
+let fileInput =
+document.getElementById("proofFile");
+
+let file =
+fileInput.files[0];
+
+if(!file){
+
+alert("Select screenshot first");
+
+return;
+
+}
+
+/* CLOUDINARY UPLOAD */
+
+let formData = new FormData();
+
+formData.append("file", file);
+
+formData.append(
+"upload_preset",
+"walletapp"
+);
+
+let response = await fetch(
+"https://api.cloudinary.com/v1_1/djiewwfd5t/image/upload",
+{
+method: "POST",
+body: formData
+}
+);
+
+let data = await response.json();
+
+/* IMAGE URL */
+
+let imageUrl = data.secure_url;
+
+/* SAVE SUBMISSION */
+
+let submissions =
+JSON.parse(
+localStorage.getItem("submissions")
+) || [];
+
+submissions.push({
+
+taskId: taskId,
+
+app: currentTask.app,
+
+title: currentTask.title,
+
+reward: currentTask.reward,
+
+comment: currentTask.comment,
+
+proof: imageUrl,
+
+status: "Pending",
+
+time: new Date().toLocaleString()
+
+});
+
+localStorage.setItem(
+"submissions",
+JSON.stringify(submissions)
+);
+
+/* REMOVE TASK */
+
+document.getElementById(
+"taskSection"
+).style.display = "none";
+
+alert(
+"Screenshot uploaded successfully"
+);
+
+}{
 
 let file =
 document.getElementById(
@@ -757,6 +840,7 @@ document.getElementById(
 if(!file){
 
 alert("Upload screenshot");
+<input type="file" id="proofFile" accept="image/*">
 
 return;
 
