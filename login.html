@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>FREECASHLogin</title>
+<title>FolloPay Login</title>
 
 <style>
 
@@ -22,8 +22,10 @@ background:#6d4df5;
 min-height:100vh;
 }
 
+/* TOP SECTION */
+
 .top{
-padding:40px 30px;S
+padding:40px 30px;
 color:white;
 text-align:center;
 }
@@ -38,15 +40,17 @@ padding:12px;
 
 .top h1{
 margin-top:25px;
-font-size:50px;
+font-size:48px;
 font-weight:bold;
 }
 
 .top p{
 margin-top:10px;
-font-size:20px;
+font-size:18px;
 opacity:.9;
 }
+
+/* FORM */
 
 .form-box{
 background:#f8f8fb;
@@ -57,37 +61,38 @@ margin-top:40px;
 }
 
 .input-box{
-margin-bottom:25px;
+margin-bottom:22px;
 }
 
 .input-box label{
 display:block;
 margin-bottom:10px;
-font-size:22px;
+font-size:20px;
 font-weight:bold;
 color:#111827;
 }
 
 .input-box input{
 width:100%;
-padding:20px;
+padding:18px;
 border:none;
 border-radius:18px;
 background:white;
-font-size:18px;
+font-size:17px;
 box-shadow:0 0 10px #eee;
 }
 
 .btn{
 width:100%;
-padding:20px;
+padding:18px;
 border:none;
 border-radius:18px;
 background:#5b47ea;
 color:white;
-font-size:24px;
+font-size:22px;
 font-weight:bold;
 margin-top:10px;
+cursor:pointer;
 }
 
 .switch{
@@ -99,6 +104,7 @@ font-size:18px;
 .switch span{
 color:#5b47ea;
 font-weight:bold;
+cursor:pointer;
 }
 
 .hidden{
@@ -111,7 +117,7 @@ display:none;
 
 <body>
 
-<!-- LOGIN -->
+<!-- LOGIN PAGE -->
 
 <div id="loginPage">
 
@@ -170,7 +176,7 @@ Create Account
 
 </div>
 
-<!-- SIGNUP -->
+<!-- SIGNUP PAGE -->
 
 <div id="signupPage"
 class="hidden">
@@ -262,6 +268,8 @@ Login
 
 <script>
 
+/* SHOW SIGNUP */
+
 function showSignup(){
 
 document.getElementById("loginPage")
@@ -272,6 +280,8 @@ document.getElementById("signupPage")
 
 }
 
+/* SHOW LOGIN */
+
 function showLogin(){
 
 document.getElementById("signupPage")
@@ -281,6 +291,8 @@ document.getElementById("loginPage")
 .classList.remove("hidden");
 
 }
+
+/* SIGNUP */
 
 function signup(){
 
@@ -301,10 +313,11 @@ document.getElementById("signupPassword").value
 };
 
 if(
-user.name==="" ||
-user.email==="" ||
-user.phone==="" ||
-user.password===""){
+user.name === "" ||
+user.email === "" ||
+user.phone === "" ||
+user.password === ""
+){
 
 alert("All details required");
 
@@ -322,14 +335,45 @@ localStorage.setItem(
 "yes"
 );
 
-alert("Account Created");
+alert("Account Created Successfully");
 
 window.location.href =
 "index.html";
 
 }
 
+/* LOGIN */
+
 function login(){
+
+let phone =
+document.getElementById("loginPhone").value;
+
+let password =
+document.getElementById("loginPassword").value;
+
+/* ADMIN LOGIN */
+
+if(
+phone === "8119959070" &&
+password === "Jutondas"
+){
+
+localStorage.setItem(
+"adminLoggedIn",
+"yes"
+);
+
+alert("Admin Login Successful");
+
+window.location.href =
+"admin.html";
+
+return;
+
+}
+
+/* USER LOGIN */
 
 let saved =
 JSON.parse(localStorage.getItem("user"));
@@ -342,12 +386,6 @@ return;
 
 }
 
-let phone =
-document.getElementById("loginPhone").value;
-
-let password =
-document.getElementById("loginPassword").value;
-
 if(
 phone === saved.phone &&
 password === saved.password
@@ -357,6 +395,8 @@ localStorage.setItem(
 "loggedIn",
 "yes"
 );
+
+alert("Login Successful");
 
 window.location.href =
 "index.html";
@@ -373,4 +413,5 @@ alert("Wrong phone or password");
 </script>
 
 </body>
+
 </html>
