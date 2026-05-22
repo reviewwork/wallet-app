@@ -1,180 +1,529 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
 <title>Admin Panel</title>
+
 <style>
-body{font-family:Arial;background:#f3f4f6;margin:0;padding:20px}
-.box{background:white;padding:20px;border-radius:18px;margin-bottom:20px;box-shadow:0 0 10px #ddd}
-input,textarea,select,button{width:100%;padding:14px;margin:8px 0;border-radius:10px;border:1px solid #ddd}
-button{background:#7c3aed;color:white;border:none;font-weight:bold}
-.card{background:#f9fafb;padding:15px;border-radius:15px;margin:10px 0}
-.approve{background:#16a34a}
-.reject{background:#dc2626}
-</style>
-</head>
-<body>
 
-<h1>Admin Panel</h1>
-
-<div class="box">
-<h2>Add New Task</h2>
-<input id="app" placeholder="App Name">
-<input id="title" placeholder="Task Title">
-<input id="reward" type="number" placeholder="Reward Amount">
-<input id="link" placeholder="App / Task Link">
-<button onclick="addTask()">Add Task</button>
-</div>
-
-<div class="box">
-<h2>All Tasks</h2>
-<div id="taskList"></div>
-</div>
-
-<div class="box">
-<h2>Task Submissions</h2>
-<div id="subList"></div>
-</div>
-
-<div class="box">
-<h2>Withdraw Requests</h2>
-<div id="withdrawList"></div>
-</div>
-
-<script>
-  if(localStorage.getItem("adminLoggedIn") !== "yes"){
-
-window.location.href = "login.html";
-
-}
-let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-let submissions = JSON.parse(localStorage.getItem("submissions")) || [];
-let withdraws = JSON.parse(localStorage.getItem("withdraws")) || [];
-
-function save(){
-  localStorage.setItem("tasks", JSON.stringify(tasks));
-  localStorage.setItem("submissions", JSON.stringify(submissions));
-  localStorage.setItem("withdraws", JSON.stringify(withdraws));
+body{
+font-family:Arial;
+background:#f3f4f6;
+margin:0;
+padding:20px;
 }
 
-function addTask(){
-  let task = {
-    app: app.value,
-    title: title.value,
-    reward: Number(reward.value),
-    link: link.value
-  };
-
-  if(!task.app || !task.title || !task.reward){
-    alert("All details fill karo");
-    return;
-  }
-
-  tasks.push(task);
-  save();
-  alert("Task Added");
-  location.reload();
+.top{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
 }
 
-function loadTasks(){
-  taskList.innerHTML = "";
-  tasks.forEach((t,i)=>{
-    taskList.innerHTML += `
-      <div class="card">
-        <b>${t.app}</b><br>
-        ${t.title}<br>
-        Reward: ₹${t.reward}<br>
-        <button class="reject" onclick="deleteTask(${i})">Delete Task</button>
-      </div>
-    `;
-  });
+.top h1{
+margin:0;
 }
 
-function deleteTask(i){
-  tasks.splice(i,1);
-  save();
-  location.reload();
-}
-
-function loadSubmissions(){
-  subList.innerHTML = "";
-  submissions.forEach((s,i)=>{
-    subList.innerHTML += `
-      <div class="card">
-        <b>${s.app}</b><br>
-        Proof: <a href="${s.proof}" target="_blank">Open Screenshot</a><br>
-        Status: ${s.status}<br>
-        <button class="approve" onclick="approveTask(${i})">Approve</button>
-        <button class="reject" onclick="rejectTask(${i})">Reject</button>
-      </div>
-    `;
-  });
-}
-
-function approveTask(i){
-  submissions[i].status = "Approved";
-  save();
-  location.reload();
-}
-
-function rejectTask(i){
-  submissions[i].status = "Rejected";
-  save();
-  location.reload();
-}
-
-function loadWithdraws(){
-  withdrawList.innerHTML = "";
-  withdraws.forEach((w,i)=>{
-    withdrawList.innerHTML += `
-      <div class="card">
-        Method: ${w.method}<br>
-        Amount: ₹${w.amount}<br>
-        Details: ${w.details}<br>
-        Status: ${w.status}<br>
-        <button class="approve" onclick="approvePay(${i})">Payment Done</button>
-        <button class="reject" onclick="rejectPay(${i})">Reject</button>
-      </div>
-    `;
-  });
-}
-
-function approvePay(i){
-  withdraws[i].status = "Paid";
-  save();
-  location.reload();
-}
-
-function rejectPay(i){
-  withdraws[i].status = "Rejected";
-  save();
-  location.reload();
-}
-
-loadTasks();
-loadSubmissions();
-loadWithdraws();
-</script>
-function adminLogout(){
-
-localStorage.removeItem("adminLoggedIn");
-
-window.location.href = "login.html";
-
-}
-</body>
-<button onclick="adminLogout()"
-style="
+.logout-btn{
 background:red;
 color:white;
 border:none;
 padding:12px 20px;
-border-radius:10px;
+border-radius:12px;
+font-size:16px;
+}
+
+.box{
+background:white;
+padding:20px;
+border-radius:20px;
 margin-bottom:20px;
+box-shadow:0 0 10px #ddd;
+}
+
+input,
+textarea,
+select{
+width:100%;
+padding:15px;
+margin-top:12px;
+border-radius:12px;
+border:1px solid #ddd;
+font-size:16px;
+}
+
+button{
+width:100%;
+padding:15px;
+margin-top:15px;
+border:none;
+border-radius:12px;
 font-size:18px;
-">
+font-weight:bold;
+background:#7c3aed;
+color:white;
+}
+
+.card{
+background:#f9fafb;
+padding:18px;
+border-radius:18px;
+margin-top:15px;
+border-left:6px solid #7c3aed;
+}
+
+.approve{
+background:#16a34a;
+margin-top:10px;
+}
+
+.reject{
+background:#dc2626;
+margin-top:10px;
+}
+
+.delete{
+background:#ef4444;
+margin-top:10px;
+}
+
+small{
+color:#666;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="top">
+
+<h1>
+Admin Panel
+</h1>
+
+<button class="logout-btn"
+onclick="adminLogout()">
 
 Logout
 
 </button>
+
+</div>
+
+<!-- ADD TASK -->
+
+<div class="box">
+
+<h2>Add New Task</h2>
+
+<input type="text"
+id="app"
+placeholder="App Name">
+
+<input type="text"
+id="title"
+placeholder="Task Title">
+
+<input type="number"
+id="reward"
+placeholder="Reward Amount">
+
+<input type="text"
+id="link"
+placeholder="Task Link">
+
+<button onclick="addTask()">
+
+Add Task
+
+</button>
+
+</div>
+
+<!-- TASK LIST -->
+
+<div class="box">
+
+<h2>All Tasks</h2>
+
+<div id="taskList"></div>
+
+</div>
+
+<!-- TASK SUBMISSIONS -->
+
+<div class="box">
+
+<h2>Task Submissions</h2>
+
+<div id="submissionList"></div>
+
+</div>
+
+<!-- WITHDRAW REQUEST -->
+
+<div class="box">
+
+<h2>Withdraw Requests</h2>
+
+<div id="withdrawList"></div>
+
+</div>
+
+<script>
+
+/* ADMIN SECURITY */
+
+if(localStorage.getItem("adminLoggedIn") !== "yes"){
+
+window.location.href = "login.html";
+
+}
+
+/* STORAGE */
+
+let tasks =
+JSON.parse(localStorage.getItem("tasks")) || [];
+
+let submissions =
+JSON.parse(localStorage.getItem("submissions")) || [];
+
+let withdraws =
+JSON.parse(localStorage.getItem("withdraws")) || [];
+
+/* SAVE */
+
+function saveData(){
+
+localStorage.setItem(
+"tasks",
+JSON.stringify(tasks)
+);
+
+localStorage.setItem(
+"submissions",
+JSON.stringify(submissions)
+);
+
+localStorage.setItem(
+"withdraws",
+JSON.stringify(withdraws)
+);
+
+}
+
+/* ADD TASK */
+
+function addTask(){
+
+let task = {
+
+app:
+document.getElementById("app").value,
+
+title:
+document.getElementById("title").value,
+
+reward:
+document.getElementById("reward").value,
+
+link:
+document.getElementById("link").value
+
+};
+
+if(
+task.app === "" ||
+task.title === "" ||
+task.reward === "" ||
+task.link === ""
+){
+
+alert("All fields required");
+
+return;
+
+}
+
+tasks.push(task);
+
+saveData();
+
+alert("Task Added Successfully");
+
+location.reload();
+
+}
+
+/* LOAD TASK */
+
+function loadTasks(){
+
+let html = "";
+
+if(tasks.length === 0){
+
+html = "<p>No task available</p>";
+
+}
+
+tasks.forEach((task,index)=>{
+
+html += `
+
+<div class="card">
+
+<h3>${task.app}</h3>
+
+<p>${task.title}</p>
+
+<b>Reward: ₹${task.reward}</b>
+
+<br><br>
+
+<small>
+${task.link}
+</small>
+
+<button class="delete"
+onclick="deleteTask(${index})">
+
+Delete Task
+
+</button>
+
+</div>
+
+`;
+
+});
+
+document.getElementById("taskList")
+.innerHTML = html;
+
+}
+
+/* DELETE TASK */
+
+function deleteTask(index){
+
+tasks.splice(index,1);
+
+saveData();
+
+location.reload();
+
+}
+
+/* LOAD SUBMISSIONS */
+
+function loadSubmissions(){
+
+let html = "";
+
+if(submissions.length === 0){
+
+html = "<p>No submissions yet</p>";
+
+}
+
+submissions.forEach((sub,index)=>{
+
+html += `
+
+<div class="card">
+
+<h3>${sub.app}</h3>
+
+<p>${sub.title}</p>
+
+<b>Status:
+${sub.status}
+</b>
+
+<br><br>
+
+<a href="${sub.proof}"
+target="_blank">
+
+Open Screenshot
+
+</a>
+
+<button class="approve"
+onclick="approveTask(${index})">
+
+Approve
+
+</button>
+
+<button class="reject"
+onclick="rejectTask(${index})">
+
+Reject
+
+</button>
+
+</div>
+
+`;
+
+});
+
+document.getElementById("submissionList")
+.innerHTML = html;
+
+}
+
+/* APPROVE TASK */
+
+function approveTask(index){
+
+submissions[index].status = "Approved";
+
+saveData();
+
+alert("Task Approved");
+
+location.reload();
+
+}
+
+/* REJECT TASK */
+
+function rejectTask(index){
+
+submissions[index].status = "Rejected";
+
+saveData();
+
+alert("Task Rejected");
+
+location.reload();
+
+}
+
+/* LOAD WITHDRAWS */
+
+function loadWithdraws(){
+
+let html = "";
+
+if(withdraws.length === 0){
+
+html = "<p>No withdraw request</p>";
+
+}
+
+withdraws.forEach((w,index)=>{
+
+html += `
+
+<div class="card">
+
+<h3>${w.method}</h3>
+
+<p>
+Amount: ₹${w.amount}
+</p>
+
+<p>
+Charge: ₹${w.charge}
+</p>
+
+<p>
+Final Amount: ₹${w.final}
+</p>
+
+<p>
+${w.details}
+</p>
+
+<b>Status:
+${w.status}
+</b>
+
+<button class="approve"
+onclick="approveWithdraw(${index})">
+
+Approve Payment
+
+</button>
+
+<button class="reject"
+onclick="rejectWithdraw(${index})">
+
+Reject
+
+</button>
+
+</div>
+
+`;
+
+});
+
+document.getElementById("withdrawList")
+.innerHTML = html;
+
+}
+
+/* APPROVE WITHDRAW */
+
+function approveWithdraw(index){
+
+withdraws[index].status = "Paid";
+
+saveData();
+
+alert("Payment Approved");
+
+location.reload();
+
+}
+
+/* REJECT WITHDRAW */
+
+function rejectWithdraw(index){
+
+withdraws[index].status = "Rejected";
+
+saveData();
+
+alert("Withdraw Rejected");
+
+location.reload();
+
+}
+
+/* LOGOUT */
+
+function adminLogout(){
+
+localStorage.removeItem(
+"adminLoggedIn"
+);
+
+window.location.href =
+"login.html";
+
+}
+
+/* LOAD */
+
+loadTasks();
+
+loadSubmissions();
+
+loadWithdraws();
+
+</script>
+
+</body>
 </html>
