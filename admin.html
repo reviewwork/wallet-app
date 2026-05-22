@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 
 <meta charset="UTF-8">
+
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
@@ -26,6 +28,7 @@ margin-bottom:20px;
 
 .top h1{
 margin:0;
+font-size:32px;
 }
 
 .logout-btn{
@@ -56,6 +59,11 @@ border:1px solid #ddd;
 font-size:16px;
 }
 
+textarea{
+height:180px;
+resize:none;
+}
+
 button{
 width:100%;
 padding:15px;
@@ -66,6 +74,7 @@ font-size:18px;
 font-weight:bold;
 background:#7c3aed;
 color:white;
+cursor:pointer;
 }
 
 .card{
@@ -74,6 +83,15 @@ padding:18px;
 border-radius:18px;
 margin-top:15px;
 border-left:6px solid #7c3aed;
+}
+
+.reward{
+background:#10b981;
+color:white;
+padding:8px 15px;
+border-radius:15px;
+display:inline-block;
+margin-top:10px;
 }
 
 .approve{
@@ -88,6 +106,12 @@ margin-top:10px;
 
 .delete{
 background:#ef4444;
+margin-top:10px;
+}
+
+img{
+width:100%;
+border-radius:15px;
 margin-top:10px;
 }
 
@@ -136,7 +160,13 @@ placeholder="Reward Amount">
 
 <input type="text"
 id="link"
-placeholder="Task Link">
+placeholder="Playstore/App Link">
+
+<textarea
+id="comments"
+placeholder="Bulk comments paste karo
+(1 line = 1 comment)">
+</textarea>
 
 <button onclick="addTask()">
 
@@ -146,7 +176,7 @@ Add Task
 
 </div>
 
-<!-- TASK LIST -->
+<!-- ALL TASKS -->
 
 <div class="box">
 
@@ -166,7 +196,7 @@ Add Task
 
 </div>
 
-<!-- WITHDRAW REQUEST -->
+<!-- WITHDRAW REQUESTS -->
 
 <div class="box">
 
@@ -234,7 +264,13 @@ reward:
 document.getElementById("reward").value,
 
 link:
-document.getElementById("link").value
+document.getElementById("link").value,
+
+comments:
+document.getElementById("comments")
+.value
+.split("\n")
+.filter(x => x.trim() !== "")
 
 };
 
@@ -261,7 +297,7 @@ location.reload();
 
 }
 
-/* LOAD TASK */
+/* LOAD TASKS */
 
 function loadTasks(){
 
@@ -283,13 +319,20 @@ html += `
 
 <p>${task.title}</p>
 
-<b>Reward: ₹${task.reward}</b>
+<div class="reward">
+₹${task.reward}
+</div>
 
 <br><br>
 
 <small>
 ${task.link}
 </small>
+
+<p>
+Comments:
+${task.comments.length}
+</p>
 
 <button class="delete"
 onclick="deleteTask(${index})">
@@ -343,18 +386,31 @@ html += `
 
 <p>${sub.title}</p>
 
-<b>Status:
+<div class="reward">
+₹${sub.reward}
+</div>
+
+<p>
+<b>Status:</b>
 ${sub.status}
-</b>
+</p>
 
-<br><br>
+<p>
+<b>Assigned Comment:</b>
+</p>
 
-<a href="${sub.proof}"
-target="_blank">
+<div style="
+background:#111827;
+color:white;
+padding:15px;
+border-radius:12px;
+">
 
-Open Screenshot
+${sub.comment}
 
-</a>
+</div>
+
+<img src="${sub.proof}">
 
 <button class="approve"
 onclick="approveTask(${index})">
@@ -381,11 +437,12 @@ document.getElementById("submissionList")
 
 }
 
-/* APPROVE TASK */
+/* APPROVE */
 
 function approveTask(index){
 
-submissions[index].status = "Approved";
+submissions[index].status =
+"Approved";
 
 saveData();
 
@@ -395,11 +452,12 @@ location.reload();
 
 }
 
-/* REJECT TASK */
+/* REJECT */
 
 function rejectTask(index){
 
-submissions[index].status = "Rejected";
+submissions[index].status =
+"Rejected";
 
 saveData();
 
@@ -409,7 +467,7 @@ location.reload();
 
 }
 
-/* LOAD WITHDRAWS */
+/* LOAD WITHDRAW */
 
 function loadWithdraws(){
 
@@ -445,9 +503,10 @@ Final Amount: ₹${w.final}
 ${w.details}
 </p>
 
-<b>Status:
+<p>
+<b>Status:</b>
 ${w.status}
-</b>
+</p>
 
 <button class="approve"
 onclick="approveWithdraw(${index})">
@@ -478,7 +537,8 @@ document.getElementById("withdrawList")
 
 function approveWithdraw(index){
 
-withdraws[index].status = "Paid";
+withdraws[index].status =
+"Paid";
 
 saveData();
 
@@ -492,7 +552,8 @@ location.reload();
 
 function rejectWithdraw(index){
 
-withdraws[index].status = "Rejected";
+withdraws[index].status =
+"Rejected";
 
 saveData();
 
@@ -526,4 +587,5 @@ loadWithdraws();
 </script>
 
 </body>
+
 </html>
