@@ -1,11 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>FolloPay Wallet</title>
 
 <style>
@@ -49,31 +46,22 @@ color:#f97316;
 padding:20px;
 }
 
-/* WALLET CARD */
+.hidden{
+display:none!important;
+}
+
+/* WALLET */
 
 .wallet-card{
 background:linear-gradient(135deg,#8b5cf6,#6d28d9);
 padding:25px;
 border-radius:28px;
 color:white;
-position:relative;
 }
 
 .wallet-card h1{
-font-size:50px;
+font-size:48px;
 margin-top:10px;
-}
-
-.wallet-btn{
-position:absolute;
-top:25px;
-right:20px;
-background:white;
-color:#7c3aed;
-border:none;
-padding:12px 25px;
-border-radius:25px;
-font-weight:bold;
 }
 
 .wallet-actions{
@@ -84,16 +72,15 @@ margin-top:25px;
 }
 
 .wallet-actions button{
-background:rgba(255,255,255,0.15);
+background:rgba(255,255,255,.2);
 color:white;
 border:none;
 padding:15px;
-border-radius:20px;
-font-size:16px;
+border-radius:18px;
 font-weight:bold;
 }
 
-/* HOME ACTIONS */
+/* HOME */
 
 .home-actions{
 display:grid;
@@ -108,17 +95,17 @@ padding:20px;
 border-radius:20px;
 text-align:center;
 box-shadow:0 0 10px #ddd;
-cursor:pointer;
 font-weight:bold;
+cursor:pointer;
 }
 
 .action-card span{
 font-size:35px;
 display:block;
-margin-bottom:10px;
+margin-bottom:8px;
 }
 
-/* EARN */
+/* TASK */
 
 .task-card{
 background:white;
@@ -127,18 +114,6 @@ border-radius:22px;
 margin-top:18px;
 box-shadow:0 0 10px #ddd;
 border-left:6px solid #7c3aed;
-}
-
-.task-top{
-display:flex;
-align-items:center;
-gap:15px;
-}
-
-.task-top img{
-width:70px;
-height:70px;
-border-radius:18px;
 }
 
 .reward{
@@ -152,28 +127,26 @@ font-weight:bold;
 }
 
 .claim-btn{
-float:right;
 background:#ede9fe;
 color:#7c3aed;
 border:none;
 padding:12px 20px;
 border-radius:20px;
 font-weight:bold;
+margin-top:10px;
 }
 
-/* CLAIM BOX */
-
 .claim-box{
-margin-top:20px;
 background:#eff6ff;
-padding:18px;
-border-radius:20px;
+padding:15px;
+border-radius:18px;
+margin-top:15px;
 }
 
 .comment-box{
 background:#111827;
 color:white;
-padding:18px;
+padding:15px;
 border-radius:15px;
 margin-top:10px;
 line-height:1.6;
@@ -186,22 +159,8 @@ color:white;
 border:none;
 padding:15px;
 border-radius:15px;
-margin-top:15px;
-font-size:18px;
+margin-top:10px;
 font-weight:bold;
-}
-
-.upload-box{
-margin-top:20px;
-background:#ecfdf5;
-padding:20px;
-border-radius:20px;
-border:2px dashed #4ade80;
-text-align:center;
-}
-
-.upload-box input{
-margin-top:15px;
 }
 
 .submit-btn{
@@ -209,11 +168,29 @@ width:100%;
 background:#16a34a;
 color:white;
 border:none;
-padding:16px;
+padding:15px;
 border-radius:15px;
-margin-top:15px;
-font-size:18px;
+margin-top:10px;
 font-weight:bold;
+}
+
+.upload-box{
+background:#ecfdf5;
+padding:15px;
+border-radius:18px;
+margin-top:15px;
+border:2px dashed #4ade80;
+text-align:center;
+}
+
+/* HISTORY */
+
+.history-card{
+background:white;
+padding:18px;
+border-radius:18px;
+margin-top:15px;
+box-shadow:0 0 10px #ddd;
 }
 
 /* REFER */
@@ -227,12 +204,12 @@ color:white;
 }
 
 .refer-code{
-background:rgba(255,255,255,0.15);
+background:rgba(255,255,255,.15);
 padding:20px;
 border-radius:18px;
-margin-top:20px;
-font-size:40px;
+font-size:36px;
 font-weight:bold;
+margin:20px 0;
 }
 
 /* PROFILE */
@@ -241,54 +218,6 @@ font-weight:bold;
 background:white;
 padding:25px;
 border-radius:25px;
-box-shadow:0 0 10px #ddd;
-}
-
-.profile-top{
-display:flex;
-align-items:center;
-gap:18px;
-}
-
-.avatar{
-width:80px;
-height:80px;
-border-radius:50%;
-background:linear-gradient(135deg,#60a5fa,#9333ea);
-display:flex;
-justify-content:center;
-align-items:center;
-font-size:40px;
-color:white;
-font-weight:bold;
-}
-
-.stats{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:15px;
-margin-top:20px;
-}
-
-.stat-box{
-padding:20px;
-border-radius:18px;
-color:white;
-font-weight:bold;
-}
-
-.green{background:#22c55e;}
-.blue{background:#3b82f6;}
-.purple{background:#a855f7;}
-.orange{background:#f59e0b;}
-
-/* HISTORY */
-
-.history-card{
-background:white;
-padding:18px;
-border-radius:18px;
-margin-top:15px;
 box-shadow:0 0 10px #ddd;
 }
 
@@ -307,12 +236,6 @@ display:none;
 z-index:100;
 }
 
-.withdraw-header{
-display:flex;
-align-items:center;
-gap:15px;
-}
-
 .back-btn{
 width:55px;
 height:55px;
@@ -322,16 +245,7 @@ font-size:28px;
 background:white;
 }
 
-.fund-box{
-background:white;
-padding:25px;
-border-radius:25px;
-margin-top:25px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-}
-
+.fund-box,
 .withdraw-form{
 background:white;
 padding:25px;
@@ -345,8 +259,7 @@ width:100%;
 padding:18px;
 border-radius:15px;
 border:1px solid #ddd;
-margin-top:10px;
-margin-bottom:15px;
+margin:10px 0;
 }
 
 .request-btn{
@@ -368,7 +281,7 @@ bottom:15px;
 left:20px;
 right:20px;
 background:white;
-padding:15px 0;
+padding:14px 0;
 border-radius:30px;
 display:flex;
 justify-content:space-around;
@@ -377,17 +290,13 @@ box-shadow:0 0 15px #ccc;
 
 .nav-item{
 text-align:center;
-font-size:15px;
+font-size:14px;
 cursor:pointer;
 }
 
 .active{
 color:#2563eb;
 font-weight:bold;
-}
-
-.hidden{
-display:none;
 }
 
 </style>
@@ -421,10 +330,6 @@ Follo<span>Pay</span>
 <h1 id="balance">
 ₹0.00
 </h1>
-
-<button class="wallet-btn">
-Wallet
-</button>
 
 <div class="wallet-actions">
 
@@ -491,27 +396,14 @@ class="hidden">
 
 </div>
 
-<!-- REFER -->
+<!-- HISTORY -->
 
-<div id="referSection"
+<div id="historySection"
 class="hidden">
 
-<div class="refer-card">
+<h1>History</h1>
 
-<h1>Earn ₹5 Per Friend</h1>
-
-<div class="refer-code">
-KUK56KO
-</div>
-
-<button class="copy-btn"
-onclick="copyRefer()">
-
-Copy Referral Code
-
-</button>
-
-</div>
+<div id="taskHistoryList"></div>
 
 </div>
 
@@ -522,49 +414,18 @@ class="hidden">
 
 <div class="profile-card">
 
-<div class="profile-top">
-
-<div class="avatar">
-K
-</div>
-
-<div>
-
-<h2 id="profileName">
+<h1 id="profileName">
 User
-</h2>
+</h1>
 
 <p id="profileEmail">
 Email
 </p>
 
-</div>
-
-</div>
-
-<div class="stats">
-
-<div class="stat-box green">
-Wallet Balance<br><br>
+<h2>
+Wallet Balance:
 ₹<span id="profileBalance">0</span>
-</div>
-
-<div class="stat-box blue">
-Tasks Completed<br><br>
-2
-</div>
-
-<div class="stat-box purple">
-Total Earned<br><br>
-₹2
-</div>
-
-<div class="stat-box orange">
-Success Rate<br><br>
-25%
-</div>
-
-</div>
+</h2>
 
 <button class="submit-btn"
 onclick="logout()">
@@ -577,19 +438,28 @@ Logout
 
 </div>
 
-<!-- HISTORY -->
+<!-- REFER -->
 
-<div id="historySection"
+<div id="referSection"
 class="hidden">
 
-<h1>History</h1>
+<div class="refer-card">
 
-<div class="history-card">
-₹100 Added
+<h1>
+Earn ₹5 Per Friend
+</h1>
+
+<div class="refer-code">
+KUK56KO
 </div>
 
-<div class="history-card">
-₹50 Withdraw
+<button class="copy-btn"
+onclick="copyRefer()">
+
+Copy Code
+
+</button>
+
 </div>
 
 </div>
@@ -601,8 +471,6 @@ class="hidden">
 <div id="withdrawPage"
 class="withdraw-page">
 
-<div class="withdraw-header">
-
 <button class="back-btn"
 onclick="closeWithdraw()">
 
@@ -612,11 +480,7 @@ onclick="closeWithdraw()">
 
 <h1>Withdraw</h1>
 
-</div>
-
 <div class="fund-box">
-
-<div>
 
 <p>AVAILABLE FUNDS</p>
 
@@ -626,14 +490,9 @@ onclick="closeWithdraw()">
 
 </div>
 
-🏦
-
-</div>
-
 <div class="withdraw-form">
 
-<select id="withdrawMethod"
-onchange="changeMethod()">
+<select id="withdrawMethod">
 
 <option value="UPI">
 UPI Transfer
@@ -645,36 +504,13 @@ Bank Transfer
 
 </select>
 
-<div id="upiFields">
-
 <input type="text"
 id="upiId"
-placeholder="Enter UPI ID">
-
-</div>
-
-<div id="bankFields"
-class="hidden">
-
-<input type="text"
-id="accountNumber"
-placeholder="Account Number">
-
-<input type="text"
-id="ifscCode"
-placeholder="IFSC Code">
-
-<input type="text"
-id="bankName"
-placeholder="Bank Name">
-
-</div>
+placeholder="UPI ID">
 
 <input type="number"
 id="withdrawAmount"
 placeholder="Amount">
-
-<div id="chargeText"></div>
 
 <button class="request-btn"
 onclick="submitWithdraw()">
@@ -687,7 +523,7 @@ REQUEST PAYOUT
 
 </div>
 
-<!-- NAVIGATION -->
+<!-- NAV -->
 
 <div class="bottom-nav">
 
@@ -720,13 +556,9 @@ onclick="showRefer()">
 
 <script>
 
-/* LOGIN CHECK */
-
 if(localStorage.getItem("loggedIn") !== "yes"){
 window.location.href = "login.html";
 }
-
-/* STORAGE */
 
 let balance =
 Number(localStorage.getItem("balance")) || 0;
@@ -740,17 +572,37 @@ JSON.parse(localStorage.getItem("submissions")) || [];
 let withdraws =
 JSON.parse(localStorage.getItem("withdraws")) || [];
 
-/* USER */
-
 let user =
 JSON.parse(localStorage.getItem("user"));
 
 if(user){
-document.getElementById("profileName").innerText = user.name;
-document.getElementById("profileEmail").innerText = user.email;
+
+document.getElementById("profileName")
+.innerText = user.name;
+
+document.getElementById("profileEmail")
+.innerText = user.email;
+
 }
 
-/* BALANCE */
+function saveAll(){
+
+localStorage.setItem(
+"balance",
+balance
+);
+
+localStorage.setItem(
+"submissions",
+JSON.stringify(submissions)
+);
+
+localStorage.setItem(
+"withdraws",
+JSON.stringify(withdraws)
+);
+
+}
 
 function showBalance(){
 
@@ -764,37 +616,44 @@ balance.toFixed(2);
 
 }
 
-/* TASKS */
-
 function loadTasks(){
 
 let html = "";
 
 tasks.forEach((task,index)=>{
 
+let alreadySubmitted =
+submissions.some(sub =>
+sub.app === task.app &&
+(sub.status === "Pending" ||
+sub.status === "Approved")
+);
+
+if(alreadySubmitted){
+return;
+}
+
+let comment =
+task.comments &&
+task.comments.length > 0
+? task.comments[0]
+: "No comment";
+
 html += `
 
 <div class="task-card">
 
-<div class="task-top">
-
-<img src="https://cdn-icons-png.flaticon.com/512/888/888857.png">
-
-<div>
-
 <h2>${task.app}</h2>
 
 <p>
-${task.title} • ⭐ 5.0
+${task.title}
 </p>
 
 <div class="reward">
 ₹${task.reward}
 </div>
 
-</div>
-
-</div>
+<br>
 
 <button class="claim-btn"
 onclick="claimTask(${index})">
@@ -811,7 +670,7 @@ id="claimBox-${index}">
 <div class="comment-box"
 id="comment-${index}">
 
-${task.comments && task.comments.length > 0 ? task.comments[0] : "No comment"}
+${comment}
 
 </div>
 
@@ -821,8 +680,6 @@ onclick="copyComment(${index})">
 Copy Comment
 
 </button>
-
-<br><br>
 
 <a href="${task.link}"
 target="_blank">
@@ -836,8 +693,6 @@ Open PlayStore
 </a>
 
 <div class="upload-box">
-
-<h3>Upload Screenshot</h3>
 
 <input type="file"
 id="shot-${index}"
@@ -860,12 +715,14 @@ Submit Screenshot
 
 });
 
+if(html === ""){
+html = "<p>No new task available</p>";
+}
+
 document.getElementById("taskList")
 .innerHTML = html;
 
 }
-
-/* CLAIM */
 
 function claimTask(index){
 
@@ -874,8 +731,6 @@ document.getElementById(
 ).classList.remove("hidden");
 
 }
-
-/* COPY COMMENT */
 
 function copyComment(index){
 
@@ -889,8 +744,6 @@ navigator.clipboard.writeText(text);
 alert("Comment Copied");
 
 }
-
-/* SUBMIT TASK */
 
 function submitTask(index){
 
@@ -907,8 +760,7 @@ return;
 
 }
 
-let reader =
-new FileReader();
+let reader = new FileReader();
 
 reader.onload = function(){
 
@@ -917,18 +769,24 @@ submissions.push({
 app:tasks[index].app,
 title:tasks[index].title,
 reward:tasks[index].reward,
-comment:document.getElementById("comment-" + index).innerText,
+comment:document.getElementById(
+"comment-" + index
+).innerText,
 proof:reader.result,
-status:"Pending"
+status:"Pending",
+time:new Date().toLocaleString()
 
 });
 
-localStorage.setItem(
-"submissions",
-JSON.stringify(submissions)
+saveAll();
+
+alert(
+"Task Submitted"
 );
 
-alert("Task Submitted");
+loadTasks();
+
+loadHistory();
 
 };
 
@@ -936,19 +794,46 @@ reader.readAsDataURL(file);
 
 }
 
-/* REFER */
+function loadHistory(){
 
-function copyRefer(){
+let html = "";
 
-navigator.clipboard.writeText(
-"KUK56KO"
-);
+if(submissions.length === 0){
 
-alert("Referral Code Copied");
+html = "<p>No history</p>";
 
 }
 
-/* WITHDRAW */
+submissions.forEach(sub=>{
+
+html += `
+
+<div class="history-card">
+
+<h3>${sub.app}</h3>
+
+<p>${sub.title}</p>
+
+<p>
+Reward: ₹${sub.reward}
+</p>
+
+<p>
+Status:
+<b>${sub.status}</b>
+</p>
+
+</div>
+
+`;
+
+});
+
+document.getElementById(
+"taskHistoryList"
+).innerHTML = html;
+
+}
 
 function openWithdraw(){
 
@@ -971,33 +856,7 @@ document.getElementById(
 
 }
 
-function changeMethod(){
-
-let method =
-document.getElementById(
-"withdrawMethod"
-).value;
-
-if(method === "UPI"){
-
-upiFields.classList.remove("hidden");
-bankFields.classList.add("hidden");
-
-}else{
-
-upiFields.classList.add("hidden");
-bankFields.classList.remove("hidden");
-
-}
-
-}
-
 function submitWithdraw(){
-
-let method =
-document.getElementById(
-"withdrawMethod"
-).value;
 
 let amount =
 Number(document.getElementById(
@@ -1030,26 +889,24 @@ amount - charge;
 
 withdraws.push({
 
-method:method,
+method:
+document.getElementById(
+"withdrawMethod"
+).value,
+
 amount:amount,
+
 charge:charge,
+
 final:finalAmount,
-details:"Pending",
+
 status:"Pending"
 
 });
 
-localStorage.setItem(
-"withdraws",
-JSON.stringify(withdraws)
-);
-
 balance -= amount;
 
-localStorage.setItem(
-"balance",
-balance
-);
+saveAll();
 
 showBalance();
 
@@ -1061,7 +918,17 @@ closeWithdraw();
 
 }
 
-/* NAVIGATION */
+function copyRefer(){
+
+navigator.clipboard.writeText(
+"KUK56KO"
+);
+
+alert(
+"Referral Code Copied"
+);
+
+}
 
 function hideAll(){
 
@@ -1133,8 +1000,6 @@ setActive(4);
 
 }
 
-/* LOGOUT */
-
 function logout(){
 
 localStorage.removeItem(
@@ -1146,11 +1011,11 @@ window.location.href =
 
 }
 
-/* LOAD */
-
 showBalance();
 
 loadTasks();
+
+loadHistory();
 
 </script>
 
