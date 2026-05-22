@@ -1,107 +1,372 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-  <title>Login</title>
-  <link rel="stylesheet" href="style.css">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>FolloPay Login</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#6d4df5;
+min-height:100vh;
+}
+
+.top{
+padding:40px 30px;
+color:white;
+text-align:center;
+}
+
+.top img{
+width:90px;
+height:90px;
+border-radius:25px;
+background:rgba(255,255,255,0.15);
+padding:12px;
+}
+
+.top h1{
+margin-top:25px;
+font-size:50px;
+font-weight:bold;
+}
+
+.top p{
+margin-top:10px;
+font-size:20px;
+opacity:.9;
+}
+
+.form-box{
+background:#f8f8fb;
+border-radius:45px 45px 0 0;
+padding:35px 30px;
+min-height:70vh;
+margin-top:40px;
+}
+
+.input-box{
+margin-bottom:25px;
+}
+
+.input-box label{
+display:block;
+margin-bottom:10px;
+font-size:22px;
+font-weight:bold;
+color:#111827;
+}
+
+.input-box input{
+width:100%;
+padding:20px;
+border:none;
+border-radius:18px;
+background:white;
+font-size:18px;
+box-shadow:0 0 10px #eee;
+}
+
+.btn{
+width:100%;
+padding:20px;
+border:none;
+border-radius:18px;
+background:#5b47ea;
+color:white;
+font-size:24px;
+font-weight:bold;
+margin-top:10px;
+}
+
+.switch{
+text-align:center;
+margin-top:25px;
+font-size:18px;
+}
+
+.switch span{
+color:#5b47ea;
+font-weight:bold;
+}
+
+.hidden{
+display:none;
+}
+
+</style>
+
 </head>
 
 <body>
 
-<div class="card">
+<!-- LOGIN -->
 
-  <h2>Wallet Login</h2>
+<div id="loginPage">
 
-  <input type="email" id="email" placeholder="Enter Email">
+<div class="top">
 
-  <input type="password" id="password" placeholder="Enter Password">
+<img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
 
-  <button onclick="login()">Login</button>
+<h1>Welcome Back</h1>
 
-  <button onclick="register()">Register</button>
+<p>
+Sign in to continue earning rewards
+</p>
 
 </div>
 
-<script type="module">
+<div class="form-box">
 
-import { initializeApp } from 
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+<div class="input-box">
 
-import {
- getAuth,
- signInWithEmailAndPassword,
- createUserWithEmailAndPassword
+<label>Phone Number</label>
+
+<input type="text"
+id="loginPhone"
+placeholder="Enter phone number">
+
+</div>
+
+<div class="input-box">
+
+<label>Password</label>
+
+<input type="password"
+id="loginPassword"
+placeholder="Enter your password">
+
+</div>
+
+<button class="btn"
+onclick="login()">
+
+Sign In →
+
+</button>
+
+<div class="switch">
+
+New here?
+
+<span onclick="showSignup()">
+Create Account
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- SIGNUP -->
+
+<div id="signupPage"
+class="hidden">
+
+<div class="top">
+
+<img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png">
+
+<h1>Create Account</h1>
+
+<p>
+Create your wallet account
+</p>
+
+</div>
+
+<div class="form-box">
+
+<div class="input-box">
+
+<label>Full Name</label>
+
+<input type="text"
+id="signupName"
+placeholder="Enter your name">
+
+</div>
+
+<div class="input-box">
+
+<label>Email</label>
+
+<input type="email"
+id="signupEmail"
+placeholder="Enter email">
+
+</div>
+
+<div class="input-box">
+
+<label>Phone Number</label>
+
+<input type="text"
+id="signupPhone"
+placeholder="Enter phone number">
+
+</div>
+
+<div class="input-box">
+
+<label>Password</label>
+
+<input type="password"
+id="signupPassword"
+placeholder="Create password">
+
+</div>
+
+<div class="input-box">
+
+<label>Referral Code</label>
+
+<input type="text"
+id="referCode"
+placeholder="Optional">
+
+</div>
+
+<button class="btn"
+onclick="signup()">
+
+Continue →
+
+</button>
+
+<div class="switch">
+
+Already have account?
+
+<span onclick="showLogin()">
+Login
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+function showSignup(){
+
+document.getElementById("loginPage")
+.classList.add("hidden");
+
+document.getElementById("signupPage")
+.classList.remove("hidden");
+
 }
-from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-const firebaseConfig = {
+function showLogin(){
 
- apiKey: "YOUR_API_KEY",
+document.getElementById("signupPage")
+.classList.add("hidden");
 
- authDomain: "YOUR_AUTH_DOMAIN",
+document.getElementById("loginPage")
+.classList.remove("hidden");
 
- projectId: "YOUR_PROJECT_ID",
+}
 
- storageBucket: "YOUR_BUCKET",
+function signup(){
 
- messagingSenderId: "YOUR_MSG_ID",
+let user = {
 
- appId: "YOUR_APP_ID"
+name:
+document.getElementById("signupName").value,
+
+email:
+document.getElementById("signupEmail").value,
+
+phone:
+document.getElementById("signupPhone").value,
+
+password:
+document.getElementById("signupPassword").value
 
 };
 
-const app = initializeApp(firebaseConfig);
+if(
+user.name==="" ||
+user.email==="" ||
+user.phone==="" ||
+user.password===""){
 
-const auth = getAuth(app);
+alert("All details required");
 
-window.login = function(){
-
- const email =
- document.getElementById("email").value;
-
- const password =
- document.getElementById("password").value;
-
- signInWithEmailAndPassword(auth,email,password)
-
- .then(() => {
-
-   alert("Login Success");
-
-   window.location.href = "dashboard.html";
-
- })
-
- .catch((error)=>{
-
-   alert(error.message);
-
- });
+return;
 
 }
 
-window.register = function(){
+localStorage.setItem(
+"user",
+JSON.stringify(user)
+);
 
- const email =
- document.getElementById("email").value;
+localStorage.setItem(
+"loggedIn",
+"yes"
+);
 
- const password =
- document.getElementById("password").value;
+alert("Account Created");
 
- createUserWithEmailAndPassword(auth,email,password)
+window.location.href =
+"index.html";
 
- .then(()=>{
+}
 
-   alert("Account Created");
+function login(){
 
- })
+let saved =
+JSON.parse(localStorage.getItem("user"));
 
- .catch((error)=>{
+if(!saved){
 
-   alert(error.message);
+alert("Create account first");
 
- });
+return;
+
+}
+
+let phone =
+document.getElementById("loginPhone").value;
+
+let password =
+document.getElementById("loginPassword").value;
+
+if(
+phone === saved.phone &&
+password === saved.password
+){
+
+localStorage.setItem(
+"loggedIn",
+"yes"
+);
+
+window.location.href =
+"index.html";
+
+}
+else{
+
+alert("Wrong phone or password");
+
+}
 
 }
 

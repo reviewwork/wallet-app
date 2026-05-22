@@ -668,6 +668,11 @@ onclick="showRefer()">
 </div>
 
 <script>
+    if(localStorage.getItem("loggedIn") !== "yes"){
+
+window.location.href = "login.html";
+
+}
 
 let balance =
 Number(localStorage.getItem("balance")) || 0;
