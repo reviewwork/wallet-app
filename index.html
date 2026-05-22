@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>FolloPay Wallet</title>
+
+<style>
+
+body{
+margin:0;
+padding:20px;
+padding-bottom:120px;
+background:#f3f4f6;
+font-family:Arial,sans-serif;
+}
+
+/* TOP HEADER */
+
+.top-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:white;
+padding:15px;
+margin:-20px -20px 20px -20px;
+box-shadow:0 2px 10px #ddd;
+}
+
+.logo{
+font-size:30px;
+font-weight:bold;
+color:#2563eb;
+}
+
+.logo span{
+color:#f97316;
+}
+
+.icons{
+font-size:25px;
+}
+
+/* NOTICE */
+
+.notice{
+background:#7c3aed;
+color:white;
+padding:18px;
+border-radius:18px;
+font-weight:bold;
+margin-bottom:18px;
+}
+
+.notice button{
+float:right;
+background:#a855f7;
+color:white;
+border:none;
+padding:8px 18px;
+border-radius:20px;
+}
+
+/* WALLET CARD */
+
+.wallet-card{
+background:linear-gradient(135deg,#8b5cf6,#6d28d9);
+color:white;
+padding:25px;
+border-radius:28px;
+position:relative;
+margin-bottom:25px;
+}
+
+.wallet-card h1{
+font-size:45px;
+margin:5px 0;
+}
+
+.wallet-btn{
+position:absolute;
+top:30px;
+right:20px;
+background:white;
+color:#7c3aed;
+border:none;
+padding:14px 28px;
+border-radius:25px;
+font-weight:bold;
+}
+
+.wallet-actions{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+margin-top:25px;
+}
+
+.wallet-actions button{
+background:rgba(255,255,255,0.2);
+color:white;
+border:none;
+padding:15px;
+border-radius:25px;
+font-weight:bold;
+}
+
+/* HOME ACTIONS */
+
+.home-actions{
+background:white;
+padding:20px;
+border-radius:25px;
+display:grid;
+grid-template-columns:1fr 1fr 1fr;
+gap:15px;
+box-shadow:0 5px 18px #ddd;
+margin-top:20px;
+}
+
+.action-card{
+background:#f9fafb;
+padding:20px 10px;
+border-radius:18px;
+text-align:center;
+font-weight:bold;
+box-shadow:0 0 8px #eee;
+cursor:pointer;
+}
+
+.action-card span{
+font-size:34px;
+display:block;
+margin-bottom:8px;
+}
+
+/* TRENDING */
+
+.title{
+margin-top:25px;
+}
+
+.banner{
+background:linear-gradient(135deg,#1e1b4b,#7c3aed);
+color:white;
+padding:35px;
+border-radius:22px;
+margin-bottom:20px;
+text-align:center;
+}
+
+.banner h2{
+font-size:32px;
+}
+
+.banner button{
+background:#f97316;
+color:white;
+border:none;
+padding:12px 25px;
+border-radius:20px;
+}
+
+/* EARN SECTION */
+
+.earn-section{
+background:white;
+padding:20px;
+border-radius:25px;
+}
+
+.task-card{
+background:white;
+padding:20px;
+border-radius:20px;
+margin-bottom:18px;
+box-shadow:0 0 10px #ddd;
+border-left:6px solid #7c3aed;
+}
+
+.reward{
+background:#10b981;
+color:white;
+padding:8px 18px;
+border-radius:20px;
+display:inline-block;
+margin-top:10px;
+}
+
+.task-card input{
+width:92%;
+padding:14px;
+border-radius:12px;
+border:1px solid #ddd;
+margin-top:15px;
+}
+
+.task-card button{
+margin-top:10px;
+background:#7c3aed;
+color:white;
+border:none;
+padding:14px;
+border-radius:12px;
+}
+
+/* REFER */
+
+.refer-card{
+background:linear-gradient(135deg,#8b5cf6,#6d28d9);
+color:white;
+text-align:center;
+padding:30px;
+border-radius:28px;
+}
+
+.refer-code{
+background:rgba(255,255,255,0.15);
+padding:20px;
+border-radius:18px;
+font-size:38px;
+font-weight:bold;
+margin:20px 0;
+}
+
+.refer-card button{
+background:white;
+color:#7c3aed;
+border:none;
+padding:14px 25px;
+border-radius:20px;
+font-weight:bold;
+}
+
+/* BOTTOM NAV */
+
+.bottom-nav{
+position:fixed;
+bottom:15px;
+left:20px;
+right:20px;
+background:white;
+display:flex;
+justify-content:space-around;
+padding:12px 0;
+border-radius:28px;
+box-shadow:0 0 18px #ccc;
+}
+
+.nav-item{
+text-align:center;
+color:#555;
+cursor:pointer;
+}
+
+.nav-item.active{
+color:#0b63ff;
+font-weight:bold;
+}
+
+/* WITHDRAW PAGE */
+
+.withdraw-page{
+position:fixed;
+top:0;
+left:0;
+right:0;
+bottom:0;
+background:#eef6fb;
+z-index:100;
+padding:20px;
+overflow:auto;
+display:none;
+}
+
+.withdraw-header{
+display:flex;
+align-items:center;
+gap:15px;
+}
+
+.back-btn{
+width:55px;
+height:55px;
+border:none;
+border-radius:50%;
+font-size:28px;
+background:white;
+box-shadow:0 0 10px #ddd;
+}
+
+.fund-box{
+background:white;
+margin-top:25px;
+padding:25px;
+border-radius:25px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.fund-box p{
+color:#64748b;
+font-weight:bold;
+}
+
+.fund-box h2{
+color:#10b981;
+font-size:55px;
+margin:0;
+}
+
+.bank-icon{
+font-size:50px;
+}
+
+.withdraw-form{
+background:white;
+margin-top:25px;
+padding:25px;
+border-radius:25px;
+}
+
+.withdraw-form p{
+color:#64748b;
+font-weight:bold;
+}
+
+.withdraw-form input,
+.withdraw-form select{
+width:92%;
+padding:20px;
+border-radius:18px;
+border:2px solid #e2e8f0;
+margin-top:10px;
+font-size:20px;
+}
+
+.request-btn{
+width:100%;
+margin-top:25px;
+background:#0ea5e9;
+color:white;
+border:none;
+padding:20px;
+border-radius:20px;
+font-size:22px;
+font-weight:bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- HOME -->
+
+<div id="homeSection">
+
+<div class="top-header">
+
+<div class="logo">
+💫 Follo<span>Pay</span>
+</div>
+
+<div class="icons">
+❔ 💳 ☰
+</div>
+
+</div>
+
+<div class="notice">
+📢 New tasks added daily.
+<button>Complete</button>
+</div>
+
+<div class="wallet-card">
+
+<p>Available Balance</p>
+
+<h1 id="balance">₹0.00</h1>
+
+<button class="wallet-btn">
+💳 Wallet
+</button>
+
+<div class="wallet-actions">
+
+<button onclick="showRefer()">
+👥 Invite Friends
+</button>
+
+<button>
+💬 Get Help
+</button>
+
+</div>
+
+</div>
+
+<h2 class="title">
+📈 Trending Offers
+</h2>
+
+<div class="banner">
+
+<h2>YouTube Channel</h2>
+
+<p>Get Daily Update for Earn More</p>
+
+<button>Received</button>
+
+</div>
+
+<div class="home-actions">
+
+<div class="action-card" onclick="openWithdraw()">
+<span>💸</span>
+Withdraw Fund
+</div>
+
+<div class="action-card">
+<span>🎁</span>
+Redeem Gift Card
+</div>
+
+<div class="action-card">
+<span>👥</span>
+Pay to Wallet
+</div>
+
+<div class="action-card">
+<span>📱</span>
+Mobile Recharge
+</div>
+
+<div class="action-card">
+<span>📺</span>
+DTH Recharge
+</div>
+
+<div class="action-card">
+<span>🤝</span>
+Become Partner
+</div>
+
+</div>
+
+</div>
+
+<!-- WITHDRAW -->
+
+<div id="withdrawPage" class="withdraw-page">
+
+<div class="withdraw-header">
+
+<button class="back-btn"
+onclick="closeWithdraw()">
+←
+</button>
+
+<h1>Withdraw</h1>
+
+</div>
+
+<div class="fund-box">
+
+<div>
+
+<p>AVAILABLE FUNDS</p>
+
+<h2 id="withdrawBalance">
+₹0.00
+</h2>
+
+</div>
+
+<div class="bank-icon">
+🏦
+</div>
+
+</div>
+
+<div class="withdraw-form">
+
+<p>WITHDRAW METHOD</p>
+
+<select id="withdrawMethod"
+onchange="changeMethod()">
+
+<option value="UPI">
+UPI Transfer
+</option>
+
+<option value="BANK">
+Bank Transfer
+</option>
+
+</select>
+
+<div id="upiFields">
+
+<p>YOUR UPI ID</p>
+
+<input type="text"
+id="upiId"
+placeholder="yourname@upi">
+
+</div>
+
+<div id="bankFields"
+style="display:none;">
+
+<p>ACCOUNT NUMBER</p>
+
+<input type="text"
+id="accountNumber"
+placeholder="Enter account number">
+
+<p>IFSC CODE</p>
+
+<input type="text"
+id="ifscCode"
+placeholder="Enter IFSC code">
+
+<p>BANK NAME</p>
+
+<input type="text"
+id="bankName"
+placeholder="Enter bank name">
+
+</div>
+
+<p>AMOUNT (MIN ₹10)</p>
+
+<input type="number"
+id="withdrawAmount"
+placeholder="₹0.00"
+oninput="checkCharge()">
+
+<div id="chargeText"
+style="margin-top:10px;font-weight:bold;color:#ef4444;">
+</div>
+
+<button class="request-btn"
+onclick="submitWithdraw()">
+
+🏦 REQUEST PAYOUT
+
+</button>
+
+</div>
+
+</div>
+
+<!-- EARN -->
+
+<div id="earnSection"
+style="display:none;">
+
+<div class="earn-section">
+
+<h2>Earn Tasks</h2>
+
+<div id="taskList"></div>
+
+</div>
+
+</div>
+
+<!-- REFER -->
+
+<div id="referSection"
+style="display:none;">
+
+<div class="refer-card">
+
+<h1>Earn ₹5 Per Friend</h1>
+
+<div class="refer-code">
+KUK56KO
+</div>
+
+<button onclick="copyCode()">
+Copy Code
+</button>
+
+</div>
+
+</div>
+
+<!-- HISTORY -->
+
+<div id="historySection"
+style="display:none;">
+
+<div class="earn-section">
+
+<h2>Wallet History</h2>
+
+<div class="task-card">
+₹100 Added
+</div>
+
+<div class="task-card">
+₹50 Withdraw
+</div>
+
+<h2>Task History</h2>
+
+<div class="task-card">
+No Diet Task Completed
+</div>
+
+</div>
+
+</div>
+
+<!-- PROFILE -->
+
+<div id="profileSection"
+style="display:none;">
+
+<div class="earn-section">
+
+<h1>kukonsingh</h1>
+
+<p>
+📧 begamfarihna@gmail.com
+</p>
+
+</div>
+
+</div>
+
+<!-- BOTTOM NAV -->
+
+<div class="bottom-nav">
+
+<div class="nav-item active"
+onclick="showHome()">
+🏠<br>Home
+</div>
+
+<div class="nav-item"
+onclick="showEarn()">
+💰<br>Earn
+</div>
+
+<div class="nav-item"
+onclick="showHistory()">
+📜<br>History
+</div>
+
+<div class="nav-item"
+onclick="showProfile()">
+👤<br>Profile
+</div>
+
+<div class="nav-item"
+onclick="showRefer()">
+👥<br>Refer
+</div>
+
+</div>
+
+<script>
+
+let balance =
+Number(localStorage.getItem("balance")) || 0;
+
+function showBalance(){
+
+document.getElementById("balance")
+.innerText =
+"₹" + balance.toFixed(2);
+
+}
+
+function openWithdraw(){
+
+document.getElementById("withdrawPage")
+.style.display = "block";
+
+document.getElementById("withdrawBalance")
+.innerText =
+"₹" + balance.toFixed(2);
+
+}
+
+function closeWithdraw(){
+
+document.getElementById("withdrawPage")
+.style.display = "none";
+
+}
+
+function changeMethod(){
+
+let method =
+document.getElementById("withdrawMethod")
+.value;
+
+if(method === "UPI"){
+
+upiFields.style.display = "block";
+
+bankFields.style.display = "none";
+
+}else{
+
+upiFields.style.display = "none";
+
+bankFields.style.display = "block";
+
+}
+
+}
+
+function checkCharge(){
+
+let amount =
+Number(document.getElementById("withdrawAmount").value);
+
+let text = "";
+
+if(amount >= 10 && amount < 500){
+
+text =
+"2% Charge Applied: ₹" +
+(amount * 0.02).toFixed(2);
+
+}
+else if(amount >= 500){
+
+text = "0% Charge";
+
+}
+
+document.getElementById("chargeText")
+.innerText = text;
+
+}
+
+function submitWithdraw(){
+
+let method =
+document.getElementById("withdrawMethod").value;
+
+let amount =
+Number(document.getElementById("withdrawAmount").value);
+
+if(amount < 10){
+
+alert("Minimum withdraw ₹10");
+
+return;
+
+}
+
+if(amount > balance){
+
+alert("Insufficient Balance");
+
+return;
+
+}
+
+let charge =
+amount < 500 ? amount * 0.02 : 0;
+
+let finalAmount =
+amount - charge;
+
+alert(
+"Withdraw Request Submitted\n\n" +
+"Charge: ₹" + charge.toFixed(2) +
+"\nFinal Amount: ₹" +
+finalAmount.toFixed(2)
+);
+
+closeWithdraw();
+
+}
+
+function hideAll(){
+
+homeSection.style.display = "none";
+earnSection.style.display = "none";
+referSection.style.display = "none";
+historySection.style.display = "none";
+profileSection.style.display = "none";
+
+}
+
+function setActive(i){
+
+document.querySelectorAll(".nav-item")
+.forEach(x=>x.classList.remove("active"));
+
+document.querySelectorAll(".nav-item")[i]
+.classList.add("active");
+
+}
+
+function showHome(){
+
+hideAll();
+
+homeSection.style.display = "block";
+
+setActive(0);
+
+}
+
+function showEarn(){
+
+hideAll();
+
+earnSection.style.display = "block";
+
+setActive(1);
+
+}
+
+function showHistory(){
+
+hideAll();
+
+historySection.style.display = "block";
+
+setActive(2);
+
+}
+
+function showProfile(){
+
+hideAll();
+
+profileSection.style.display = "block";
+
+setActive(3);
+
+}
+
+function showRefer(){
+
+hideAll();
+
+referSection.style.display = "block";
+
+setActive(4);
+
+}
+
+function copyCode(){
+
+navigator.clipboard.writeText("KUK56KO");
+
+alert("Referral Code Copied");
+
+}
+
+showBalance();
+
+</script>
+
+</body>
+
+</html>

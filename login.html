@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Login</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="card">
+
+  <h2>Wallet Login</h2>
+
+  <input type="email" id="email" placeholder="Enter Email">
+
+  <input type="password" id="password" placeholder="Enter Password">
+
+  <button onclick="login()">Login</button>
+
+  <button onclick="register()">Register</button>
+
+</div>
+
+<script type="module">
+
+import { initializeApp } from 
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+ getAuth,
+ signInWithEmailAndPassword,
+ createUserWithEmailAndPassword
+}
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+const firebaseConfig = {
+
+ apiKey: "YOUR_API_KEY",
+
+ authDomain: "YOUR_AUTH_DOMAIN",
+
+ projectId: "YOUR_PROJECT_ID",
+
+ storageBucket: "YOUR_BUCKET",
+
+ messagingSenderId: "YOUR_MSG_ID",
+
+ appId: "YOUR_APP_ID"
+
+};
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+window.login = function(){
+
+ const email =
+ document.getElementById("email").value;
+
+ const password =
+ document.getElementById("password").value;
+
+ signInWithEmailAndPassword(auth,email,password)
+
+ .then(() => {
+
+   alert("Login Success");
+
+   window.location.href = "dashboard.html";
+
+ })
+
+ .catch((error)=>{
+
+   alert(error.message);
+
+ });
+
+}
+
+window.register = function(){
+
+ const email =
+ document.getElementById("email").value;
+
+ const password =
+ document.getElementById("password").value;
+
+ createUserWithEmailAndPassword(auth,email,password)
+
+ .then(()=>{
+
+   alert("Account Created");
+
+ })
+
+ .catch((error)=>{
+
+   alert(error.message);
+
+ });
+
+}
+
+</script>
+
+</body>
+</html>

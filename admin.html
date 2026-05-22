@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Admin Panel</title>
+<style>
+body{font-family:Arial;background:#f3f4f6;margin:0;padding:20px}
+.box{background:white;padding:20px;border-radius:18px;margin-bottom:20px;box-shadow:0 0 10px #ddd}
+input,textarea,select,button{width:100%;padding:14px;margin:8px 0;border-radius:10px;border:1px solid #ddd}
+button{background:#7c3aed;color:white;border:none;font-weight:bold}
+.card{background:#f9fafb;padding:15px;border-radius:15px;margin:10px 0}
+.approve{background:#16a34a}
+.reject{background:#dc2626}
+</style>
+</head>
+<body>
+
+<h1>Admin Panel</h1>
+
+<div class="box">
+<h2>Add New Task</h2>
+<input id="app" placeholder="App Name">
+<input id="title" placeholder="Task Title">
+<input id="reward" type="number" placeholder="Reward Amount">
+<input id="link" placeholder="App / Task Link">
+<button onclick="addTask()">Add Task</button>
+</div>
+
+<div class="box">
+<h2>All Tasks</h2>
+<div id="taskList"></div>
+</div>
+
+<div class="box">
+<h2>Task Submissions</h2>
+<div id="subList"></div>
+</div>
+
+<div class="box">
+<h2>Withdraw Requests</h2>
+<div id="withdrawList"></div>
+</div>
+
+<script>
+let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+let submissions = JSON.parse(localStorage.getItem("submissions")) || [];
+let withdraws = JSON.parse(localStorage.getItem("withdraws")) || [];
+
+function save(){
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+  localStorage.setItem("submissions", JSON.stringify(submissions));
+  localStorage.setItem("withdraws", JSON.stringify(withdraws));
+}
+
+function addTask(){
+  let task = {
+    app: app.value,
+    title: title.value,
+    reward: Number(reward.value),
+    link: link.value
+  };
+
+  if(!task.app || !task.title || !task.reward){
+    alert("All details fill karo");
+    return;
+  }
+
+  tasks.push(task);
+  save();
+  alert("Task Added");
+  location.reload();
+}
+
+function loadTasks(){
+  taskList.innerHTML = "";
+  tasks.forEach((t,i)=>{
+    taskList.innerHTML += `
+      <div class="card">
+        <b>${t.app}</b><br>
+        ${t.title}<br>
+        Reward: ₹${t.reward}<br>
+        <button class="reject" onclick="deleteTask(${i})">Delete Task</button>
+      </div>
+    `;
+  });
+}
+
+function deleteTask(i){
+  tasks.splice(i,1);
+  save();
+  location.reload();
+}
+
+function loadSubmissions(){
+  subList.innerHTML = "";
+  submissions.forEach((s,i)=>{
+    subList.innerHTML += `
+      <div class="card">
+        <b>${s.app}</b><br>
+        Proof: <a href="${s.proof}" target="_blank">Open Screenshot</a><br>
+        Status: ${s.status}<br>
+        <button class="approve" onclick="approveTask(${i})">Approve</button>
+        <button class="reject" onclick="rejectTask(${i})">Reject</button>
+      </div>
+    `;
+  });
+}
+
+function approveTask(i){
+  submissions[i].status = "Approved";
+  save();
+  location.reload();
+}
+
+function rejectTask(i){
+  submissions[i].status = "Rejected";
+  save();
+  location.reload();
+}
+
+function loadWithdraws(){
+  withdrawList.innerHTML = "";
+  withdraws.forEach((w,i)=>{
+    withdrawList.innerHTML += `
+      <div class="card">
+        Method: ${w.method}<br>
+        Amount: ₹${w.amount}<br>
+        Details: ${w.details}<br>
+        Status: ${w.status}<br>
+        <button class="approve" onclick="approvePay(${i})">Payment Done</button>
+        <button class="reject" onclick="rejectPay(${i})">Reject</button>
+      </div>
+    `;
+  });
+}
+
+function approvePay(i){
+  withdraws[i].status = "Paid";
+  save();
+  location.reload();
+}
+
+function rejectPay(i){
+  withdraws[i].status = "Rejected";
+  save();
+  location.reload();
+}
+
+loadTasks();
+loadSubmissions();
+loadWithdraws();
+</script>
+
+</body>
+</html>
