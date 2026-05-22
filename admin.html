@@ -690,6 +690,30 @@ document.getElementById("folderList")
 
 function approveTask(index){
 
+submissions[index].status = "Approved";
+
+/* USER BALANCE ADD */
+
+let currentBalance =
+Number(localStorage.getItem("balance")) || 0;
+
+currentBalance += Number(submissions[index].reward);
+
+localStorage.setItem(
+"balance",
+currentBalance
+);
+
+saveData();
+
+alert(
+"Task Approved & Balance Added"
+);
+
+location.reload();
+
+}
+
 submissions[index].status =
 "Approved";
 
