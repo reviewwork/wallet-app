@@ -1,134 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>FolloPay Login</title>
 
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
 <style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
-}
-
-body{
-background:#6d4df5;
-min-height:100vh;
-}
-
-.top{
-padding:40px 30px;
-color:white;
-text-align:center;
-}
-
-.top img{
-width:90px;
-height:90px;
-border-radius:25px;
-background:rgba(255,255,255,0.15);
-padding:12px;
-}
-
-.top h1{
-margin-top:25px;
-font-size:48px;
-font-weight:bold;
-}
-
-.top p{
-margin-top:10px;
-font-size:18px;
-opacity:.9;
-}
-
-.form-box{
-background:#f8f8fb;
-border-radius:45px 45px 0 0;
-padding:35px 30px;
-min-height:70vh;
-margin-top:40px;
-}
-
-.input-box{
-margin-bottom:22px;
-}
-
-.input-box label{
-display:block;
-margin-bottom:10px;
-font-size:20px;
-font-weight:bold;
-color:#111827;
-}
-
-.input-box input{
-width:100%;
-padding:18px;
-border:none;
-border-radius:18px;
-background:white;
-font-size:17px;
-box-shadow:0 0 10px #eee;
-}
-
-.btn{
-width:100%;
-padding:18px;
-border:none;
-border-radius:18px;
-background:#5b47ea;
-color:white;
-font-size:22px;
-font-weight:bold;
-margin-top:10px;
-cursor:pointer;
-}
-
-.switch{
-text-align:center;
-margin-top:25px;
-font-size:18px;
-}
-
-.switch span{
-color:#5b47ea;
-font-weight:bold;
-cursor:pointer;
-}
-
-.hidden{
-display:none;
-}
-
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
+body{background:#6d4df5;min-height:100vh}
+.top{padding:40px 30px;color:white;text-align:center}
+.top h1{margin-top:20px;font-size:45px}
+.top p{margin-top:10px;font-size:18px}
+.form-box{background:#f8f8fb;border-radius:45px 45px 0 0;padding:35px 30px;min-height:70vh;margin-top:40px}
+.input-box{margin-bottom:20px}
+.input-box label{display:block;margin-bottom:10px;font-size:20px;font-weight:bold}
+.input-box input{width:100%;padding:18px;border:none;border-radius:18px;background:white;font-size:17px}
+.btn{width:100%;padding:18px;border:none;border-radius:18px;background:#5b47ea;color:white;font-size:22px;font-weight:bold;margin-top:10px}
+.green{background:#16a34a}
+.switch{text-align:center;margin-top:25px;font-size:18px}
+.switch span{color:#5b47ea;font-weight:bold;cursor:pointer}
+.hidden{display:none}
 </style>
-
 </head>
 
 <body>
 
-<!-- LOGIN PAGE -->
-
 <div id="loginPage">
-
 <div class="top">
-
-<img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
-
 <h1>Welcome Back</h1>
-
 <p>Sign in to continue earning rewards</p>
-
 </div>
 
 <div class="form-box">
-
 <div class="input-box">
 <label>Phone Number</label>
 <input type="text" id="loginPhone" placeholder="Enter phone number">
@@ -136,39 +41,28 @@ display:none;
 
 <div class="input-box">
 <label>Password</label>
-<input type="password" id="loginPassword" placeholder="Enter your password">
+<input type="password" id="loginPassword" placeholder="Enter password">
 </div>
 
 <button class="btn" onclick="login()">Sign In →</button>
 
 <div class="switch">
-New here?
-<span onclick="showSignup()">Create Account</span>
+New here? <span onclick="showSignup()">Create Account</span>
 </div>
-
 </div>
-
 </div>
-
-<!-- SIGNUP PAGE -->
 
 <div id="signupPage" class="hidden">
-
 <div class="top">
-
-<img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png">
-
 <h1>Create Account</h1>
-
-<p>Create your wallet account</p>
-
+<p>Email OTP verification required</p>
 </div>
 
 <div class="form-box">
 
 <div class="input-box">
 <label>Full Name</label>
-<input type="text" id="signupName" placeholder="Enter your name">
+<input type="text" id="signupName" placeholder="Enter name">
 </div>
 
 <div class="input-box">
@@ -191,133 +85,141 @@ New here?
 <input type="text" id="referCode" placeholder="Optional">
 </div>
 
-<button class="btn" onclick="signup()">Continue →</button>
+<button class="btn green" onclick="sendOTP()">Send Email OTP</button>
+
+<div class="input-box">
+<label>Enter OTP</label>
+<input type="text" id="otpInput" placeholder="Enter OTP from email">
+</div>
+
+<button class="btn" onclick="verifyAndSignup()">Verify OTP & Sign Up</button>
 
 <div class="switch">
-Already have account?
-<span onclick="showLogin()">Login</span>
+Already have account? <span onclick="showLogin()">Login</span>
 </div>
 
 </div>
-
 </div>
 
 <script>
+emailjs.init("YGfloB0lCixT1-cnZ");
+
+let generatedOTP = "";
 
 function showSignup(){
-document.getElementById("loginPage").classList.add("hidden");
-document.getElementById("signupPage").classList.remove("hidden");
+  loginPage.classList.add("hidden");
+  signupPage.classList.remove("hidden");
 }
 
 function showLogin(){
-document.getElementById("signupPage").classList.add("hidden");
-document.getElementById("loginPage").classList.remove("hidden");
+  signupPage.classList.add("hidden");
+  loginPage.classList.remove("hidden");
 }
 
-function signup(){
+function sendOTP(){
+  let name = signupName.value.trim();
+  let email = signupEmail.value.trim();
+  let phone = signupPhone.value.trim();
+  let password = signupPassword.value.trim();
 
-let user = {
-name: document.getElementById("signupName").value,
-email: document.getElementById("signupEmail").value,
-phone: document.getElementById("signupPhone").value,
-password: document.getElementById("signupPassword").value,
-referCode: document.getElementById("referCode").value,
-joined: new Date().toLocaleString()
-};
+  if(name === "" || email === "" || phone === "" || password === ""){
+    alert("All details fill karo");
+    return;
+  }
 
-if(
-user.name === "" ||
-user.email === "" ||
-user.phone === "" ||
-user.password === ""
-){
-alert("All details required");
-return;
+  let users = JSON.parse(localStorage.getItem("users")) || [];
+  let phoneExists = users.some(u => u.phone === phone);
+  let emailExists = users.some(u => u.email === email);
+
+  if(phoneExists){
+    alert("This mobile number already registered");
+    return;
+  }
+
+  if(emailExists){
+    alert("This email already registered");
+    return;
+  }
+
+  generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+
+  emailjs.send("service_hk167nx", "__ejs-test-mail-service__", {
+    to_email: email,
+    otp_code: generatedOTP,
+    name: name
+  }).then(function(){
+    alert("OTP sent to your email");
+  }).catch(function(error){
+    alert("OTP send failed. EmailJS template/settings check karo.");
+    console.log(error);
+  });
 }
 
-/* CURRENT USER SAVE */
-localStorage.setItem("user", JSON.stringify(user));
+function verifyAndSignup(){
+  let enteredOTP = otpInput.value.trim();
 
-/* ALL USERS SAVE FOR ADMIN PANEL */
-let users = JSON.parse(localStorage.getItem("users")) || [];
+  if(generatedOTP === ""){
+    alert("Pehle OTP send karo");
+    return;
+  }
 
-let alreadyExists = users.some(u => u.phone === user.phone);
+  if(enteredOTP !== generatedOTP){
+    alert("Wrong OTP");
+    return;
+  }
 
-if(alreadyExists){
-alert("This phone number already registered");
-return;
-}
+  let user = {
+    name: signupName.value.trim(),
+    email: signupEmail.value.trim(),
+    phone: signupPhone.value.trim(),
+    password: signupPassword.value.trim(),
+    referCode: referCode.value.trim(),
+    joined: new Date().toLocaleString()
+  };
 
-users.push({
-name: user.name,
-email: user.email,
-phone: user.phone,
-referCode: user.referCode,
-joined: user.joined
-});
+  let users = JSON.parse(localStorage.getItem("users")) || [];
 
-localStorage.setItem("users", JSON.stringify(users));
+  users.push({
+    name: user.name,
+    email: user.email,
+    phone: user.phone,
+    referCode: user.referCode,
+    joined: user.joined
+  });
 
-/* LOGIN SET */
-localStorage.setItem("loggedIn", "yes");
+  localStorage.setItem("users", JSON.stringify(users));
+  localStorage.setItem("user", JSON.stringify(user));
+  localStorage.setItem("loggedIn", "yes");
 
-alert("Account Created Successfully");
-
-window.location.replace("index.html");
-
+  alert("Signup successful");
+  window.location.replace("index.html");
 }
 
 function login(){
+  let phone = loginPhone.value.trim();
+  let password = loginPassword.value.trim();
 
-let phone = document.getElementById("loginPhone").value;
-let password = document.getElementById("loginPassword").value;
+  if(phone === "8119959070" && password === "Jutondas"){
+    localStorage.setItem("adminLoggedIn", "yes");
+    window.location.replace("admin.html");
+    return;
+  }
 
-/* FIXED ADMIN LOGIN */
+  let saved = JSON.parse(localStorage.getItem("user"));
 
-if(
-phone === "8119959070" &&
-password === "Jutondas"
-){
+  if(!saved){
+    alert("Create account first");
+    return;
+  }
 
-localStorage.setItem("adminLoggedIn", "yes");
-
-alert("Admin Login Successful");
-
-window.location.href = "admin.html";
-
-return;
-
+  if(phone === saved.phone && password === saved.password){
+    localStorage.setItem("loggedIn", "yes");
+    window.location.replace("index.html");
+  }else{
+    alert("Wrong phone or password");
+  }
 }
-
-/* USER LOGIN */
-
-let users = JSON.parse(localStorage.getItem("users")) || [];
-
-let matchedUser = users.find(u => u.phone === phone);
-
-let saved = JSON.parse(localStorage.getItem("user"));
-
-if(saved && saved.phone === phone && saved.password === password){
-
-localStorage.setItem("loggedIn", "yes");
-
-window.location.replace("index.html");
-
-return;
-
-}
-
-if(!matchedUser){
-alert("Create account first");
-return;
-}
-
-alert("Wrong phone or password");
-
-}
-
 </script>
 
 </body>
-
 </html>
