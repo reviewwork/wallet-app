@@ -1,871 +1,313 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Admin Panel</title>
 
 <style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
-}
-
-body{
-background:#f3f4f6;
-padding:20px;
-}
-
-/* TOP */
-
-.top{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:20px;
-}
-
-.top h1{
-font-size:32px;
-}
-
-.logout-btn{
-background:#dc2626;
-color:white;
-border:none;
-padding:12px 20px;
-border-radius:12px;
-font-size:16px;
-font-weight:bold;
-}
-
-/* BOX */
-
-.box{
-background:white;
-padding:20px;
-border-radius:20px;
-margin-bottom:20px;
-box-shadow:0 0 10px #ddd;
-}
-
-.box h2{
-margin-bottom:15px;
-}
-
-/* FORM */
-
-input,
-textarea{
-width:100%;
-padding:15px;
-margin-top:12px;
-border-radius:12px;
-border:1px solid #ddd;
-font-size:16px;
-}
-
-textarea{
-height:180px;
-resize:none;
-}
-
-button{
-width:100%;
-padding:15px;
-margin-top:15px;
-border:none;
-border-radius:12px;
-font-size:18px;
-font-weight:bold;
-background:#7c3aed;
-color:white;
-cursor:pointer;
-}
-
-/* CARD */
-
-.card{
-background:#f9fafb;
-padding:18px;
-border-radius:18px;
-margin-top:15px;
-border-left:6px solid #7c3aed;
-}
-
-.reward{
-background:#10b981;
-color:white;
-padding:8px 15px;
-border-radius:15px;
-display:inline-block;
-margin-top:10px;
-font-weight:bold;
-}
-
-.approve{
-background:#16a34a;
-}
-
-.reject{
-background:#dc2626;
-}
-
-.delete{
-background:#ef4444;
-}
-
-.badge{
-display:inline-block;
-padding:8px 14px;
-border-radius:20px;
-font-weight:bold;
-margin-top:10px;
-}
-
-.pending{
-background:#fef3c7;
-color:#92400e;
-}
-
-.approved{
-background:#dcfce7;
-color:#166534;
-}
-
-.rejected{
-background:#fee2e2;
-color:#991b1b;
-}
-
-.screenshot{
-width:100%;
-border-radius:15px;
-margin-top:15px;
-border:1px solid #ddd;
-}
-
-/* STATS */
-
-.stat-grid{
-display:grid;
-grid-template-columns:1fr 1fr 1fr;
-gap:10px;
-margin-top:15px;
-}
-
-.stat{
-background:#eef2ff;
-padding:15px;
-border-radius:15px;
-text-align:center;
-font-weight:bold;
-}
-
-/* USER */
-
-.user-card{
-background:#eff6ff;
-padding:18px;
-border-radius:18px;
-margin-top:15px;
-border-left:6px solid #2563eb;
-}
-
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#f3f4f6;padding:20px}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.logout-btn{background:#dc2626;color:white;border:none;padding:12px 20px;border-radius:12px;font-weight:bold}
+.box{background:white;padding:20px;border-radius:20px;margin-bottom:20px;box-shadow:0 0 10px #ddd}
+input,textarea{width:100%;padding:14px;margin-top:12px;border-radius:12px;border:1px solid #ddd;font-size:16px}
+textarea{height:170px}
+button{width:100%;padding:14px;margin-top:12px;border:none;border-radius:12px;background:#7c3aed;color:white;font-weight:bold;font-size:16px}
+.card{background:#f9fafb;padding:16px;border-radius:18px;margin-top:14px;border-left:6px solid #7c3aed}
+.user-card{background:#eff6ff;border-left:6px solid #2563eb}
+.approve{background:#16a34a}
+.reject{background:#dc2626}
+.delete{background:#ef4444}
+.badge{display:inline-block;padding:8px 14px;border-radius:20px;font-weight:bold;margin-top:10px}
+.Pending{background:#fef3c7;color:#92400e}
+.Approved{background:#dcfce7;color:#166534}
+.Rejected{background:#fee2e2;color:#991b1b}
+.Paid{background:#dcfce7;color:#166534}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:15px}
+.stat{background:#eef2ff;padding:15px;border-radius:15px;text-align:center;font-weight:bold}
+.screenshot{width:100%;border-radius:15px;margin-top:12px;border:1px solid #ddd}
+.comment-box{background:#111827;color:white;padding:12px;border-radius:12px;margin-top:10px}
 </style>
-
 </head>
 
 <body>
 
 <div class="top">
-
-<h1>
-Admin Panel
-</h1>
-
-<button class="logout-btn"
-onclick="adminLogout()">
-
-Logout
-
-</button>
-
+  <h1>Admin Panel</h1>
+  <button class="logout-btn" onclick="adminLogout()">Logout</button>
 </div>
 
-<!-- USERS -->
-
 <div class="box">
-
-<h2>
-All Users
-</h2>
-
-<div id="userList"></div>
-
+  <h2>All Users</h2>
+  <div id="userList"></div>
 </div>
 
-<!-- ADD TASK -->
-
 <div class="box">
-
-<h2>
-Add New Task
-</h2>
-
-<input type="text"
-id="app"
-placeholder="App Name">
-
-<input type="text"
-id="title"
-placeholder="Task Title">
-
-<input type="number"
-id="reward"
-placeholder="Reward Amount">
-
-<input type="text"
-id="link"
-placeholder="PlayStore / Task Link">
-
-<textarea
-id="comments"
-placeholder="Bulk comments paste karo
-1 line = 1 comment">
-</textarea>
-
-<button onclick="addTask()">
-
-Add Task
-
-</button>
-
+  <h2>Add New Task</h2>
+  <input id="app" placeholder="App Name">
+  <input id="title" placeholder="Task Title">
+  <input id="reward" type="number" placeholder="Reward Amount">
+  <input id="link" placeholder="Play Store / Task Link">
+  <textarea id="comments" placeholder="Bulk comments paste karo&#10;1 line = 1 comment"></textarea>
+  <button onclick="addTask()">Add Task</button>
 </div>
 
-<!-- TASKS -->
-
 <div class="box">
-
-<h2>
-All Tasks + Comment Usage
-</h2>
-
-<div id="taskList"></div>
-
+  <h2>All Tasks + Comment Usage</h2>
+  <div id="taskList"></div>
 </div>
 
-<!-- SCREENSHOT FOLDERS -->
-
 <div class="box">
-
-<h2>
-App-wise Screenshot Folders
-</h2>
-
-<div id="folderList"></div>
-
+  <h2>App-wise Screenshot Folders</h2>
+  <div id="folderList"></div>
 </div>
 
-<!-- WITHDRAW -->
-
 <div class="box">
-
-<h2>
-Withdraw Requests
-</h2>
-
-<div id="withdrawList"></div>
-
+  <h2>Withdraw Requests</h2>
+  <div id="withdrawList"></div>
 </div>
 
 <script>
-
-/* ADMIN SECURITY */
-
 if(localStorage.getItem("adminLoggedIn") !== "yes"){
-
-window.location.href = "login.html";
-
+  window.location.replace("login.html");
 }
 
-/* STORAGE */
-
-let users =
-JSON.parse(localStorage.getItem("users")) || [];
-
-let tasks =
-JSON.parse(localStorage.getItem("tasks")) || [];
-
-let submissions =
-JSON.parse(localStorage.getItem("submissions")) || [];
-
-let withdraws =
-JSON.parse(localStorage.getItem("withdraws")) || [];
-
-/* SAVE */
+let users = JSON.parse(localStorage.getItem("users")) || [];
+let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+let submissions = JSON.parse(localStorage.getItem("submissions")) || [];
+let withdraws = JSON.parse(localStorage.getItem("withdraws")) || [];
+let balance = Number(localStorage.getItem("balance")) || 0;
 
 function saveData(){
-
-localStorage.setItem(
-"tasks",
-JSON.stringify(tasks)
-);
-
-localStorage.setItem(
-"submissions",
-JSON.stringify(submissions)
-);
-
-localStorage.setItem(
-"withdraws",
-JSON.stringify(withdraws)
-);
-
+  localStorage.setItem("users", JSON.stringify(users));
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+  localStorage.setItem("submissions", JSON.stringify(submissions));
+  localStorage.setItem("withdraws", JSON.stringify(withdraws));
+  localStorage.setItem("balance", balance);
 }
-
-/* USERS */
 
 function loadUsers(){
+  let html = "";
 
-let html = "";
+  if(users.length === 0){
+    html = "<p>No users signed up yet</p>";
+  }
 
-if(users.length === 0){
+  users.forEach((u,i)=>{
+    html += `
+      <div class="card user-card">
+        <h3>${i+1}. ${u.name || "User"}</h3>
+        <p><b>Mobile:</b> ${u.phone || "N/A"}</p>
+        <p><b>Email:</b> ${u.email || "N/A"}</p>
+        <p><b>Referral:</b> ${u.referCode || "N/A"}</p>
+        <p><b>Joined:</b> ${u.joined || "N/A"}</p>
+      </div>
+    `;
+  });
 
-html = "<p>No users signed up yet</p>";
-
+  userList.innerHTML = html;
 }
-
-users.forEach((u,index)=>{
-
-html += `
-
-<div class="user-card">
-
-<h3>
-${index + 1}. ${u.name}
-</h3>
-
-<p>
-📱 ${u.phone}
-</p>
-
-<p>
-📧 ${u.email}
-</p>
-
-<p>
-🎁 Referral:
-${u.referCode || "N/A"}
-</p>
-
-<p>
-🕒 Joined:
-${u.joined || "N/A"}
-</p>
-
-</div>
-
-`;
-
-});
-
-document.getElementById("userList")
-.innerHTML = html;
-
-}
-
-/* ADD TASK */
 
 function addTask(){
+  let task = {
+    id: Date.now().toString(),
+    app: app.value.trim(),
+    title: title.value.trim(),
+    reward: Number(reward.value),
+    link: link.value.trim(),
+    comments: comments.value.split("\n").map(x=>x.trim()).filter(x=>x !== "")
+  };
 
-let task = {
+  if(!task.app || !task.title || !task.reward || !task.link){
+    alert("All fields required");
+    return;
+  }
 
-app:
-document.getElementById("app").value.trim(),
-
-title:
-document.getElementById("title").value.trim(),
-
-reward:
-Number(document.getElementById("reward").value),
-
-link:
-document.getElementById("link").value.trim(),
-
-comments:
-document.getElementById("comments")
-.value
-.split("\n")
-.map(x=>x.trim())
-.filter(x=>x !== "")
-
-};
-
-if(
-!task.app ||
-!task.title ||
-!task.reward ||
-!task.link
-){
-
-alert("All fields required");
-
-return;
-
+  tasks.push(task);
+  saveData();
+  alert("Task added");
+  location.reload();
 }
 
-tasks.push(task);
-
-saveData();
-
-alert("Task Added");
-
-location.reload();
-
+function usedCommentCount(appName){
+  return submissions.filter(s => s.app === appName).length;
 }
-
-/* USED COMMENTS */
-
-function usedCommentCount(app){
-
-return submissions.filter(s =>
-s.app === app
-).length;
-
-}
-
-/* TASKS */
 
 function loadTasks(){
+  let html = "";
 
-let html = "";
+  if(tasks.length === 0){
+    html = "<p>No task available</p>";
+  }
 
-if(tasks.length === 0){
+  tasks.forEach((t,i)=>{
+    let total = t.comments ? t.comments.length : 0;
+    let used = usedCommentCount(t.app);
+    let left = Math.max(total - used, 0);
 
-html = "<p>No task available</p>";
+    html += `
+      <div class="card">
+        <h3>${t.app}</h3>
+        <p>${t.title}</p>
+        <p><b>Reward:</b> ₹${t.reward}</p>
 
+        <div class="stat-grid">
+          <div class="stat">Total<br>${total}</div>
+          <div class="stat">Used<br>${used}</div>
+          <div class="stat">Left<br>${left}</div>
+        </div>
+
+        <button class="delete" onclick="deleteTask(${i})">Delete Task</button>
+      </div>
+    `;
+  });
+
+  taskList.innerHTML = html;
 }
 
-tasks.forEach((task,index)=>{
-
-let total =
-task.comments
-? task.comments.length
-: 0;
-
-let used =
-usedCommentCount(task.app);
-
-let left =
-total - used;
-
-html += `
-
-<div class="card">
-
-<h3>
-${task.app}
-</h3>
-
-<p>
-${task.title}
-</p>
-
-<div class="reward">
-₹${task.reward}
-</div>
-
-<div class="stat-grid">
-
-<div class="stat">
-Total<br>${total}
-</div>
-
-<div class="stat">
-Used<br>${used}
-</div>
-
-<div class="stat">
-Left<br>${left < 0 ? 0 : left}
-</div>
-
-</div>
-
-<button class="delete"
-onclick="deleteTask(${index})">
-
-Delete Task
-
-</button>
-
-</div>
-
-`;
-
-});
-
-document.getElementById("taskList")
-.innerHTML = html;
-
+function deleteTask(i){
+  if(confirm("Delete this task?")){
+    tasks.splice(i,1);
+    saveData();
+    location.reload();
+  }
 }
 
-/* DELETE TASK */
-
-function deleteTask(index){
-
-if(confirm("Delete this task?")){
-
-tasks.splice(index,1);
-
-saveData();
-
-location.reload();
-
+function statusClass(status){
+  return status || "Pending";
 }
-
-}
-
-/* STATUS */
-
-function getStatusClass(status){
-
-if(status === "Approved"){
-return "approved";
-}
-
-if(status === "Rejected"){
-return "rejected";
-}
-
-return "pending";
-
-}
-
-/* SCREENSHOT FOLDERS */
 
 function loadFolders(){
+  let apps = [...new Set(submissions.map(s => s.app))];
+  let html = "";
 
-let apps =
-[...new Set(submissions.map(s=>s.app))];
+  if(apps.length === 0){
+    html = "<p>No screenshots submitted yet</p>";
+  }
 
-let html = "";
+  apps.forEach(appName=>{
+    let appSubs = submissions.filter(s => s.app === appName);
+    let pending = appSubs.filter(s => s.status === "Pending").length;
+    let approved = appSubs.filter(s => s.status === "Approved").length;
+    let rejected = appSubs.filter(s => s.status === "Rejected").length;
 
-if(apps.length === 0){
+    html += `
+      <div class="card">
+        <h2>📁 ${appName}</h2>
 
-html = "<p>No screenshots submitted yet</p>";
+        <div class="stat-grid">
+          <div class="stat">Pending<br>${pending}</div>
+          <div class="stat">Approved<br>${approved}</div>
+          <div class="stat">Rejected<br>${rejected}</div>
+        </div>
+    `;
 
+    appSubs.forEach(sub=>{
+      let realIndex = submissions.indexOf(sub);
+
+      html += `
+        <div class="card">
+          <h3>${sub.title || "Task"}</h3>
+          <span class="badge ${statusClass(sub.status)}">${sub.status || "Pending"}</span>
+
+          <p><b>Reward:</b> ₹${sub.reward || 0}</p>
+          <p><b>Time:</b> ${sub.time || "N/A"}</p>
+
+          <p><b>Used Comment:</b></p>
+          <div class="comment-box">${sub.comment || ""}</div>
+
+          ${
+            sub.proof
+            ? `<img class="screenshot" src="${sub.proof}">`
+            : `<p>No screenshot</p>`
+          }
+
+          <button class="approve" onclick="approveTask(${realIndex})">Approve</button>
+          <button class="reject" onclick="rejectTask(${realIndex})">Reject</button>
+        </div>
+      `;
+    });
+
+    html += `</div>`;
+  });
+
+  folderList.innerHTML = html;
 }
-
-apps.forEach(appName=>{
-
-let appSubs =
-submissions.filter(s =>
-s.app === appName
-);
-
-let pending =
-appSubs.filter(s =>
-s.status === "Pending"
-).length;
-
-let approved =
-appSubs.filter(s =>
-s.status === "Approved"
-).length;
-
-let rejected =
-appSubs.filter(s =>
-s.status === "Rejected"
-).length;
-
-html += `
-
-<div class="card">
-
-<h2>
-📁 ${appName}
-</h2>
-
-<div class="stat-grid">
-
-<div class="stat">
-Pending<br>${pending}
-</div>
-
-<div class="stat">
-Approved<br>${approved}
-</div>
-
-<div class="stat">
-Rejected<br>${rejected}
-</div>
-
-</div>
-
-`;
-
-appSubs.forEach((sub)=>{
-
-let realIndex =
-submissions.indexOf(sub);
-
-html += `
-
-<div class="card">
-
-<h3>
-${sub.title}
-</h3>
-
-<span class="badge ${getStatusClass(sub.status)}">
-
-${sub.status}
-
-</span>
-
-<p>
-💰 Reward:
-₹${sub.reward}
-</p>
-
-<p>
-🕒 ${sub.time || "N/A"}
-</p>
-
-<p>
-💬 Used Comment:
-</p>
-
-<div style="
-background:#111827;
-color:white;
-padding:12px;
-border-radius:12px;
-margin-top:10px;
-">
-
-${sub.comment || ""}
-
-</div>
-
-<img class="screenshot"
-src="${sub.proof}">
-
-<button class="approve"
-onclick="approveTask(${realIndex})">
-
-Approve
-
-</button>
-
-<button class="reject"
-onclick="rejectTask(${realIndex})">
-
-Reject
-
-</button>
-
-</div>
-
-`;
-
-});
-
-html += `</div>`;
-
-});
-
-document.getElementById("folderList")
-.innerHTML = html;
-
-}
-
-/* APPROVE TASK */
 
 function approveTask(index){
+  if(submissions[index].status === "Approved"){
+    alert("Already approved");
+    return;
+  }
 
-submissions[index].status = "Approved";
+  submissions[index].status = "Approved";
 
-/* USER BALANCE ADD */
+  balance += Number(submissions[index].reward || 0);
 
-let currentBalance =
-Number(localStorage.getItem("balance")) || 0;
+  saveData();
 
-currentBalance += Number(submissions[index].reward);
-
-localStorage.setItem(
-"balance",
-currentBalance
-);
-
-saveData();
-
-alert(
-"Task Approved & Balance Added"
-);
-
-location.reload();
-
+  alert("Task approved & wallet balance added");
+  location.reload();
 }
-
-submissions[index].status =
-"Approved";
-
-saveData();
-
-alert("Task Approved");
-
-location.reload();
-
-}
-
-/* REJECT TASK */
 
 function rejectTask(index){
-
-submissions[index].status =
-"Rejected";
-
-saveData();
-
-alert("Task Rejected");
-
-location.reload();
-
+  submissions[index].status = "Rejected";
+  saveData();
+  alert("Task rejected");
+  location.reload();
 }
-
-/* WITHDRAW */
 
 function loadWithdraws(){
+  let html = "";
 
-let html = "";
+  if(withdraws.length === 0){
+    html = "<p>No withdraw request</p>";
+  }
 
-if(withdraws.length === 0){
+  withdraws.forEach((w,i)=>{
+    html += `
+      <div class="card">
+        <h3>${w.method || "Withdraw"}</h3>
+        <p><b>Amount:</b> ₹${w.amount || 0}</p>
+        <p><b>Charge:</b> ₹${w.charge || 0}</p>
+        <p><b>Final:</b> ₹${w.final || 0}</p>
+        <p><b>Details:</b> ${w.details || "N/A"}</p>
+        <p><b>Time:</b> ${w.time || "N/A"}</p>
+        <span class="badge ${statusClass(w.status)}">${w.status || "Pending"}</span>
 
-html = "<p>No withdraw request</p>";
+        <button class="approve" onclick="approveWithdraw(${i})">Approve Payment</button>
+        <button class="reject" onclick="rejectWithdraw(${i})">Reject</button>
+      </div>
+    `;
+  });
 
+  withdrawList.innerHTML = html;
 }
 
-withdraws.forEach((w,index)=>{
-
-html += `
-
-<div class="card">
-
-<h3>
-${w.method}
-</h3>
-
-<p>
-💰 Amount:
-₹${w.amount}
-</p>
-
-<p>
-📉 Charge:
-₹${w.charge}
-</p>
-
-<p>
-✅ Final:
-₹${w.final}
-</p>
-
-<p>
-📝 Details:
-${w.details || "N/A"}
-</p>
-
-<span class="badge ${getStatusClass(w.status)}">
-
-${w.status}
-
-</span>
-
-<button class="approve"
-onclick="approveWithdraw(${index})">
-
-Approve Payment
-
-</button>
-
-<button class="reject"
-onclick="rejectWithdraw(${index})">
-
-Reject
-
-</button>
-
-</div>
-
-`;
-
-});
-
-document.getElementById("withdrawList")
-.innerHTML = html;
-
+function approveWithdraw(i){
+  withdraws[i].status = "Paid";
+  saveData();
+  alert("Payment approved");
+  location.reload();
 }
 
-/* APPROVE PAYMENT */
-
-function approveWithdraw(index){
-
-withdraws[index].status =
-"Paid";
-
-saveData();
-
-alert("Payment Approved");
-
-location.reload();
-
+function rejectWithdraw(i){
+  withdraws[i].status = "Rejected";
+  saveData();
+  alert("Withdraw rejected");
+  location.reload();
 }
-
-/* REJECT PAYMENT */
-
-function rejectWithdraw(index){
-
-withdraws[index].status =
-"Rejected";
-
-saveData();
-
-alert("Withdraw Rejected");
-
-location.reload();
-
-}
-
-/* LOGOUT */
 
 function adminLogout(){
-
-localStorage.removeItem(
-"adminLoggedIn"
-);
-
-window.location.href =
-"login.html";
-
+  localStorage.removeItem("adminLoggedIn");
+  window.location.replace("login.html");
 }
 
-/* LOAD */
-
 loadUsers();
-
 loadTasks();
-
 loadFolders();
-
 loadWithdraws();
-
 </script>
 
 </body>
