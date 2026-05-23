@@ -514,8 +514,106 @@ placeholder="UPI ID">
 id="withdrawAmount"
 placeholder="Amount">
 
-<button class="request-btn"
-onclick="submitWithdraw()">
+function submitWithdraw(){
+
+let amount =
+Number(document.getElementById("withdrawAmount").value);
+
+let method =
+document.getElementById("withdrawMethod").value;
+
+if(amount < 10){
+  alert("Minimum withdraw ₹10");
+  return;
+}
+
+if(amount > balanceAmount){
+  alert("Insufficient balance");
+  return;
+}
+
+let details = "";
+
+if(method === "UPI"){
+  let upi = document.getElementById("upiId").value;
+
+  if(upi === ""){
+    alert("Enter UPI ID");
+    return;
+  }
+
+  details = "UPI ID: " + upi;
+}
+else{
+  let account = document.getElementById("accountNumber").value;
+  let ifsc = document.getElementById("ifscCode").value;
+  let bank = document.getElementById("bankName").value;
+
+  if(account === "" || ifsc === "" || bank === ""){
+    alert("Bank details fill karo");
+    return;
+  }
+
+  details =
+  "Account: " + account +
+  " | IFSC: " + ifsc +
+  " | Bank: " + bank;
+}
+
+let charge =
+amount < 500 ? amount * 0.02 : 0;
+
+let finalAmount =
+amount - charge;
+
+let user =
+JSON.parse(localStorage.getItem("user")) || {};
+
+withdraws.push({
+
+id: Date.now(),
+
+name: user.name || "User",
+
+phone: user.phone || "N/A",
+
+email: user.email || "N/A",
+
+method: method,
+
+amount: amount,
+
+charge: charge.toFixed(2),
+
+final: finalAmount.toFixed(2),
+
+details: details,
+
+status: "Pending",
+
+time: new Date().toLocaleString()
+
+});
+
+localStorage.setItem(
+"withdraws",
+JSON.stringify(withdraws)
+);
+
+balanceAmount -= amount;
+
+localStorage.setItem(
+"balance",
+balanceAmount
+);
+
+showBalance();
+
+alert("Withdraw request submitted");
+
+closeWithdraw();
+
+}
 
 REQUEST PAYOUT
 
