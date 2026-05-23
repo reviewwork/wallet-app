@@ -143,19 +143,31 @@ function sendOTP(){
 
   generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
 
-  emailjs.send("service_hk167nx", "template_gxbtgod", {
-    to_email: email,
-    otp_code: generatedOTP,
-    name: name
-  }).then(function(){
-    alert("OTP sent to your email");
-  }).catch(function(error){
-  console.log("EMAILJS ERROR:", error);
+emailjs.send(
+"service_hk167nx",
+"template_gxbtgod",
+{
+to_email: email,
+otp: generatedOTP,
+reply_to: email
+}
+)
+.then(()=>{
 
-  alert(
-    "OTP failed: " +
-    (error.text || error.message || JSON.stringify(error))
-  );
+alert(
+"OTP Sent Successfully"
+);
+
+})
+.catch((error)=>{
+
+console.log(error);
+
+alert(
+"OTP failed: " +
+(error.text || error.message)
+);
+
 });
 }
 
