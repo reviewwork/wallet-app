@@ -365,3 +365,33 @@ button{
   width:100%;margin-top:25px;background:#0ea5e9;color:white;
   border:none;padding:20px;border-radius:20px;font-size:22px;font-weight:bold;
 }
+<style>
+
+.admin-menu{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+margin:20px 0;
+}
+
+.admin-menu button{
+padding:18px;
+border:none;
+border-radius:18px;
+background:#7c3aed;
+color:white;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+box-shadow:0 0 10px #ddd;
+}
+
+.admin-section{
+display:none;
+}
+
+.admin-section.active{
+display:block;
+}
+
+</style>
