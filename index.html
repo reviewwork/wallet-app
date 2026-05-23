@@ -324,7 +324,63 @@ function copyComment(index){
 }
 
 async function submitTask(index){
-  let file = document.getElementById("shot-" + index).files[0];
+  alert("Uploading screenshot...");
+  let originalFile =
+document.getElementById(
+"shot-" + index
+).files[0];
+
+if(!originalFile){
+  alert("Select screenshot");
+  return;
+}
+
+/* IMAGE COMPRESS */
+
+let canvas =
+document.createElement("canvas");
+
+let ctx =
+canvas.getContext("2d");
+
+let img =
+new Image();
+
+img.src =
+URL.createObjectURL(originalFile);
+
+await new Promise(resolve => {
+img.onload = resolve;
+});
+
+canvas.width = 700;
+
+canvas.height =
+(img.height / img.width) * 700;
+
+ctx.drawImage(
+img,
+0,
+0,
+canvas.width,
+canvas.height
+);
+
+let compressedBlob =
+await new Promise(resolve =>
+canvas.toBlob(
+resolve,
+"image/jpeg",
+0.6
+)
+);
+
+let file =
+new File(
+[compressedBlob],
+"proof.jpg",
+{ type:"image/jpeg" }
+);
 
   if(!file){
     alert("Screenshot select karo");
