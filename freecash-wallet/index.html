@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FREECASH Wallet Premium</title>
+
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#0f172a;
+background-image:
+radial-gradient(circle at top left,#312e81 0%,transparent 35%),
+radial-gradient(circle at bottom right,#0ea5e9 0%,transparent 30%);
+min-height:100vh;
+color:white;
+padding-bottom:120px;
+overflow-x:hidden;
+}
+
+.hidden{
+display:none!important;
+}
+
+/* HEADER */
+
+.header{
+position:sticky;
+top:0;
+z-index:100;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:18px 22px;
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(18px);
+border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+.logo{
+font-size:30px;
+font-weight:700;
+letter-spacing:1px;
+color:white;
+}
+
+.logo span{
+color:#38bdf8;
+}
+
+.header-right{
+width:48px;
+height:48px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+background:rgba(255,255,255,0.1);
+font-size:22px;
+cursor:pointer;
+}
+
+/* MAIN */
+
+.main{
+padding:20px;
+}
+
+/* WALLET CARD */
+
+.wallet-card{
+position:relative;
+overflow:hidden;
+padding:28px;
+border-radius:30px;
+background:
+linear-gradient(135deg,#2563eb,#7c3aed);
+box-shadow:
+0 10px 40px rgba(0,0,0,0.4),
+inset 0 0 40px rgba(255,255,255,0.08);
+}
+
+.wallet-card::before{
+content:"";
+position:absolute;
+top:-60px;
+right:-60px;
+width:180px;
+height:180px;
+background:rgba(255,255,255,0.1);
+border-radius:50%;
+}
+
+.wallet-card p{
+opacity:.8;
+font-size:15px;
+}
+
+.wallet-card h1{
+font-size:48px;
+margin-top:8px;
+font-weight:700;
+}
+
+.wallet-actions{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:14px;
+margin-top:28px;
+}
+
+.wallet-actions button{
+border:none;
+padding:16px;
+border-radius:18px;
+font-size:15px;
+font-weight:600;
+color:white;
+cursor:pointer;
+background:rgba(255,255,255,0.12);
+backdrop-filter:blur(10px);
+transition:.3s;
+}
+
+.wallet-actions button:hover{
+transform:translateY(-3px);
+background:rgba(255,255,255,0.18);
+}
+
+/* HOME ACTIONS */
+
+.home-actions{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:16px;
+margin-top:22px;
+}
+
+.action-card{
+padding:20px 10px;
+border-radius:24px;
+text-align:center;
+cursor:pointer;
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(18px);
+border:1px solid rgba(255,255,255,0.08);
+transition:.3s;
+}
+
+.action-card:hover{
+transform:translateY(-4px);
+background:rgba(255,255,255,0.12);
+}
+
+.action-card span{
+display:block;
+font-size:34px;
+margin-bottom:10px;
+}
+
+/* BOTTOM NAV */
+
+.bottom-nav{
+position:fixed;
+bottom:15px;
+left:15px;
+right:15px;
+padding:14px 10px;
+display:flex;
+justify-content:space-around;
+border-radius:30px;
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(20px);
+border:1px solid rgba(255,255,255,0.08);
+}
+
+.nav-item{
+font-size:13px;
+text-align:center;
+cursor:pointer;
+color:#cbd5e1;
+transition:.3s;
+}
+
+.nav-item.active{
+color:white;
+font-weight:700;
+transform:translateY(-3px);
+}
+
+/* PROFILE */
+
+.profile-card{
+padding:30px;
+border-radius:30px;
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(18px);
+text-align:center;
+margin-top:20px;
+}
+
+/* REFER */
+
+.refer-card{
+padding:35px 25px;
+border-radius:30px;
+text-align:center;
+margin-top:20px;
+background:linear-gradient(135deg,#2563eb,#8b5cf6);
+}
+
+.refer-code{
+margin:24px 0;
+padding:22px;
+font-size:38px;
+font-weight:700;
+border-radius:20px;
+background:rgba(255,255,255,0.15);
+letter-spacing:2px;
+}
+
+.copy-btn{
+width:100%;
+border:none;
+padding:16px;
+border-radius:18px;
+margin-top:12px;
+font-weight:600;
+cursor:pointer;
+font-size:15px;
+background:#2563eb;
+color:white;
+}
+
+@media(max-width:600px){
+
+.wallet-card h1{
+font-size:40px;
+}
+
+.home-actions{
+grid-template-columns:repeat(2,1fr);
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+<div class="logo">FREE<span>CASH</span></div>
+<div class="header-right">🔔</div>
+</div>
+
+<div class="main">
+
+<!-- HOME -->
+
+<div id="homeSection">
+
+<div class="wallet-card">
+<p>Available Balance</p>
+<h1 id="balance">₹0.00</h1>
+
+<div class="wallet-actions">
+<button onclick="showRefer()">👥 Invite Friends</button>
+<button>💬 Get Help</button>
+</div>
+</div>
+
+<div class="home-actions">
+
+<div class="action-card">
+<span>💸</span>
+Withdraw
+</div>
+
+<div class="action-card">
+<span>🎁</span>
+Gift Card
+</div>
+
+<div class="action-card">
+<span>📱</span>
+Recharge
+</div>
+
+<div class="action-card">
+<span>📺</span>
+DTH
+</div>
+
+<div class="action-card">
+<span>👥</span>
+Pay Wallet
+</div>
+
+<div class="action-card">
+<span>🤝</span>
+Partner
+</div>
+
+</div>
+
+</div>
+
+<!-- PROFILE -->
+
+<div id="profileSection" class="hidden">
+
+<div class="profile-card">
+<h1>Bipratip Das</h1>
+<p>bipratipdas374@gmail.com</p>
+
+<h2>Wallet Balance : ₹0.00</h2>
+
+<button class="copy-btn" onclick="logout()">Logout</button>
+</div>
+
+</div>
+
+<!-- REFER -->
+
+<div id="referSection" class="hidden">
+
+<div class="refer-card">
+
+<h1>Earn 40% Referral Commission</h1>
+
+<p>Friend earning ka 40% commission milega</p>
+
+<div class="refer-code">
+FREE123
+</div>
+
+<button class="copy-btn" onclick="copyRefer()">
+Copy Code
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- BOTTOM NAV -->
+
+<div class="bottom-nav">
+
+<div class="nav-item active" onclick="showHome()">
+🏠<br>Home
+</div>
+
+<div class="nav-item" onclick="showProfile()">
+👤<br>Profile
+</div>
+
+<div class="nav-item" onclick="showRefer()">
+👥<br>Refer
+</div>
+
+</div>
+
+<script>
+
+function hideAll(){
+
+document.getElementById("homeSection").classList.add("hidden");
+document.getElementById("profileSection").classList.add("hidden");
+document.getElementById("referSection").classList.add("hidden");
+
+}
+
+function setActive(index){
+
+document.querySelectorAll(".nav-item").forEach(x=>{
+x.classList.remove("active");
+});
+
+document.querySelectorAll(".nav-item")[index].classList.add("active");
+
+}
+
+function showHome(){
+
+hideAll();
+
+document.getElementById("homeSection").classList.remove("hidden");
+
+setActive(0);
+
+}
+
+function showProfile(){
+
+hideAll();
+
+document.getElementById("profileSection").classList.remove("hidden");
+
+setActive(1);
+
+}
+
+function showRefer(){
+
+hideAll();
+
+document.getElementById("referSection").classList.remove("hidden");
+
+setActive(2);
+
+}
+
+function copyRefer(){
+
+navigator.clipboard.writeText("FREE123");
+
+alert("Referral Code Copied");
+
+}
+
+function logout(){
+
+alert("Logout Success");
+
+}
+
+</script>
+
+</body>
+</html>
