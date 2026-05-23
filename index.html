@@ -9,842 +9,422 @@
 <meta name="theme-color" content="#6d4df5">
 
 <style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
-}
-
-body{
-background:#f3f4f6;
-padding-bottom:120px;
-}
-
-/* HEADER */
-
-.header{
-background:white;
-padding:15px 20px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-box-shadow:0 2px 10px #ddd;
-}
-
-.logo{
-font-size:32px;
-font-weight:bold;
-color:#2563eb;
-}
-
-.logo span{
-color:#f97316;
-}
-
-/* MAIN */
-
-.main{
-padding:20px;
-}
-
-.hidden{
-display:none!important;
-}
-
-/* WALLET */
-
-.wallet-card{
-background:linear-gradient(135deg,#8b5cf6,#6d28d9);
-padding:25px;
-border-radius:28px;
-color:white;
-}
-
-.wallet-card h1{
-font-size:48px;
-margin-top:10px;
-}
-
-.wallet-actions{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:12px;
-margin-top:25px;
-}
-
-.wallet-actions button{
-background:rgba(255,255,255,.2);
-color:white;
-border:none;
-padding:15px;
-border-radius:18px;
-font-weight:bold;
-}
-
-/* HOME */
-
-.home-actions{
-display:grid;
-grid-template-columns:1fr 1fr 1fr;
-gap:15px;
-margin-top:20px;
-}
-
-.action-card{
-background:white;
-padding:20px;
-border-radius:20px;
-text-align:center;
-box-shadow:0 0 10px #ddd;
-font-weight:bold;
-cursor:pointer;
-}
-
-.action-card span{
-font-size:35px;
-display:block;
-margin-bottom:8px;
-}
-
-/* TASK */
-
-.task-card{
-background:white;
-padding:18px;
-border-radius:22px;
-margin-top:18px;
-box-shadow:0 0 10px #ddd;
-border-left:6px solid #7c3aed;
-}
-
-.reward{
-background:#10b981;
-color:white;
-padding:8px 18px;
-border-radius:20px;
-display:inline-block;
-margin-top:10px;
-font-weight:bold;
-}
-
-.claim-btn{
-background:#ede9fe;
-color:#7c3aed;
-border:none;
-padding:12px 20px;
-border-radius:20px;
-font-weight:bold;
-margin-top:10px;
-}
-
-.claim-box{
-background:#eff6ff;
-padding:15px;
-border-radius:18px;
-margin-top:15px;
-}
-
-.comment-box{
-background:#111827;
-color:white;
-padding:15px;
-border-radius:15px;
-margin-top:10px;
-line-height:1.6;
-}
-
-.copy-btn{
-width:100%;
-background:#2563eb;
-color:white;
-border:none;
-padding:15px;
-border-radius:15px;
-margin-top:10px;
-font-weight:bold;
-}
-
-.submit-btn{
-width:100%;
-background:#16a34a;
-color:white;
-border:none;
-padding:15px;
-border-radius:15px;
-margin-top:10px;
-font-weight:bold;
-}
-
-.upload-box{
-background:#ecfdf5;
-padding:15px;
-border-radius:18px;
-margin-top:15px;
-border:2px dashed #4ade80;
-text-align:center;
-}
-
-/* HISTORY */
-
-.history-card{
-background:white;
-padding:18px;
-border-radius:18px;
-margin-top:15px;
-box-shadow:0 0 10px #ddd;
-}
-
-/* REFER */
-
-.refer-card{
-background:linear-gradient(135deg,#8b5cf6,#6d28d9);
-padding:30px;
-border-radius:28px;
-text-align:center;
-color:white;
-}
-
-.refer-code{
-background:rgba(255,255,255,.15);
-padding:20px;
-border-radius:18px;
-font-size:36px;
-font-weight:bold;
-margin:20px 0;
-}
-
-/* PROFILE */
-
-.profile-card{
-background:white;
-padding:25px;
-border-radius:25px;
-box-shadow:0 0 10px #ddd;
-}
-
-/* WITHDRAW */
-
-.withdraw-page{
-position:fixed;
-top:0;
-left:0;
-right:0;
-bottom:0;
-background:#eef6fb;
-padding:20px;
-overflow:auto;
-display:none;
-z-index:100;
-}
-
-.back-btn{
-width:55px;
-height:55px;
-border:none;
-border-radius:50%;
-font-size:28px;
-background:white;
-}
-
-.fund-box,
-.withdraw-form{
-background:white;
-padding:25px;
-border-radius:25px;
-margin-top:25px;
-}
-
-.withdraw-form input,
-.withdraw-form select{
-width:100%;
-padding:18px;
-border-radius:15px;
-border:1px solid #ddd;
-margin:10px 0;
-}
-
-.request-btn{
-width:100%;
-background:#0ea5e9;
-color:white;
-border:none;
-padding:18px;
-border-radius:18px;
-font-size:20px;
-font-weight:bold;
-}
-
-/* NAV */
-
-.bottom-nav{
-position:fixed;
-bottom:15px;
-left:20px;
-right:20px;
-background:white;
-padding:14px 0;
-border-radius:30px;
-display:flex;
-justify-content:space-around;
-box-shadow:0 0 15px #ccc;
-}
-
-.nav-item{
-text-align:center;
-font-size:14px;
-cursor:pointer;
-}
-
-.active{
-color:#2563eb;
-font-weight:bold;
-}
-
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
+body{background:#f3f4f6;padding-bottom:120px}
+.header{background:white;padding:15px 20px;display:flex;justify-content:space-between;box-shadow:0 2px 10px #ddd}
+.logo{font-size:30px;font-weight:bold;color:#2563eb}.logo span{color:#f97316}
+.main{padding:20px}.hidden{display:none!important}
+.wallet-card{background:linear-gradient(135deg,#8b5cf6,#6d28d9);padding:25px;border-radius:28px;color:white}
+.wallet-card h1{font-size:45px;margin-top:10px}
+.wallet-actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:25px}
+.wallet-actions button{background:rgba(255,255,255,.2);color:white;border:none;padding:15px;border-radius:18px;font-weight:bold}
+.home-actions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:15px;margin-top:20px}
+.action-card{background:white;padding:20px;border-radius:20px;text-align:center;box-shadow:0 0 10px #ddd;font-weight:bold;cursor:pointer}
+.action-card span{font-size:34px;display:block;margin-bottom:8px}
+.task-card,.history-card,.profile-card{background:white;padding:18px;border-radius:20px;margin-top:15px;box-shadow:0 0 10px #ddd}
+.task-card{border-left:6px solid #7c3aed}
+.reward{background:#10b981;color:white;padding:8px 18px;border-radius:20px;display:inline-block;margin:10px 0;font-weight:bold}
+.claim-btn{background:#ede9fe;color:#7c3aed;border:none;padding:12px 20px;border-radius:20px;font-weight:bold}
+.claim-box{background:#eff6ff;padding:15px;border-radius:18px;margin-top:15px}
+.comment-box{background:#111827;color:white;padding:15px;border-radius:15px;margin-top:10px}
+.copy-btn,.submit-btn{width:100%;border:none;padding:15px;border-radius:15px;margin-top:10px;font-weight:bold}
+.copy-btn{background:#2563eb;color:white}.submit-btn{background:#16a34a;color:white}
+.upload-box{background:#ecfdf5;padding:15px;border-radius:18px;margin-top:15px;border:2px dashed #4ade80;text-align:center}
+.refer-card{background:linear-gradient(135deg,#8b5cf6,#6d28d9);padding:30px;border-radius:28px;text-align:center;color:white}
+.refer-code{background:rgba(255,255,255,.15);padding:20px;border-radius:18px;font-size:36px;font-weight:bold;margin:20px 0}
+.withdraw-page{position:fixed;top:0;left:0;right:0;bottom:0;background:#eef6fb;padding:20px;overflow:auto;display:none;z-index:100}
+.back-btn{width:55px;height:55px;border:none;border-radius:50%;font-size:28px;background:white}
+.fund-box,.withdraw-form{background:white;padding:25px;border-radius:25px;margin-top:25px}
+.withdraw-form input,.withdraw-form select{width:100%;padding:18px;border-radius:15px;border:1px solid #ddd;margin:10px 0}
+.request-btn{width:100%;background:#0ea5e9;color:white;border:none;padding:18px;border-radius:18px;font-size:20px;font-weight:bold}
+.bottom-nav{position:fixed;bottom:15px;left:20px;right:20px;background:white;padding:14px 0;border-radius:30px;display:flex;justify-content:space-around;box-shadow:0 0 15px #ccc}
+.nav-item{text-align:center;font-size:14px;cursor:pointer}.active{color:#2563eb;font-weight:bold}
 </style>
-
 </head>
 
 <body>
 
 <div class="header">
-
-<div class="logo">
-Follo<span>Pay</span>
-</div>
-
-<div>
-🔔
-</div>
-
+  <div class="logo">Follo<span>Pay</span></div>
+  <div>🔔</div>
 </div>
 
 <div class="main">
 
-<!-- HOME -->
-
 <div id="homeSection">
+  <div class="wallet-card">
+    <p>Available Balance</p>
+    <h1 id="balance">₹0.00</h1>
+    <div class="wallet-actions">
+      <button onclick="showRefer()">👥 Invite Friends</button>
+      <button>💬 Get Help</button>
+    </div>
+  </div>
 
-<div class="wallet-card">
+  <div class="home-actions">
+    <div class="action-card" onclick="openWithdraw()"><span>💸</span>Withdraw</div>
+    <div class="action-card"><span>🎁</span>Gift Card</div>
+    <div class="action-card"><span>📱</span>Recharge</div>
+    <div class="action-card"><span>📺</span>DTH</div>
+    <div class="action-card"><span>👥</span>Pay Wallet</div>
+    <div class="action-card"><span>🤝</span>Partner</div>
+  </div>
+</div>
 
-<p>Available Balance</p>
+<div id="earnSection" class="hidden">
+  <h1>Earn Money</h1>
+  <div id="taskList"></div>
+</div>
 
-<h1 id="balance">
-₹0.00
-</h1>
+<div id="historySection" class="hidden">
+  <h1>History</h1>
+  <div id="taskHistoryList"></div>
+</div>
 
-<div class="wallet-actions">
+<div id="profileSection" class="hidden">
+  <div class="profile-card">
+    <h1 id="profileName">User</h1>
+    <p id="profileEmail">Email</p>
+    <h2>Wallet Balance: ₹<span id="profileBalance">0</span></h2>
+    <button class="submit-btn" onclick="logout()">Logout</button>
+  </div>
+</div>
 
-<button onclick="showRefer()">
-👥 Invite Friends
-</button>
-
-<button>
-💬 Get Help
-</button>
-
+<div id="referSection" class="hidden">
+  <div class="refer-card">
+    <h1>Earn 40% Referral Commission</h1>
+    <p>Share your code. Friend earning ka 40% commission milega.</p>
+    <div class="refer-code" id="myReferCode">CODE</div>
+    <button class="copy-btn" onclick="copyRefer()">Copy Code</button>
+  </div>
 </div>
 
 </div>
 
-<div class="home-actions">
+<div id="withdrawPage" class="withdraw-page">
+  <button class="back-btn" onclick="closeWithdraw()">←</button>
+  <h1>Withdraw</h1>
 
-<div class="action-card"
-onclick="openWithdraw()">
+  <div class="fund-box">
+    <p>AVAILABLE FUNDS</p>
+    <h1 id="withdrawBalance">₹0.00</h1>
+  </div>
 
-<span>💸</span>
+  <div class="withdraw-form">
+    <select id="withdrawMethod" onchange="changeWithdrawMethod()">
+      <option value="UPI">UPI Transfer</option>
+      <option value="BANK">Bank Transfer</option>
+    </select>
 
-Withdraw
+    <div id="upiBox">
+      <input type="text" id="upiId" placeholder="Enter UPI ID">
+    </div>
 
+    <div id="bankBox" class="hidden">
+      <input type="text" id="accountNumber" placeholder="Account Number">
+      <input type="text" id="ifscCode" placeholder="IFSC Code">
+      <input type="text" id="bankName" placeholder="Bank Name">
+    </div>
+
+    <input type="number" id="withdrawAmount" placeholder="Amount" oninput="checkCharge()">
+    <p id="chargeText"></p>
+
+    <button class="request-btn" onclick="submitWithdraw()">REQUEST PAYOUT</button>
+  </div>
 </div>
-
-<div class="action-card">
-<span>🎁</span>
-Gift Card
-</div>
-
-<div class="action-card">
-<span>📱</span>
-Recharge
-</div>
-
-<div class="action-card">
-<span>📺</span>
-DTH
-</div>
-
-<div class="action-card">
-<span>👥</span>
-Pay Wallet
-</div>
-
-<div class="action-card">
-<span>🤝</span>
-Partner
-</div>
-
-</div>
-
-</div>
-
-<!-- EARN -->
-
-<div id="earnSection"
-class="hidden">
-
-<h1>Earn Money</h1>
-
-<div id="taskList"></div>
-
-</div>
-
-<!-- HISTORY -->
-
-<div id="historySection"
-class="hidden">
-
-<h1>History</h1>
-
-<div id="taskHistoryList"></div>
-
-</div>
-
-<!-- PROFILE -->
-
-<div id="profileSection"
-class="hidden">
-
-<div class="profile-card">
-
-<h1 id="profileName">
-User
-</h1>
-
-<p id="profileEmail">
-Email
-</p>
-
-<h2>
-Wallet Balance:
-₹<span id="profileBalance">0</span>
-</h2>
-
-<button class="submit-btn"
-onclick="logout()">
-
-Logout
-
-</button>
-
-</div>
-
-</div>
-
-<!-- REFER -->
-
-<div id="referSection"
-class="hidden">
-
-<div class="refer-card">
-
-<h1>
-Earn 40% Referral Commission
-</h1>
-
-<div class="refer-code"
-id="myReferCode">
-CODE
-</div>
-
-<button class="copy-btn"
-onclick="copyRefer()">
-
-Copy Code
-
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- WITHDRAW -->
-
-<div id="withdrawPage"
-class="withdraw-page">
-
-<button class="back-btn"
-onclick="closeWithdraw()">
-
-←
-
-</button>
-
-<h1>Withdraw</h1>
-
-<div class="fund-box">
-
-<p>AVAILABLE FUNDS</p>
-
-<h1 id="withdrawBalance">
-₹0.00
-</h1>
-
-</div>
-
-<div class="withdraw-form">
-
-<select id="withdrawMethod"
-onchange="changeWithdrawMethod()">
-
-<option value="UPI">
-UPI Transfer
-</option>
-
-<option value="BANK">
-Bank Transfer
-</option>
-
-</select>
-
-<div id="upiBox">
-
-<input type="text"
-id="upiId"
-placeholder="UPI ID">
-
-</div>
-
-<div id="bankBox"
-class="hidden">
-
-<input type="text"
-id="accountNumber"
-placeholder="Account Number">
-
-<input type="text"
-id="ifscCode"
-placeholder="IFSC Code">
-
-<input type="text"
-id="bankName"
-placeholder="Bank Name">
-
-</div>
-
-<input type="number"
-id="withdrawAmount"
-placeholder="Amount"
-oninput="checkCharge()">
-
-<p id="chargeText"></p>
-
-<button class="request-btn"
-onclick="submitWithdraw()">
-
-REQUEST PAYOUT
-
-</button>
-
-</div>
-
-</div>
-
-<!-- NAV -->
 
 <div class="bottom-nav">
-
-<div class="nav-item active"
-onclick="showHome()">
-🏠<br>Home
-</div>
-
-<div class="nav-item"
-onclick="showEarn()">
-💰<br>Earn
-</div>
-
-<div class="nav-item"
-onclick="showHistory()">
-📜<br>History
-</div>
-
-<div class="nav-item"
-onclick="showProfile()">
-👤<br>Profile
-</div>
-
-<div class="nav-item"
-onclick="showRefer()">
-👥<br>Refer
-</div>
-
+  <div class="nav-item active" onclick="showHome()">🏠<br>Home</div>
+  <div class="nav-item" onclick="showEarn()">💰<br>Earn</div>
+  <div class="nav-item" onclick="showHistory()">📜<br>History</div>
+  <div class="nav-item" onclick="showProfile()">👤<br>Profile</div>
+  <div class="nav-item" onclick="showRefer()">👥<br>Refer</div>
 </div>
 
 <script>
-
 if(localStorage.getItem("loggedIn") !== "yes"){
-window.location.replace("login.html");
+  window.location.replace("login.html");
 }
 
-let balanceAmount =
-Number(localStorage.getItem("balance")) || 0;
-
-let tasks =
-JSON.parse(localStorage.getItem("tasks")) || [];
-
-let submissions =
-JSON.parse(localStorage.getItem("submissions")) || [];
-
-let withdraws =
-JSON.parse(localStorage.getItem("withdraws")) || [];
-
-let user =
-JSON.parse(localStorage.getItem("user")) || {};
+let balanceAmount = Number(localStorage.getItem("balance")) || 0;
+let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+let submissions = JSON.parse(localStorage.getItem("submissions")) || [];
+let withdraws = JSON.parse(localStorage.getItem("withdraws")) || [];
+let user = JSON.parse(localStorage.getItem("user")) || {};
 
 function saveAll(){
-
-localStorage.setItem(
-"balance",
-balanceAmount
-);
-
-localStorage.setItem(
-"submissions",
-JSON.stringify(submissions)
-);
-
-localStorage.setItem(
-"withdraws",
-JSON.stringify(withdraws)
-);
-
+  localStorage.setItem("balance", balanceAmount);
+  localStorage.setItem("submissions", JSON.stringify(submissions));
+  localStorage.setItem("withdraws", JSON.stringify(withdraws));
 }
 
 function showBalance(){
-
-document.getElementById("balance")
-.innerText =
-"₹" + balanceAmount.toFixed(2);
-
-document.getElementById("profileBalance")
-.innerText =
-balanceAmount.toFixed(2);
-
-document.getElementById("withdrawBalance")
-.innerText =
-"₹" + balanceAmount.toFixed(2);
-
+  document.getElementById("balance").innerText = "₹" + balanceAmount.toFixed(2);
+  document.getElementById("profileBalance").innerText = balanceAmount.toFixed(2);
+  document.getElementById("withdrawBalance").innerText = "₹" + balanceAmount.toFixed(2);
 }
 
 function loadProfile(){
-
-document.getElementById("profileName")
-.innerText =
-user.name || "User";
-
-document.getElementById("profileEmail")
-.innerText =
-user.email || "Email";
-
-document.getElementById("myReferCode")
-.innerText =
-user.phone || "CODE";
-
+  document.getElementById("profileName").innerText = user.name || "User";
+  document.getElementById("profileEmail").innerText = user.email || "Email";
+  document.getElementById("myReferCode").innerText = user.phone || "CODE";
 }
 
-function hideAll(){
+function loadTasks(){
+  let html = "";
 
-homeSection.classList.add("hidden");
-earnSection.classList.add("hidden");
-historySection.classList.add("hidden");
-profileSection.classList.add("hidden");
-referSection.classList.add("hidden");
+  tasks.forEach((task,index)=>{
+    let alreadySubmitted = submissions.some(sub =>
+      sub.app === task.app &&
+      (sub.status === "Pending" || sub.status === "Approved")
+    );
 
+    if(alreadySubmitted) return;
+
+    let comment = task.comments && task.comments.length > 0 ? task.comments[0] : "No comment";
+
+    html += `
+      <div class="task-card">
+        <h2>${task.app}</h2>
+        <p>${task.title}</p>
+        <div class="reward">₹${task.reward}</div>
+
+        <button class="claim-btn" onclick="claimTask(${index})">Claim →</button>
+
+        <div class="claim-box hidden" id="claimBox-${index}">
+          <h3>Assigned Comment</h3>
+          <div class="comment-box" id="comment-${index}">${comment}</div>
+
+          <button class="copy-btn" onclick="copyComment(${index})">Copy Comment</button>
+
+          <a href="${task.link}" target="_blank">
+            <button class="submit-btn">Open Task Link</button>
+          </a>
+
+          <div class="upload-box">
+            <h3>Upload Screenshot</h3>
+            <input type="file" id="shot-${index}" accept="image/*">
+            <button class="submit-btn" onclick="submitTask(${index})">Submit Screenshot</button>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+
+  if(html === "") html = "<p>No new task available</p>";
+  document.getElementById("taskList").innerHTML = html;
 }
 
-function setActive(i){
-
-document.querySelectorAll(".nav-item")
-.forEach(x=>x.classList.remove("active"));
-
-document.querySelectorAll(".nav-item")[i]
-.classList.add("active");
-
+function claimTask(index){
+  document.getElementById("claimBox-" + index).classList.remove("hidden");
 }
 
-function showHome(){
-
-hideAll();
-
-homeSection.classList.remove("hidden");
-
-setActive(0);
-
+function copyComment(index){
+  let text = document.getElementById("comment-" + index).innerText;
+  navigator.clipboard.writeText(text);
+  alert("Comment copied");
 }
 
-function showEarn(){
+async function submitTask(index){
+  let file = document.getElementById("shot-" + index).files[0];
 
-hideAll();
+  if(!file){
+    alert("Screenshot select karo");
+    return;
+  }
 
-earnSection.classList.remove("hidden");
+  let formData = new FormData();
+  formData.append("file", file);
+  formData.append("upload_preset", "walletapp");
 
-setActive(1);
+  let response = await fetch("https://api.cloudinary.com/v1_1/djiewwfd5t/image/upload", {
+    method: "POST",
+    body: formData
+  });
 
+  let data = await response.json();
+
+  if(!data.secure_url){
+    alert("Image upload failed");
+    return;
+  }
+
+  submissions.push({
+    userPhone: user.phone || "",
+    userName: user.name || "",
+    userEmail: user.email || "",
+    app: tasks[index].app,
+    title: tasks[index].title,
+    reward: Number(tasks[index].reward),
+    comment: document.getElementById("comment-" + index).innerText,
+    proof: data.secure_url,
+    status: "Pending",
+    time: new Date().toLocaleString()
+  });
+
+  saveAll();
+  alert("Task submitted. Pending approval.");
+  loadTasks();
+  loadHistory();
 }
 
-function showHistory(){
+function loadHistory(){
+  let html = "";
 
-hideAll();
+  if(submissions.length === 0){
+    html = "<p>No history</p>";
+  }
 
-historySection.classList.remove("hidden");
+  submissions.forEach(sub=>{
+    html += `
+      <div class="history-card">
+        <h3>${sub.app}</h3>
+        <p>${sub.title}</p>
+        <p>Reward: ₹${sub.reward}</p>
+        <p>Status: <b>${sub.status}</b></p>
+        <small>${sub.time || ""}</small>
+      </div>
+    `;
+  });
 
-setActive(2);
-
-}
-
-function showProfile(){
-
-hideAll();
-
-profileSection.classList.remove("hidden");
-
-setActive(3);
-
-}
-
-function showRefer(){
-
-hideAll();
-
-referSection.classList.remove("hidden");
-
-setActive(4);
-
+  document.getElementById("taskHistoryList").innerHTML = html;
 }
 
 function openWithdraw(){
-
-document.getElementById(
-"withdrawPage"
-).style.display = "block";
-
-showBalance();
-
+  document.getElementById("withdrawPage").style.display = "block";
+  showBalance();
 }
 
 function closeWithdraw(){
-
-document.getElementById(
-"withdrawPage"
-).style.display = "none";
-
+  document.getElementById("withdrawPage").style.display = "none";
 }
 
 function changeWithdrawMethod(){
+  let method = document.getElementById("withdrawMethod").value;
 
-let method =
-document.getElementById(
-"withdrawMethod"
-).value;
-
-if(method === "UPI"){
-
-document.getElementById(
-"upiBox"
-).classList.remove("hidden");
-
-document.getElementById(
-"bankBox"
-).classList.add("hidden");
-
-}
-else{
-
-document.getElementById(
-"upiBox"
-).classList.add("hidden");
-
-document.getElementById(
-"bankBox"
-).classList.remove("hidden");
-
-}
-
+  if(method === "UPI"){
+    document.getElementById("upiBox").classList.remove("hidden");
+    document.getElementById("bankBox").classList.add("hidden");
+  }else{
+    document.getElementById("upiBox").classList.add("hidden");
+    document.getElementById("bankBox").classList.remove("hidden");
+  }
 }
 
 function checkCharge(){
+  let amount = Number(document.getElementById("withdrawAmount").value);
+  let text = "";
 
-let amount =
-Number(document.getElementById(
-"withdrawAmount"
-).value);
+  if(amount >= 10 && amount < 500){
+    text = "2% Charge: ₹" + (amount * 0.02).toFixed(2);
+  }else if(amount >= 500){
+    text = "0% Charge";
+  }
 
-let text = "";
-
-if(amount >= 10 && amount < 500){
-
-text =
-"2% Charge: ₹" +
-(amount * 0.02).toFixed(2);
-
-}
-else if(amount >= 500){
-
-text = "0% Charge";
-
-}
-
-document.getElementById(
-"chargeText"
-).innerText = text;
-
+  document.getElementById("chargeText").innerText = text;
 }
 
 function submitWithdraw(){
+  let amount = Number(document.getElementById("withdrawAmount").value);
+  let method = document.getElementById("withdrawMethod").value;
 
-alert("Withdraw Request Submitted");
+  if(amount < 10){
+    alert("Minimum withdraw ₹10");
+    return;
+  }
 
+  if(amount > balanceAmount){
+    alert("Insufficient balance");
+    return;
+  }
+
+  let details = "";
+
+  if(method === "UPI"){
+    let upi = document.getElementById("upiId").value.trim();
+    if(upi === ""){
+      alert("Enter UPI ID");
+      return;
+    }
+    details = "UPI ID: " + upi;
+  }else{
+    let acc = document.getElementById("accountNumber").value.trim();
+    let ifsc = document.getElementById("ifscCode").value.trim();
+    let bank = document.getElementById("bankName").value.trim();
+
+    if(acc === "" || ifsc === "" || bank === ""){
+      alert("Bank details fill karo");
+      return;
+    }
+
+    details = "Account: " + acc + " | IFSC: " + ifsc + " | Bank: " + bank;
+  }
+
+  let charge = amount < 500 ? amount * 0.02 : 0;
+  let finalAmount = amount - charge;
+
+  withdraws.push({
+    id: Date.now(),
+    userName: user.name || "User",
+    userPhone: user.phone || "N/A",
+    userEmail: user.email || "N/A",
+    method: method,
+    amount: amount,
+    charge: charge.toFixed(2),
+    final: finalAmount.toFixed(2),
+    details: details,
+    status: "Pending",
+    time: new Date().toLocaleString()
+  });
+
+  balanceAmount -= amount;
+  saveAll();
+  showBalance();
+  loadHistory();
+
+  alert("Withdraw request submitted");
+  closeWithdraw();
 }
 
 function copyRefer(){
-
-navigator.clipboard.writeText(
-user.phone || "CODE"
-);
-
-alert("Referral Code Copied");
-
+  navigator.clipboard.writeText(user.phone || "CODE");
+  alert("Referral code copied");
 }
 
+function hideAll(){
+  document.getElementById("homeSection").classList.add("hidden");
+  document.getElementById("earnSection").classList.add("hidden");
+  document.getElementById("historySection").classList.add("hidden");
+  document.getElementById("profileSection").classList.add("hidden");
+  document.getElementById("referSection").classList.add("hidden");
+}
+
+function setActive(i){
+  document.querySelectorAll(".nav-item").forEach(x=>x.classList.remove("active"));
+  document.querySelectorAll(".nav-item")[i].classList.add("active");
+}
+
+function showHome(){hideAll();homeSection.classList.remove("hidden");setActive(0);}
+function showEarn(){hideAll();earnSection.classList.remove("hidden");loadTasks();setActive(1);}
+function showHistory(){hideAll();historySection.classList.remove("hidden");loadHistory();setActive(2);}
+function showProfile(){hideAll();profileSection.classList.remove("hidden");setActive(3);}
+function showRefer(){hideAll();referSection.classList.remove("hidden");setActive(4);}
+
 function logout(){
-
-localStorage.removeItem(
-"loggedIn"
-);
-
-window.location.replace(
-"login.html"
-);
-
+  localStorage.removeItem("loggedIn");
+  window.location.replace("login.html");
 }
 
 showBalance();
-
 loadProfile();
-
+loadTasks();
+loadHistory();
 </script>
 
 <script>
-
 if ("serviceWorker" in navigator) {
-
-navigator.serviceWorker.register("service-worker.js");
-
+  navigator.serviceWorker.register("service-worker.js");
 }
-
 </script>
 
 </body>
