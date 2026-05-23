@@ -1,571 +1,514 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FREECASH Wallet</title>
-
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#6d4df5">
-
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
-body{background:#f7f7fb;padding-bottom:120px}
-.header{background:white;padding:15px 20px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 10px #ddd}
-.logo{font-size:30px;font-weight:bold;color:#2563eb}
-.logo span{color:#f97316}
-.main{padding:20px}
-.hidden{display:none!important}
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-.wallet-card{background:linear-gradient(135deg,#8b5cf6,#6d28d9);padding:25px;border-radius:28px;color:white}
-.wallet-card h1{font-size:45px;margin-top:10px}
-.wallet-actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:25px}
-.wallet-actions button{background:rgba(255,255,255,.2);color:white;border:none;padding:15px;border-radius:18px;font-weight:bold}
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
 
-.home-actions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:15px;margin-top:20px}
-.action-card{background:white;padding:20px;border-radius:20px;text-align:center;box-shadow:0 0 10px #ddd;font-weight:bold;cursor:pointer}
-.action-card span{font-size:34px;display:block;margin-bottom:8px}
+body{
+background:#0f172a;
+background-image:
+radial-gradient(circle at top left,#312e81 0%,transparent 35%),
+radial-gradient(circle at bottom right,#0ea5e9 0%,transparent 30%);
+min-height:100vh;
+color:white;
+padding-bottom:120px;
+overflow-x:hidden;
+}
 
-.tabs{display:flex;gap:12px;margin:20px 0;overflow-x:auto}
-.tab{padding:14px 25px;border:2px solid #e5e7eb;border-radius:25px;background:white;font-weight:bold;font-size:18px;color:#555;cursor:pointer}
-.tab.active{background:#7c3aed;color:white;border-color:#7c3aed}
+.hidden{
+display:none!important;
+}
 
-.task-card{background:white;padding:18px;border-radius:22px;margin-top:18px;box-shadow:0 0 12px #e5e7eb;border-left:7px solid #7c3aed;display:flex;align-items:center;gap:15px}
-.app-icon{width:70px;height:70px;border-radius:18px;background:#f3f4f6;display:flex;align-items:center;justify-content:center;font-size:32px}
-.task-info{flex:1}
-.task-info h2{font-size:20px;margin-bottom:6px}
-.task-info p{color:#9ca3af}
-.reward{background:#10b981;color:white;padding:8px 18px;border-radius:20px;display:inline-block;margin-top:10px;font-weight:bold}
-.claim-btn{background:#ede9fe;color:#7c3aed;border:none;padding:13px 22px;border-radius:25px;font-weight:bold;font-size:16px;cursor:pointer}
+/* HEADER */
 
-.claim-box{background:#eff6ff;padding:18px;border-radius:20px;margin-top:15px}
-.comment-box{background:#111827;color:white;padding:16px;border-radius:15px;margin-top:10px;line-height:1.6}
-.copy-btn,.submit-btn{width:100%;border:none;padding:15px;border-radius:15px;margin-top:10px;font-weight:bold;cursor:pointer}
-.copy-btn{background:#2563eb;color:white}
-.submit-btn{background:#16a34a;color:white}
-.upload-box{background:#ecfdf5;padding:15px;border-radius:18px;margin-top:15px;border:2px dashed #4ade80;text-align:center}
+.header{
+position:sticky;
+top:0;
+z-index:100;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:18px 22px;
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(18px);
+border-bottom:1px solid rgba(255,255,255,0.08);
+}
 
-.history-card{background:white;padding:18px;border-radius:22px;margin-top:15px;box-shadow:0 0 10px #ddd;border-left:7px solid #10b981;display:flex;align-items:center;gap:15px}
-.history-card.pending{border-left-color:#f59e0b}
-.history-card.rejected{border-left-color:#ef4444}
-.history-info{flex:1}
-.history-info h3{font-size:20px}
-.history-info p{color:#9ca3af;margin-top:5px}
-.amount{font-size:22px;font-weight:bold;color:#7c3aed}
-.status{padding:7px 15px;border-radius:20px;font-weight:bold;margin-top:10px;display:inline-block}
-.Approved,.Paid{background:#dcfce7;color:#166534}
-.Pending{background:#fef3c7;color:#92400e}
-.Rejected{background:#fee2e2;color:#991b1b}
+.logo{
+font-size:30px;
+font-weight:700;
+letter-spacing:1px;
+color:white;
+}
 
-.refer-card{background:linear-gradient(135deg,#8b5cf6,#6d28d9);padding:30px;border-radius:28px;text-align:center;color:white}
-.refer-code{background:rgba(255,255,255,.15);padding:20px;border-radius:18px;font-size:36px;font-weight:bold;margin:20px 0}
+.logo span{
+color:#38bdf8;
+}
 
-.profile-card{background:white;padding:25px;border-radius:25px;box-shadow:0 0 10px #ddd}
+.header-right{
+width:48px;
+height:48px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+background:rgba(255,255,255,0.1);
+font-size:22px;
+cursor:pointer;
+}
 
-.withdraw-page{position:fixed;top:0;left:0;right:0;bottom:0;background:#eef6fb;padding:20px;overflow:auto;display:none;z-index:100}
-.back-btn{width:55px;height:55px;border:none;border-radius:50%;font-size:28px;background:white;cursor:pointer}
-.fund-box,.withdraw-form{background:white;padding:25px;border-radius:25px;margin-top:25px}
-.withdraw-form input,.withdraw-form select{width:100%;padding:18px;border-radius:15px;border:1px solid #ddd;margin:10px 0}
-.request-btn{width:100%;background:#0ea5e9;color:white;border:none;padding:18px;border-radius:18px;font-size:20px;font-weight:bold;cursor:pointer}
+/* MAIN */
 
-.bottom-nav{position:fixed;bottom:15px;left:20px;right:20px;background:white;padding:14px 0;border-radius:30px;display:flex;justify-content:space-around;box-shadow:0 0 15px #ccc}
-.nav-item{text-align:center;font-size:14px;cursor:pointer}
-.active{color:#2563eb;font-weight:bold}
+.main{
+padding:20px;
+}
+
+/* WALLET CARD */
+
+.wallet-card{
+position:relative;
+overflow:hidden;
+padding:28px;
+border-radius:30px;
+background:
+linear-gradient(135deg,#2563eb,#7c3aed);
+box-shadow:
+0 10px 40px rgba(0,0,0,0.4),
+inset 0 0 40px rgba(255,255,255,0.08);
+}
+
+.wallet-card::before{
+content:"";
+position:absolute;
+top:-60px;
+right:-60px;
+width:180px;
+height:180px;
+background:rgba(255,255,255,0.1);
+border-radius:50%;
+}
+
+.wallet-card p{
+opacity:.8;
+font-size:15px;
+}
+
+.wallet-card h1{
+font-size:48px;
+margin-top:8px;
+font-weight:700;
+}
+
+.wallet-actions{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:14px;
+margin-top:28px;
+}
+
+.wallet-actions button{
+border:none;
+padding:16px;
+border-radius:18px;
+font-size:15px;
+font-weight:600;
+color:white;
+cursor:pointer;
+background:rgba(255,255,255,0.12);
+backdrop-filter:blur(10px);
+transition:.3s;
+}
+
+.wallet-actions button:hover{
+transform:translateY(-3px);
+background:rgba(255,255,255,0.18);
+}
+
+/* HOME ACTIONS */
+
+.home-actions{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:16px;
+margin-top:22px;
+}
+
+.action-card{
+padding:20px 10px;
+border-radius:24px;
+text-align:center;
+cursor:pointer;
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(18px);
+border:1px solid rgba(255,255,255,0.08);
+transition:.3s;
+}
+
+.action-card:hover{
+transform:translateY(-4px);
+background:rgba(255,255,255,0.12);
+}
+
+.action-card span{
+display:block;
+font-size:34px;
+margin-bottom:10px;
+}
+
+/* TABS */
+
+.tabs{
+display:flex;
+gap:12px;
+overflow-x:auto;
+margin:22px 0;
+padding-bottom:5px;
+}
+
+.tabs::-webkit-scrollbar{
+display:none;
+}
+
+.tab{
+border:none;
+padding:14px 22px;
+border-radius:18px;
+font-weight:600;
+font-size:15px;
+cursor:pointer;
+color:white;
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(10px);
+}
+
+.tab.active{
+background:linear-gradient(135deg,#3b82f6,#8b5cf6);
+}
+
+/* TASK CARD */
+
+.task-card{
+display:flex;
+align-items:center;
+gap:16px;
+padding:18px;
+margin-top:18px;
+border-radius:28px;
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(20px);
+border:1px solid rgba(255,255,255,0.08);
+}
+
+.app-icon{
+width:75px;
+height:75px;
+border-radius:22px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:34px;
+background:rgba(255,255,255,0.1);
+}
+
+.task-info{
+flex:1;
+}
+
+.task-info h2{
+font-size:20px;
+font-weight:600;
+}
+
+.task-info p{
+font-size:13px;
+margin-top:4px;
+color:#cbd5e1;
+}
+
+.reward{
+display:inline-block;
+margin-top:10px;
+padding:8px 16px;
+border-radius:30px;
+background:#10b981;
+font-size:14px;
+font-weight:600;
+}
+
+.claim-btn{
+border:none;
+padding:14px 20px;
+border-radius:18px;
+font-weight:600;
+cursor:pointer;
+background:linear-gradient(135deg,#3b82f6,#8b5cf6);
+color:white;
+}
+
+/* CLAIM BOX */
+
+.claim-box{
+margin-top:15px;
+padding:20px;
+border-radius:24px;
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(20px);
+}
+
+.comment-box{
+padding:16px;
+border-radius:18px;
+background:#111827;
+line-height:1.7;
+margin-top:12px;
+font-size:14px;
+}
+
+.copy-btn,
+.submit-btn{
+width:100%;
+border:none;
+padding:16px;
+border-radius:18px;
+margin-top:12px;
+font-weight:600;
+cursor:pointer;
+font-size:15px;
+}
+
+.copy-btn{
+background:#2563eb;
+color:white;
+}
+
+.submit-btn{
+background:#10b981;
+color:white;
+}
+
+.upload-box{
+margin-top:16px;
+padding:18px;
+border-radius:20px;
+border:2px dashed rgba(255,255,255,0.2);
+text-align:center;
+}
+
+/* PROFILE */
+
+.profile-card{
+padding:30px;
+border-radius:30px;
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(18px);
+text-align:center;
+}
+
+.profile-card h1{
+font-size:30px;
+margin-bottom:10px;
+}
+
+.profile-card p{
+color:#cbd5e1;
+margin-bottom:15px;
+}
+
+/* REFER */
+
+.refer-card{
+padding:35px 25px;
+border-radius:30px;
+text-align:center;
+background:linear-gradient(135deg,#2563eb,#8b5cf6);
+}
+
+.refer-code{
+margin:24px 0;
+padding:22px;
+font-size:38px;
+font-weight:700;
+border-radius:20px;
+background:rgba(255,255,255,0.15);
+letter-spacing:2px;
+}
+
+/* WITHDRAW */
+
+.withdraw-page{
+position:fixed;
+top:0;
+left:0;
+right:0;
+bottom:0;
+overflow:auto;
+z-index:200;
+padding:22px;
+display:none;
+background:#0f172a;
+}
+
+.back-btn{
+width:56px;
+height:56px;
+border:none;
+border-radius:50%;
+font-size:24px;
+cursor:pointer;
+background:rgba(255,255,255,0.1);
+color:white;
+}
+
+.fund-box,
+.withdraw-form{
+padding:25px;
+margin-top:22px;
+border-radius:28px;
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(18px);
+}
+
+.withdraw-form input,
+.withdraw-form select{
+width:100%;
+padding:18px;
+margin-top:14px;
+border:none;
+outline:none;
+border-radius:18px;
+font-size:15px;
+background:rgba(255,255,255,0.08);
+color:white;
+}
+
+.withdraw-form input::placeholder{
+color:#cbd5e1;
+}
+
+.request-btn{
+width:100%;
+border:none;
+padding:18px;
+border-radius:20px;
+margin-top:18px;
+font-size:17px;
+font-weight:700;
+cursor:pointer;
+color:white;
+background:linear-gradient(135deg,#06b6d4,#2563eb);
+}
+
+/* HISTORY */
+
+.history-card{
+display:flex;
+align-items:center;
+gap:15px;
+padding:18px;
+margin-top:18px;
+border-radius:26px;
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(18px);
+}
+
+.history-info{
+flex:1;
+}
+
+.history-info h3{
+font-size:18px;
+}
+
+.history-info p{
+margin-top:5px;
+color:#cbd5e1;
+}
+
+.amount{
+font-size:22px;
+font-weight:700;
+}
+
+.status{
+display:inline-block;
+margin-top:10px;
+padding:8px 15px;
+border-radius:20px;
+font-size:13px;
+font-weight:600;
+}
+
+.Pending{
+background:#f59e0b;
+color:white;
+}
+
+.Approved,
+.Paid{
+background:#10b981;
+color:white;
+}
+
+.Rejected{
+background:#ef4444;
+color:white;
+}
+
+/* BOTTOM NAV */
+
+.bottom-nav{
+position:fixed;
+bottom:15px;
+left:15px;
+right:15px;
+padding:14px 10px;
+display:flex;
+justify-content:space-around;
+border-radius:30px;
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(20px);
+border:1px solid rgba(255,255,255,0.08);
+}
+
+.nav-item{
+font-size:13px;
+text-align:center;
+cursor:pointer;
+color:#cbd5e1;
+transition:.3s;
+}
+
+.nav-item.active{
+color:white;
+font-weight:700;
+transform:translateY(-3px);
+}
+
+/* MOBILE */
+
+@media(max-width:600px){
+
+.wallet-card h1{
+font-size:40px;
+}
+
+.home-actions{
+grid-template-columns:repeat(2,1fr);
+}
+
+.task-card{
+flex-direction:column;
+align-items:flex-start;
+}
+
+.claim-btn{
+width:100%;
+margin-top:10px;
+}
+
+}
 </style>
-</head>
-
-<body>
-
-<div class="header">
-  <div class="logo">Follo<span>Pay</span></div>
-  <div>🔔</div>
-</div>
-
-<div class="main">
-
-<div id="homeSection">
-  <div class="wallet-card">
-    <p>Available Balance</p>
-    <h1 id="balance">₹0.00</h1>
-    <div class="wallet-actions">
-      <button onclick="showRefer()">👥 Invite Friends</button>
-      <button>💬 Get Help</button>
-    </div>
-  </div>
-
-  <div class="home-actions">
-    <div class="action-card" onclick="openWithdraw()"><span>💸</span>Withdraw</div>
-    <div class="action-card"><span>🎁</span>Gift Card</div>
-    <div class="action-card"><span>📱</span>Recharge</div>
-    <div class="action-card"><span>📺</span>DTH</div>
-    <div class="action-card"><span>👥</span>Pay Wallet</div>
-    <div class="action-card"><span>🤝</span>Partner</div>
-  </div>
-</div>
-
-<div id="earnSection" class="hidden">
-  <h1>Earn Money</h1>
-
-  <div class="tabs">
-    <button class="tab active" onclick="filterEarn('All')">All</button>
-    <button class="tab" onclick="filterEarn('Pending')">Pending</button>
-    <button class="tab" onclick="filterEarn('Approved')">Complete</button>
-    <button class="tab" onclick="filterEarn('Rejected')">Rejected</button>
-  </div>
-
-  <div id="taskList"></div>
-</div>
-
-<div id="historySection" class="hidden">
-  <h1>History</h1>
-
-  <div class="tabs">
-    <button class="tab active" onclick="showTaskHistory()" id="taskTab">Task History</button>
-    <button class="tab" onclick="showWalletHistory()" id="walletTab">Wallet History</button>
-  </div>
-
-  <div id="taskHistoryBox">
-    <div id="taskHistoryList"></div>
-  </div>
-
-  <div id="walletHistoryBox" class="hidden">
-    <div id="walletHistoryList"></div>
-  </div>
-</div>
-
-<div id="profileSection" class="hidden">
-  <div class="profile-card">
-    <h1 id="profileName">User</h1>
-    <p id="profileEmail">Email</p>
-    <h2>Wallet Balance: ₹<span id="profileBalance">0</span></h2>
-    <button class="submit-btn" onclick="logout()">Logout</button>
-  </div>
-</div>
-
-<div id="referSection" class="hidden">
-  <div class="refer-card">
-    <h1>Earn 40% Referral Commission</h1>
-    <p>Friend earning ka 40% commission milega</p>
-    <div class="refer-code" id="myReferCode">CODE</div>
-    <button class="copy-btn" onclick="copyRefer()">Copy Code</button>
-  </div>
-</div>
-
-</div>
-
-<div id="withdrawPage" class="withdraw-page">
-  <button class="back-btn" onclick="closeWithdraw()">←</button>
-  <h1>Withdraw</h1>
-
-  <div class="fund-box">
-    <p>AVAILABLE FUNDS</p>
-    <h1 id="withdrawBalance">₹0.00</h1>
-  </div>
-
-  <div class="withdraw-form">
-    <select id="withdrawMethod" onchange="changeWithdrawMethod()">
-      <option value="UPI">UPI Transfer</option>
-      <option value="BANK">Bank Transfer</option>
-    </select>
-
-    <div id="upiBox">
-      <input type="text" id="upiId" placeholder="Enter UPI ID">
-    </div>
-
-    <div id="bankBox" class="hidden">
-      <input type="text" id="accountNumber" placeholder="Account Number">
-      <input type="text" id="ifscCode" placeholder="IFSC Code">
-      <input type="text" id="bankName" placeholder="Bank Name">
-    </div>
-
-    <input type="number" id="withdrawAmount" placeholder="Amount" oninput="checkCharge()">
-    <p id="chargeText"></p>
-
-    <button class="request-btn" onclick="submitWithdraw()">REQUEST PAYOUT</button>
-  </div>
-</div>
-
-<div class="bottom-nav">
-  <div class="nav-item active" onclick="showHome()">🏠<br>Home</div>
-  <div class="nav-item" onclick="showEarn()">💰<br>Earn</div>
-  <div class="nav-item" onclick="showHistory()">📜<br>History</div>
-  <div class="nav-item" onclick="showProfile()">👤<br>Profile</div>
-  <div class="nav-item" onclick="showRefer()">👥<br>Refer</div>
-</div>
-
-<script>
-if(localStorage.getItem("loggedIn") !== "yes"){
-  window.location.replace("login.html");
-}
-
-let balanceAmount = Number(localStorage.getItem("balance")) || 0;
-let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-let submissions = JSON.parse(localStorage.getItem("submissions")) || [];
-let withdraws = JSON.parse(localStorage.getItem("withdraws")) || [];
-let user = JSON.parse(localStorage.getItem("user")) || {};
-
-let currentEarnFilter = "All";
-let currentHistoryFilter = "All";
-
-function saveAll(){
-  localStorage.setItem("balance", balanceAmount);
-  localStorage.setItem("submissions", JSON.stringify(submissions));
-  localStorage.setItem("withdraws", JSON.stringify(withdraws));
-}
-
-function showBalance(){
-  balance.innerText = "₹" + balanceAmount.toFixed(2);
-  profileBalance.innerText = balanceAmount.toFixed(2);
-  withdrawBalance.innerText = "₹" + balanceAmount.toFixed(2);
-}
-
-function loadProfile(){
-  profileName.innerText = user.name || "User";
-  profileEmail.innerText = user.email || "Email";
-  myReferCode.innerText = user.phone || "CODE";
-}
-
-function setTabActive(button){
-  button.parentElement.querySelectorAll(".tab").forEach(b=>b.classList.remove("active"));
-  button.classList.add("active");
-}
-
-function filterEarn(status){
-  currentEarnFilter = status;
-  setTabActive(event.target);
-  loadTasks();
-}
-
-function filterHistory(status){
-  currentHistoryFilter = status;
-  setTabActive(event.target);
-  loadHistory();
-}
-
-function loadTasks(){
-  let html = "";
-
-  tasks.forEach((task,index)=>{
-    let sub = submissions.find(s => s.app === task.app);
-
-    if(currentEarnFilter !== "All"){
-      if(!sub || sub.status !== currentEarnFilter) return;
-    }
-
-    let comment = task.comments && task.comments.length > 0 ? task.comments[0] : "No comment";
-
-    let btnText = "Claim →";
-    let btnClick = `onclick="claimTask(${index})"`;
-
-    if(sub && sub.status === "Pending"){
-      btnText = "Pending";
-      btnClick = "";
-    }
-
-    if(sub && sub.status === "Approved"){
-      btnText = "Approved";
-      btnClick = "";
-    }
-
-    if(sub && sub.status === "Rejected"){
-      btnText = "Rejected";
-      btnClick = "";
-    }
-
-    html += `
-      <div class="task-card">
-        <div class="app-icon">📱</div>
-        <div class="task-info">
-          <h2>${task.app}</h2>
-          <p>${task.title} • ⭐ 5.0</p>
-          <div class="reward">₹${task.reward}.00</div>
-        </div>
-        <button class="claim-btn" ${btnClick}>${btnText}</button>
-      </div>
-    `;
-
-    if(!sub){
-      html += `
-        <div class="claim-box hidden" id="claimBox-${index}">
-          <h3>Assigned Comment</h3>
-          <div class="comment-box" id="comment-${index}">${comment}</div>
-          <button class="copy-btn" onclick="copyComment(${index})">Copy Comment</button>
-
-          <a href="${task.link}" target="_blank">
-            <button class="submit-btn">Open Task Link</button>
-          </a>
-
-          <div class="upload-box">
-            <h3>Upload Screenshot</h3>
-            <input type="file" id="shot-${index}" accept="image/*">
-            <button class="submit-btn" onclick="submitTask(${index})">Submit Screenshot</button>
-          </div>
-        </div>
-      `;
-    }
-  });
-
-  if(html === "") html = "<p>No task available</p>";
-  taskList.innerHTML = html;
-}
-
-function claimTask(index){
-  document.getElementById("claimBox-" + index).classList.remove("hidden");
-}
-
-function copyComment(index){
-  let text = document.getElementById("comment-" + index).innerText;
-  navigator.clipboard.writeText(text);
-  alert("Comment copied");
-}
-
-async function submitTask(index){
-  alert("Uploading screenshot...");
-
-  let originalFile = document.getElementById("shot-" + index).files[0];
-
-  if(!originalFile){
-    alert("Select screenshot");
-    return;
-  }
-
-  let canvas = document.createElement("canvas");
-  let ctx = canvas.getContext("2d");
-  let img = new Image();
-
-  img.src = URL.createObjectURL(originalFile);
-
-  await new Promise(resolve => {
-    img.onload = resolve;
-  });
-
-  canvas.width = 700;
-  canvas.height = (img.height / img.width) * 700;
-
-  ctx.drawImage(img,0,0,canvas.width,canvas.height);
-
-  let compressedBlob = await new Promise(resolve =>
-    canvas.toBlob(resolve,"image/jpeg",0.6)
-  );
-
-  let file = new File([compressedBlob],"proof.jpg",{type:"image/jpeg"});
-
-  let formData = new FormData();
-  formData.append("file", file);
-  formData.append("upload_preset", "walletapp");
-
-  let response = await fetch("https://api.cloudinary.com/v1_1/diewwfd5t/image/upload", {
-    method: "POST",
-    body: formData
-  });
-
-  let data = await response.json();
-
-  if(!data.secure_url){
-    alert("Upload failed");
-    return;
-  }
-
-  submissions.push({
-    userPhone: user.phone || "",
-    userName: user.name || "",
-    userEmail: user.email || "",
-    app: tasks[index].app,
-    title: tasks[index].title,
-    reward: Number(tasks[index].reward),
-    comment: document.getElementById("comment-" + index).innerText,
-    proof: data.secure_url,
-    status: "Pending",
-    time: new Date().toLocaleDateString()
-  });
-
-  saveAll();
-
-  alert("Task submitted. Pending approval.");
-
-  loadTasks();
-  loadHistory();
-}
-
-function loadHistory(){
-  let html = "";
-
-  submissions.forEach(sub=>{
-    if(currentHistoryFilter !== "All" && sub.status !== currentHistoryFilter) return;
-
-    let cls = sub.status === "Pending" ? "pending" : sub.status === "Rejected" ? "rejected" : "";
-
-    html += `
-      <div class="history-card ${cls}">
-        <div class="app-icon">📱</div>
-        <div class="history-info">
-          <h3>${sub.app}</h3>
-          <p>📅 ${sub.time || ""}</p>
-          <span class="status ${sub.status}">${sub.status}</span>
-        </div>
-        <div>
-          <div class="amount">₹${sub.reward}.00</div>
-        </div>
-      </div>
-    `;
-  });
-
-  if(html === "") html = "<p>No task history</p>";
-  taskHistoryList.innerHTML = html;
-}
-
-function loadWalletHistory(){
-  let html = "";
-
-  withdraws.forEach(w=>{
-    html += `
-      <div class="history-card ${w.status === "Pending" ? "pending" : w.status === "Rejected" ? "rejected" : ""}">
-        <div class="app-icon">🏦</div>
-        <div class="history-info">
-          <h3>${w.method} Withdrawal</h3>
-          <p>📅 ${w.time || ""}</p>
-          <p>${w.details || ""}</p>
-          <span class="status ${w.status}">${w.status}</span>
-        </div>
-        <div>
-          <div class="amount">₹${w.amount}</div>
-          <p style="color:red">Charge ₹${w.charge}</p>
-        </div>
-      </div>
-    `;
-  });
-
-  if(html === "") html = "<p>No wallet history</p>";
-  walletHistoryList.innerHTML = html;
-}
-
-function showTaskHistory(){
-  taskHistoryBox.classList.remove("hidden");
-  walletHistoryBox.classList.add("hidden");
-  taskTab.classList.add("active");
-  walletTab.classList.remove("active");
-  loadHistory();
-}
-
-function showWalletHistory(){
-  walletHistoryBox.classList.remove("hidden");
-  taskHistoryBox.classList.add("hidden");
-  walletTab.classList.add("active");
-  taskTab.classList.remove("active");
-  loadWalletHistory();
-}
-
-function openWithdraw(){
-  withdrawPage.style.display = "block";
-  showBalance();
-}
-
-function closeWithdraw(){
-  withdrawPage.style.display = "none";
-}
-
-function changeWithdrawMethod(){
-  if(withdrawMethod.value === "UPI"){
-    upiBox.classList.remove("hidden");
-    bankBox.classList.add("hidden");
-  }else{
-    upiBox.classList.add("hidden");
-    bankBox.classList.remove("hidden");
-  }
-}
-
-function checkCharge(){
-  let amount = Number(withdrawAmount.value);
-  chargeText.innerText =
-    amount >= 10 && amount < 500 ? "2% Charge: ₹" + (amount*0.02).toFixed(2) :
-    amount >= 500 ? "0% Charge" : "";
-}
-
-function submitWithdraw(){
-  let amount = Number(withdrawAmount.value);
-  let method = withdrawMethod.value;
-
-  if(amount < 10){ alert("Minimum withdraw ₹10"); return; }
-  if(amount > balanceAmount){ alert("Insufficient balance"); return; }
-
-  let details = "";
-
-  if(method === "UPI"){
-    if(upiId.value.trim() === ""){ alert("Enter UPI ID"); return; }
-    details = "UPI ID: " + upiId.value.trim();
-  }else{
-    if(accountNumber.value.trim()==="" || ifscCode.value.trim()==="" || bankName.value.trim()===""){
-      alert("Bank details fill karo"); return;
-    }
-    details = "Account: " + accountNumber.value + " | IFSC: " + ifscCode.value + " | Bank: " + bankName.value;
-  }
-
-  let charge = amount < 500 ? amount * 0.02 : 0;
-  let finalAmount = amount - charge;
-
-  withdraws.push({
-    id: Date.now(),
-    userName: user.name || "User",
-    userPhone: user.phone || "N/A",
-    userEmail: user.email || "N/A",
-    method: method,
-    amount: amount,
-    charge: charge.toFixed(2),
-    final: finalAmount.toFixed(2),
-    details: details,
-    status: "Pending",
-    time: new Date().toLocaleDateString()
-  });
-
-  balanceAmount -= amount;
-  saveAll();
-  showBalance();
-  loadWalletHistory();
-
-  alert("Withdraw request submitted");
-  closeWithdraw();
-}
-
-function copyRefer(){
-  navigator.clipboard.writeText(user.phone || "CODE");
-  alert("Referral code copied");
-}
-
-function hideAll(){
-  homeSection.classList.add("hidden");
-  earnSection.classList.add("hidden");
-  historySection.classList.add("hidden");
-  profileSection.classList.add("hidden");
-  referSection.classList.add("hidden");
-}
-
-function setActive(i){
-  document.querySelectorAll(".nav-item").forEach(x=>x.classList.remove("active"));
-  document.querySelectorAll(".nav-item")[i].classList.add("active");
-}
-
-function showHome(){hideAll();homeSection.classList.remove("hidden");setActive(0);}
-function showEarn(){hideAll();earnSection.classList.remove("hidden");loadTasks();setActive(1);}
-function showHistory(){hideAll();historySection.classList.remove("hidden");showTaskHistory();setActive(2);}
-function showProfile(){hideAll();profileSection.classList.remove("hidden");setActive(3);}
-function showRefer(){hideAll();referSection.classList.remove("hidden");setActive(4);}
-
-function logout(){
-  localStorage.removeItem("loggedIn");
-  window.location.replace("login.html");
-}
-
-showBalance();
-loadProfile();
-loadTasks();
-loadHistory();
-</script>
-
-<script>
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("service-worker.js");
-}
-</script>
-
-</body>
-</html>
