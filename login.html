@@ -150,9 +150,13 @@ function sendOTP(){
   }).then(function(){
     alert("OTP sent to your email");
   }).catch(function(error){
-    alert("OTP send failed. EmailJS template/settings check karo.");
-    console.log(error);
-  });
+  console.log("EMAILJS ERROR:", error);
+
+  alert(
+    "OTP failed: " +
+    (error.text || error.message || JSON.stringify(error))
+  );
+});
 }
 
 function verifyAndSignup(){
