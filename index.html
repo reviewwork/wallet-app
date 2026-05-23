@@ -557,557 +557,248 @@ onclick="showRefer()">
 </div>
 
 <script>
-
 if(localStorage.getItem("loggedIn") !== "yes"){
-window.location.replace("login.html");
+  window.location.replace("login.html");
 }
 
-let balance =
-Number(localStorage.getItem("balance")) || 0;
-
-let tasks =
-JSON.parse(localStorage.getItem("tasks")) || [];
-
-let submissions =
-JSON.parse(localStorage.getItem("submissions")) || [];
-
-let withdraws =
-JSON.parse(localStorage.getItem("withdraws")) || [];
-
-let user =
-JSON.parse(localStorage.getItem("user"));
-
-if(user){
-
-document.getElementById("profileName")
-.innerText = user.name;
-
-document.getElementById("profileEmail")
-.innerText = user.email;
-
-}
+let balanceAmount = Number(localStorage.getItem("balance")) || 0;
+let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+let submissions = JSON.parse(localStorage.getItem("submissions")) || [];
+let withdraws = JSON.parse(localStorage.getItem("withdraws")) || [];
+let user = JSON.parse(localStorage.getItem("user"));
 
 function saveAll(){
-
-localStorage.setItem(
-"balance",
-balance
-);
-
-localStorage.setItem(
-"submissions",
-JSON.stringify(submissions)
-);
-
-localStorage.setItem(
-"withdraws",
-JSON.stringify(withdraws)
-);
-
+  localStorage.setItem("balance", balanceAmount);
+  localStorage.setItem("submissions", JSON.stringify(submissions));
+  localStorage.setItem("withdraws", JSON.stringify(withdraws));
 }
 
 function showBalance(){
+  document.getElementById("balance").innerText = "₹" + balanceAmount.toFixed(2);
 
-document.getElementById("balance")
-.innerText =
-"₹" + balance.toFixed(2);
+  if(document.getElementById("profileBalance")){
+    document.getElementById("profileBalance").innerText = balanceAmount.toFixed(2);
+  }
 
-document.getElementById("profileBalance")
-.innerText =
-balance.toFixed(2);
+  if(document.getElementById("withdrawBalance")){
+    document.getElementById("withdrawBalance").innerText = "₹" + balanceAmount.toFixed(2);
+  }
+}
 
+function loadProfile(){
+  if(user){
+    document.getElementById("profileName").innerText = user.name || "User";
+    document.getElementById("profileEmail").innerText = user.email || "";
+  }
 }
 
 function loadTasks(){
+  let box = document.getElementById("taskList");
+  if(!box) return;
 
-let html = "";
+  let html = "";
 
-tasks.forEach((task,index)=>{
+  tasks.forEach((task,index)=>{
+    let alreadySubmitted = submissions.some(sub =>
+      sub.app === task.app &&
+      (sub.status === "Pending" || sub.status === "Approved")
+    );
 
-let alreadySubmitted =
-submissions.some(sub =>
-sub.app === task.app &&
-(sub.status === "Pending" ||
-sub.status === "Approved")
-);
+    if(alreadySubmitted) return;
 
-if(alreadySubmitted){
-return;
-}
+    let comment = task.comments && task.comments.length > 0 ? task.comments[0] : "No comment";
 
-let comment =
-task.comments &&
-task.comments.length > 0
-? task.comments[0]
-: "No comment";
+    html += `
+      <div class="task-card">
+        <h2>${task.app}</h2>
+        <p>${task.title}</p>
+        <div class="reward">₹${task.reward}</div>
 
-html += `
+        <button class="claim-btn" onclick="claimTask(${index})">Claim →</button>
 
-<div class="task-card">
+        <div class="claim-box hidden" id="claimBox-${index}">
+          <h3>Assigned Comment</h3>
 
-<h2>${task.app}</h2>
+          <div class="comment-box" id="comment-${index}">
+            ${comment}
+          </div>
 
-<p>
-${task.title}
-</p>
+          <button class="copy-btn" onclick="copyComment(${index})">Copy Comment</button>
 
-<div class="reward">
-₹${task.reward}
-</div>
+          <a href="${task.link}" target="_blank">
+            <button class="submit-btn">Open Task Link</button>
+          </a>
 
-<br>
+          <div class="upload-box">
+            <h3>Upload Screenshot</h3>
+            <input type="file" id="shot-${index}" accept="image/*">
+            <button class="submit-btn" onclick="submitTask(${index})">Submit Screenshot</button>
+          </div>
+        </div>
+      </div>
+    `;
+  });
 
-<button class="claim-btn"
-onclick="claimTask(${index})">
+  if(html === ""){
+    html = "<p>No new task available</p>";
+  }
 
-Claim →
-
-</button>
-
-<div class="claim-box hidden"
-id="claimBox-${index}">
-
-<h3>Assigned Comment</h3>
-
-<div class="comment-box"
-id="comment-${index}">
-
-${comment}
-
-</div>
-
-<button class="copy-btn"
-onclick="copyComment(${index})">
-
-Copy Comment
-
-</button>
-
-<a href="${task.link}"
-target="_blank">
-
-<button class="submit-btn">
-
-Open PlayStore
-
-</button>
-
-</a>
-
-<div class="upload-box">
-
-<input type="file"
-id="shot-${index}"
-accept="image/*">
-
-<button class="submit-btn"
-onclick="submitTask(${index})">
-
-Submit Screenshot
-
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-`;
-
-});
-
-if(html === ""){
-html = "<p>No new task available</p>";
-}
-
-document.getElementById("taskList")
-.innerHTML = html;
-
+  box.innerHTML = html;
 }
 
 function claimTask(index){
-
-document.getElementById(
-"claimBox-" + index
-).classList.remove("hidden");
-
+  document.getElementById("claimBox-" + index).classList.remove("hidden");
 }
 
 function copyComment(index){
-
-let text =
-document.getElementById(
-"comment-" + index
-).innerText;
-
-navigator.clipboard.writeText(text);
-
-alert("Comment Copied");
-
+  let text = document.getElementById("comment-" + index).innerText;
+  navigator.clipboard.writeText(text);
+  alert("Comment copied");
 }
 
-async function submitTask(taskId){
+async function submitTask(index){
+  let fileInput = document.getElementById("shot-" + index);
+  let file = fileInput.files[0];
 
-let fileInput =
-document.getElementById("proofFile");
+  if(!file){
+    alert("Screenshot select karo");
+    return;
+  }
 
-let file =
-fileInput.files[0];
+  let formData = new FormData();
+  formData.append("file", file);
+  formData.append("upload_preset", "walletapp");
 
-if(!file){
+  let response = await fetch("https://api.cloudinary.com/v1_1/djiewwfd5t/image/upload", {
+    method: "POST",
+    body: formData
+  });
 
-alert("Select screenshot first");
+  let data = await response.json();
 
-return;
+  if(!data.secure_url){
+    alert("Image upload failed");
+    return;
+  }
 
-}
+  submissions.push({
+    app: tasks[index].app,
+    title: tasks[index].title,
+    reward: Number(tasks[index].reward),
+    comment: document.getElementById("comment-" + index).innerText,
+    proof: data.secure_url,
+    status: "Pending",
+    time: new Date().toLocaleString()
+  });
 
-/* CLOUDINARY UPLOAD */
+  saveAll();
 
-let formData = new FormData();
-
-formData.append("file", file);
-
-formData.append(
-"upload_preset",
-"walletapp"
-);
-
-let response = await fetch(
-"https://api.cloudinary.com/v1_1/djiewwfd5t/image/upload",
-{
-method: "POST",
-body: formData
-}
-);
-
-let data = await response.json();
-
-/* IMAGE URL */
-
-let imageUrl = data.secure_url;
-
-/* SAVE SUBMISSION */
-
-let submissions =
-JSON.parse(
-localStorage.getItem("submissions")
-) || [];
-
-submissions.push({
-
-taskId: taskId,
-
-app: currentTask.app,
-
-title: currentTask.title,
-
-reward: currentTask.reward,
-
-comment: currentTask.comment,
-
-proof: imageUrl,
-
-status: "Pending",
-
-time: new Date().toLocaleString()
-
-});
-
-localStorage.setItem(
-"submissions",
-JSON.stringify(submissions)
-);
-
-/* REMOVE TASK */
-
-document.getElementById(
-"taskSection"
-).style.display = "none";
-
-alert(
-"Screenshot uploaded successfully"
-);
-
-}{
-
-let file =
-document.getElementById(
-"shot-" + index
-).files[0];
-
-if(!file){
-
-alert("Upload screenshot");
-<input type="file" id="proofFile" accept="image/*">
-
-return;
-
-}
-
-let reader = new FileReader();
-
-reader.onload = function(){
-
-submissions.push({
-
-app:tasks[index].app,
-title:tasks[index].title,
-reward:tasks[index].reward,
-comment:document.getElementById(
-"comment-" + index
-).innerText,
-proof:reader.result,
-status:"Pending",
-time:new Date().toLocaleString()
-
-});
-
-saveAll();
-
-alert(
-"Task Submitted"
-);
-
-loadTasks();
-
-loadHistory();
-
-};
-
-reader.readAsDataURL(file);
-
+  alert("Task submitted. Pending approval.");
+  loadTasks();
+  loadHistory();
 }
 
 function loadHistory(){
+  let box = document.getElementById("taskHistoryList");
+  if(!box) return;
 
-let html = "";
+  let html = "";
 
-if(submissions.length === 0){
+  if(submissions.length === 0){
+    html = "<p>No history</p>";
+  }
 
-html = "<p>No history</p>";
+  submissions.forEach(sub=>{
+    html += `
+      <div class="history-card">
+        <h3>${sub.app}</h3>
+        <p>${sub.title}</p>
+        <p>Reward: ₹${sub.reward}</p>
+        <p>Status: <b>${sub.status}</b></p>
+        <small>${sub.time || ""}</small>
+      </div>
+    `;
+  });
 
-}
-
-submissions.forEach(sub=>{
-
-html += `
-
-<div class="history-card">
-
-<h3>${sub.app}</h3>
-
-<p>${sub.title}</p>
-
-<p>
-Reward: ₹${sub.reward}
-</p>
-
-<p>
-Status:
-<b>${sub.status}</b>
-</p>
-
-</div>
-
-`;
-
-});
-
-document.getElementById(
-"taskHistoryList"
-).innerHTML = html;
-
+  box.innerHTML = html;
 }
 
 function openWithdraw(){
-
-document.getElementById(
-"withdrawPage"
-).style.display = "block";
-
-document.getElementById(
-"withdrawBalance"
-).innerText =
-"₹" + balance.toFixed(2);
-
+  document.getElementById("withdrawPage").style.display = "block";
+  showBalance();
 }
 
 function closeWithdraw(){
-
-document.getElementById(
-"withdrawPage"
-).style.display = "none";
-
+  document.getElementById("withdrawPage").style.display = "none";
 }
 
 function submitWithdraw(){
+  let amount = Number(document.getElementById("withdrawAmount").value);
 
-let amount =
-Number(document.getElementById(
-"withdrawAmount"
-).value);
+  if(amount < 10){
+    alert("Minimum withdraw ₹10");
+    return;
+  }
 
-if(amount < 10){
+  if(amount > balanceAmount){
+    alert("Insufficient balance");
+    return;
+  }
 
-alert("Minimum withdraw ₹10");
+  let method = document.getElementById("withdrawMethod").value;
+  let charge = amount < 500 ? amount * 0.02 : 0;
+  let finalAmount = amount - charge;
 
-return;
+  withdraws.push({
+    method: method,
+    amount: amount,
+    charge: charge.toFixed(2),
+    final: finalAmount.toFixed(2),
+    status: "Pending",
+    time: new Date().toLocaleString()
+  });
 
-}
+  balanceAmount -= amount;
+  saveAll();
+  showBalance();
 
-if(amount > balance){
-
-alert("Insufficient Balance");
-
-return;
-
-}
-
-let charge =
-amount < 500
-? amount * 0.02
-: 0;
-
-let finalAmount =
-amount - charge;
-
-withdraws.push({
-
-method:
-document.getElementById(
-"withdrawMethod"
-).value,
-
-amount:amount,
-
-charge:charge,
-
-final:finalAmount,
-
-status:"Pending"
-
-});
-
-balance -= amount;
-
-saveAll();
-
-showBalance();
-
-alert(
-"Withdraw Request Submitted"
-);
-
-closeWithdraw();
-
+  alert("Withdraw request submitted");
+  closeWithdraw();
 }
 
 function copyRefer(){
-
-navigator.clipboard.writeText(
-"KUK56KO"
-);
-
-alert(
-"Referral Code Copied"
-);
-
+  navigator.clipboard.writeText("KUK56KO");
+  alert("Referral code copied");
 }
 
 function hideAll(){
-
-homeSection.classList.add("hidden");
-earnSection.classList.add("hidden");
-historySection.classList.add("hidden");
-profileSection.classList.add("hidden");
-referSection.classList.add("hidden");
-
+  document.getElementById("homeSection").classList.add("hidden");
+  document.getElementById("earnSection").classList.add("hidden");
+  document.getElementById("historySection").classList.add("hidden");
+  document.getElementById("profileSection").classList.add("hidden");
+  document.getElementById("referSection").classList.add("hidden");
 }
 
 function setActive(i){
-
-document.querySelectorAll(".nav-item")
-.forEach(x=>x.classList.remove("active"));
-
-document.querySelectorAll(".nav-item")[i]
-.classList.add("active");
-
+  document.querySelectorAll(".nav-item").forEach(x=>x.classList.remove("active"));
+  document.querySelectorAll(".nav-item")[i].classList.add("active");
 }
 
-function showHome(){
-
-hideAll();
-
-homeSection.classList.remove("hidden");
-
-setActive(0);
-
-}
-
-function showEarn(){
-
-hideAll();
-
-earnSection.classList.remove("hidden");
-
-setActive(1);
-
-}
-
-function showHistory(){
-
-hideAll();
-
-historySection.classList.remove("hidden");
-
-setActive(2);
-
-}
-
-function showProfile(){
-
-hideAll();
-
-profileSection.classList.remove("hidden");
-
-setActive(3);
-
-}
-
-function showRefer(){
-
-hideAll();
-
-referSection.classList.remove("hidden");
-
-setActive(4);
-
-}
+function showHome(){ hideAll(); homeSection.classList.remove("hidden"); setActive(0); }
+function showEarn(){ hideAll(); earnSection.classList.remove("hidden"); setActive(1); loadTasks(); }
+function showHistory(){ hideAll(); historySection.classList.remove("hidden"); setActive(2); loadHistory(); }
+function showProfile(){ hideAll(); profileSection.classList.remove("hidden"); setActive(3); }
+function showRefer(){ hideAll(); referSection.classList.remove("hidden"); setActive(4); }
 
 function logout(){
-
-localStorage.removeItem(
-"loggedIn"
-);
-
-window.location.href =
-"login.html";
-
+  localStorage.removeItem("loggedIn");
+  window.location.replace("login.html");
 }
 
 showBalance();
-
+loadProfile();
 loadTasks();
-
 loadHistory();
-
-</script>
-<script>
-if ("serviceWorker" in navigator) {
-navigator.serviceWorker.register("service-worker.js");
-}
 </script>
 
 </body>
