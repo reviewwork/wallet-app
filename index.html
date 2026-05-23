@@ -121,16 +121,40 @@ display:flex;align-items:center;gap:15px
 </div>
 
 <div id="historySection" class="hidden">
-  <h1>Task History</h1>
 
-  <div class="tabs">
-    <button class="tab active" onclick="filterHistory('All')">All</button>
-    <button class="tab" onclick="filterHistory('Pending')">Pending</button>
-    <button class="tab" onclick="filterHistory('Approved')">Complete</button>
-    <button class="tab" onclick="filterHistory('Rejected')">Rejected</button>
-  </div>
+<h1>History</h1>
 
-  <div id="taskHistoryList"></div>
+<div class="tabs">
+
+<button class="tab active"
+onclick="showTaskHistory()"
+id="taskTab">
+
+Task History
+
+</button>
+
+<button class="tab"
+onclick="showWalletHistory()"
+id="walletTab">
+
+Wallet History
+
+</button>
+
+</div>
+
+<div id="taskHistoryBox">
+<div id="taskHistoryList"></div>
+</div>
+
+<div id="walletHistoryBox"
+class="hidden">
+
+<div id="walletHistoryList"></div>
+
+</div>
+
 </div>
 
 <div id="profileSection" class="hidden">
@@ -470,6 +494,47 @@ showBalance();
 loadProfile();
 loadTasks();
 loadHistory();
+function showTaskHistory(){
+
+document.getElementById(
+"taskHistoryBox"
+).classList.remove("hidden");
+
+document.getElementById(
+"walletHistoryBox"
+).classList.add("hidden");
+
+document.getElementById(
+"taskTab"
+).classList.add("active");
+
+document.getElementById(
+"walletTab"
+).classList.remove("active");
+
+}
+
+function showWalletHistory(){
+
+document.getElementById(
+"walletHistoryBox"
+).classList.remove("hidden");
+
+document.getElementById(
+"taskHistoryBox"
+).classList.add("hidden");
+
+document.getElementById(
+"walletTab"
+).classList.add("active");
+
+document.getElementById(
+"taskTab"
+).classList.remove("active");
+
+loadWalletHistory();
+
+}
 </script>
 
 <script>
