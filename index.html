@@ -9,34 +9,70 @@
 <meta name="theme-color" content="#6d4df5">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
-body{background:#f3f4f6;padding-bottom:120px}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#f7f7fb;padding-bottom:120px}
 .header{background:white;padding:15px 20px;display:flex;justify-content:space-between;box-shadow:0 2px 10px #ddd}
 .logo{font-size:30px;font-weight:bold;color:#2563eb}.logo span{color:#f97316}
 .main{padding:20px}.hidden{display:none!important}
+
 .wallet-card{background:linear-gradient(135deg,#8b5cf6,#6d28d9);padding:25px;border-radius:28px;color:white}
 .wallet-card h1{font-size:45px;margin-top:10px}
 .wallet-actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:25px}
 .wallet-actions button{background:rgba(255,255,255,.2);color:white;border:none;padding:15px;border-radius:18px;font-weight:bold}
+
 .home-actions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:15px;margin-top:20px}
 .action-card{background:white;padding:20px;border-radius:20px;text-align:center;box-shadow:0 0 10px #ddd;font-weight:bold;cursor:pointer}
 .action-card span{font-size:34px;display:block;margin-bottom:8px}
-.task-card,.history-card,.profile-card{background:white;padding:18px;border-radius:20px;margin-top:15px;box-shadow:0 0 10px #ddd}
-.task-card{border-left:6px solid #7c3aed}
-.reward{background:#10b981;color:white;padding:8px 18px;border-radius:20px;display:inline-block;margin:10px 0;font-weight:bold}
-.claim-btn{background:#ede9fe;color:#7c3aed;border:none;padding:12px 20px;border-radius:20px;font-weight:bold}
-.claim-box{background:#eff6ff;padding:15px;border-radius:18px;margin-top:15px}
-.comment-box{background:#111827;color:white;padding:15px;border-radius:15px;margin-top:10px}
+
+.tabs{display:flex;gap:12px;margin:20px 0;overflow-x:auto}
+.tab{padding:14px 25px;border:2px solid #e5e7eb;border-radius:25px;background:white;font-weight:bold;font-size:18px;color:#555}
+.tab.active{background:#7c3aed;color:white;border-color:#7c3aed}
+
+.task-card{
+background:white;padding:18px;border-radius:22px;margin-top:18px;
+box-shadow:0 0 12px #e5e7eb;border-left:7px solid #7c3aed;
+display:flex;align-items:center;gap:15px
+}
+.app-icon{width:70px;height:70px;border-radius:18px;background:#f3f4f6;display:flex;align-items:center;justify-content:center;font-size:32px}
+.task-info{flex:1}
+.task-info h2{font-size:20px;margin-bottom:6px}
+.task-info p{color:#9ca3af}
+.reward{background:#10b981;color:white;padding:8px 18px;border-radius:20px;display:inline-block;margin-top:10px;font-weight:bold}
+.claim-btn{background:#ede9fe;color:#7c3aed;border:none;padding:13px 22px;border-radius:25px;font-weight:bold;font-size:16px}
+
+.claim-box{background:#eff6ff;padding:18px;border-radius:20px;margin-top:15px}
+.comment-box{background:#111827;color:white;padding:16px;border-radius:15px;margin-top:10px;line-height:1.6}
 .copy-btn,.submit-btn{width:100%;border:none;padding:15px;border-radius:15px;margin-top:10px;font-weight:bold}
 .copy-btn{background:#2563eb;color:white}.submit-btn{background:#16a34a;color:white}
 .upload-box{background:#ecfdf5;padding:15px;border-radius:18px;margin-top:15px;border:2px dashed #4ade80;text-align:center}
+
+.history-card{
+background:white;padding:18px;border-radius:22px;margin-top:15px;
+box-shadow:0 0 10px #ddd;border-left:7px solid #10b981;
+display:flex;align-items:center;gap:15px
+}
+.history-card.pending{border-left-color:#f59e0b}
+.history-card.rejected{border-left-color:#ef4444}
+.history-info{flex:1}
+.history-info h3{font-size:20px}
+.history-info p{color:#9ca3af;margin-top:5px}
+.amount{font-size:22px;font-weight:bold;color:#7c3aed}
+.status{padding:7px 15px;border-radius:20px;font-weight:bold;margin-top:10px;display:inline-block}
+.Approved{background:#dcfce7;color:#166534}
+.Pending{background:#fef3c7;color:#92400e}
+.Rejected{background:#fee2e2;color:#991b1b}
+
 .refer-card{background:linear-gradient(135deg,#8b5cf6,#6d28d9);padding:30px;border-radius:28px;text-align:center;color:white}
 .refer-code{background:rgba(255,255,255,.15);padding:20px;border-radius:18px;font-size:36px;font-weight:bold;margin:20px 0}
+
+.profile-card{background:white;padding:25px;border-radius:25px;box-shadow:0 0 10px #ddd}
+
 .withdraw-page{position:fixed;top:0;left:0;right:0;bottom:0;background:#eef6fb;padding:20px;overflow:auto;display:none;z-index:100}
 .back-btn{width:55px;height:55px;border:none;border-radius:50%;font-size:28px;background:white}
 .fund-box,.withdraw-form{background:white;padding:25px;border-radius:25px;margin-top:25px}
 .withdraw-form input,.withdraw-form select{width:100%;padding:18px;border-radius:15px;border:1px solid #ddd;margin:10px 0}
 .request-btn{width:100%;background:#0ea5e9;color:white;border:none;padding:18px;border-radius:18px;font-size:20px;font-weight:bold}
+
 .bottom-nav{position:fixed;bottom:15px;left:20px;right:20px;background:white;padding:14px 0;border-radius:30px;display:flex;justify-content:space-around;box-shadow:0 0 15px #ccc}
 .nav-item{text-align:center;font-size:14px;cursor:pointer}.active{color:#2563eb;font-weight:bold}
 </style>
@@ -73,11 +109,27 @@ body{background:#f3f4f6;padding-bottom:120px}
 
 <div id="earnSection" class="hidden">
   <h1>Earn Money</h1>
+
+  <div class="tabs">
+    <button class="tab active" onclick="filterEarn('All')">All</button>
+    <button class="tab" onclick="filterEarn('Pending')">Pending</button>
+    <button class="tab" onclick="filterEarn('Approved')">Complete</button>
+    <button class="tab" onclick="filterEarn('Rejected')">Rejected</button>
+  </div>
+
   <div id="taskList"></div>
 </div>
 
 <div id="historySection" class="hidden">
-  <h1>History</h1>
+  <h1>Task History</h1>
+
+  <div class="tabs">
+    <button class="tab active" onclick="filterHistory('All')">All</button>
+    <button class="tab" onclick="filterHistory('Pending')">Pending</button>
+    <button class="tab" onclick="filterHistory('Approved')">Complete</button>
+    <button class="tab" onclick="filterHistory('Rejected')">Rejected</button>
+  </div>
+
   <div id="taskHistoryList"></div>
 </div>
 
@@ -93,7 +145,7 @@ body{background:#f3f4f6;padding-bottom:120px}
 <div id="referSection" class="hidden">
   <div class="refer-card">
     <h1>Earn 40% Referral Commission</h1>
-    <p>Share your code. Friend earning ka 40% commission milega.</p>
+    <p>Friend earning ka 40% commission milega</p>
     <div class="refer-code" id="myReferCode">CODE</div>
     <button class="copy-btn" onclick="copyRefer()">Copy Code</button>
   </div>
@@ -152,6 +204,9 @@ let submissions = JSON.parse(localStorage.getItem("submissions")) || [];
 let withdraws = JSON.parse(localStorage.getItem("withdraws")) || [];
 let user = JSON.parse(localStorage.getItem("user")) || {};
 
+let currentEarnFilter = "All";
+let currentHistoryFilter = "All";
+
 function saveAll(){
   localStorage.setItem("balance", balanceAmount);
   localStorage.setItem("submissions", JSON.stringify(submissions));
@@ -159,60 +214,79 @@ function saveAll(){
 }
 
 function showBalance(){
-  document.getElementById("balance").innerText = "₹" + balanceAmount.toFixed(2);
-  document.getElementById("profileBalance").innerText = balanceAmount.toFixed(2);
-  document.getElementById("withdrawBalance").innerText = "₹" + balanceAmount.toFixed(2);
+  balance.innerText = "₹" + balanceAmount.toFixed(2);
+  profileBalance.innerText = balanceAmount.toFixed(2);
+  withdrawBalance.innerText = "₹" + balanceAmount.toFixed(2);
 }
 
 function loadProfile(){
-  document.getElementById("profileName").innerText = user.name || "User";
-  document.getElementById("profileEmail").innerText = user.email || "Email";
-  document.getElementById("myReferCode").innerText = user.phone || "CODE";
+  profileName.innerText = user.name || "User";
+  profileEmail.innerText = user.email || "Email";
+  myReferCode.innerText = user.phone || "CODE";
+}
+
+function setTabActive(button){
+  button.parentElement.querySelectorAll(".tab").forEach(b=>b.classList.remove("active"));
+  button.classList.add("active");
+}
+
+function filterEarn(status){
+  currentEarnFilter = status;
+  setTabActive(event.target);
+  loadTasks();
+}
+
+function filterHistory(status){
+  currentHistoryFilter = status;
+  setTabActive(event.target);
+  loadHistory();
 }
 
 function loadTasks(){
   let html = "";
 
   tasks.forEach((task,index)=>{
-    let alreadySubmitted = submissions.some(sub =>
-      sub.app === task.app &&
-      (sub.status === "Pending" || sub.status === "Approved")
-    );
+    let sub = submissions.find(s => s.app === task.app);
 
-    if(alreadySubmitted) return;
+    if(currentEarnFilter === "All"){
+      if(sub && (sub.status === "Pending" || sub.status === "Approved")) return;
+    }else{
+      if(!sub || sub.status !== currentEarnFilter) return;
+    }
 
     let comment = task.comments && task.comments.length > 0 ? task.comments[0] : "No comment";
 
     html += `
       <div class="task-card">
-        <h2>${task.app}</h2>
-        <p>${task.title}</p>
-        <div class="reward">₹${task.reward}</div>
-
+        <div class="app-icon">📱</div>
+        <div class="task-info">
+          <h2>${task.app}</h2>
+          <p>${task.title} • ⭐ 5.0</p>
+          <div class="reward">₹${task.reward}.00</div>
+        </div>
         <button class="claim-btn" onclick="claimTask(${index})">Claim →</button>
+      </div>
 
-        <div class="claim-box hidden" id="claimBox-${index}">
-          <h3>Assigned Comment</h3>
-          <div class="comment-box" id="comment-${index}">${comment}</div>
+      <div class="claim-box hidden" id="claimBox-${index}">
+        <h3>Assigned Comment</h3>
+        <div class="comment-box" id="comment-${index}">${comment}</div>
+        <button class="copy-btn" onclick="copyComment(${index})">Copy Comment</button>
 
-          <button class="copy-btn" onclick="copyComment(${index})">Copy Comment</button>
+        <a href="${task.link}" target="_blank">
+          <button class="submit-btn">Open Task Link</button>
+        </a>
 
-          <a href="${task.link}" target="_blank">
-            <button class="submit-btn">Open Task Link</button>
-          </a>
-
-          <div class="upload-box">
-            <h3>Upload Screenshot</h3>
-            <input type="file" id="shot-${index}" accept="image/*">
-            <button class="submit-btn" onclick="submitTask(${index})">Submit Screenshot</button>
-          </div>
+        <div class="upload-box">
+          <h3>Upload Screenshot</h3>
+          <input type="file" id="shot-${index}" accept="image/*">
+          <button class="submit-btn" onclick="submitTask(${index})">Submit Screenshot</button>
         </div>
       </div>
     `;
   });
 
-  if(html === "") html = "<p>No new task available</p>";
-  document.getElementById("taskList").innerHTML = html;
+  if(html === "") html = "<p>No task available</p>";
+  taskList.innerHTML = html;
 }
 
 function claimTask(index){
@@ -226,181 +300,118 @@ function copyComment(index){
 }
 
 async function submitTask(index){
+  let file = document.getElementById("shot-" + index).files[0];
 
-let file =
-document.getElementById(
-"shot-" + index
-).files[0];
+  if(!file){
+    alert("Screenshot select karo");
+    return;
+  }
 
-if(!file){
-  alert("Screenshot select karo");
-  return;
+  let formData = new FormData();
+  formData.append("file", file);
+  formData.append("upload_preset", "walletapp");
+
+  let response = await fetch("https://api.cloudinary.com/v1_1/diewwfd5t/image/upload", {
+    method: "POST",
+    body: formData
+  });
+
+  let data = await response.json();
+
+  if(!data.secure_url){
+    alert("Upload failed");
+    return;
+  }
+
+  submissions.push({
+    userPhone: user.phone || "",
+    userName: user.name || "",
+    userEmail: user.email || "",
+    app: tasks[index].app,
+    title: tasks[index].title,
+    reward: Number(tasks[index].reward),
+    comment: document.getElementById("comment-" + index).innerText,
+    proof: data.secure_url,
+    status: "Pending",
+    time: new Date().toLocaleDateString()
+  });
+
+  saveAll();
+  alert("Task submitted. Pending approval.");
+  loadTasks();
+  loadHistory();
 }
-
-let formData = new FormData();
-
-formData.append("file", file);
-
-formData.append(
-"upload_preset",
-"walletapp"
-);
-
-let response = await fetch(
-"https://api.cloudinary.com/v1_1/diewwfd5t/image/upload",
-{
-method: "POST",
-body: formData
-}
-);
-
-let data = await response.json();
-
-console.log(data);
-
-if(!data.secure_url){
-
-alert(
-"Upload failed"
-);
-
-return;
-
-}
-
-submissions.push({
-
-userPhone: user.phone || "",
-
-userName: user.name || "",
-
-userEmail: user.email || "",
-
-app: tasks[index].app,
-
-title: tasks[index].title,
-
-reward: Number(tasks[index].reward),
-
-comment:
-document.getElementById(
-"comment-" + index
-).innerText,
-
-proof: data.secure_url,
-
-status: "Pending",
-
-time: new Date().toLocaleString()
-
-});
-
-localStorage.setItem(
-"submissions",
-JSON.stringify(submissions)
-);
-
-alert(
-"Screenshot uploaded successfully"
-);
-
-loadTasks();
-
-loadHistory();
-
-}
-
 
 function loadHistory(){
   let html = "";
 
-  if(submissions.length === 0){
-    html = "<p>No history</p>";
-  }
-
   submissions.forEach(sub=>{
+    if(currentHistoryFilter !== "All" && sub.status !== currentHistoryFilter) return;
+
+    let cls = sub.status === "Pending" ? "pending" : sub.status === "Rejected" ? "rejected" : "";
+
     html += `
-      <div class="history-card">
-        <h3>${sub.app}</h3>
-        <p>${sub.title}</p>
-        <p>Reward: ₹${sub.reward}</p>
-        <p>Status: <b>${sub.status}</b></p>
-        <small>${sub.time || ""}</small>
+      <div class="history-card ${cls}">
+        <div class="app-icon">📱</div>
+        <div class="history-info">
+          <h3>${sub.app}</h3>
+          <p>📅 ${sub.time || ""}</p>
+          <span class="status ${sub.status}">${sub.status}</span>
+        </div>
+        <div>
+          <div class="amount">₹${sub.reward}.00</div>
+        </div>
       </div>
     `;
   });
 
-  document.getElementById("taskHistoryList").innerHTML = html;
+  if(html === "") html = "<p>No history</p>";
+  taskHistoryList.innerHTML = html;
 }
 
 function openWithdraw(){
-  document.getElementById("withdrawPage").style.display = "block";
+  withdrawPage.style.display = "block";
   showBalance();
 }
 
 function closeWithdraw(){
-  document.getElementById("withdrawPage").style.display = "none";
+  withdrawPage.style.display = "none";
 }
 
 function changeWithdrawMethod(){
-  let method = document.getElementById("withdrawMethod").value;
-
-  if(method === "UPI"){
-    document.getElementById("upiBox").classList.remove("hidden");
-    document.getElementById("bankBox").classList.add("hidden");
+  if(withdrawMethod.value === "UPI"){
+    upiBox.classList.remove("hidden");
+    bankBox.classList.add("hidden");
   }else{
-    document.getElementById("upiBox").classList.add("hidden");
-    document.getElementById("bankBox").classList.remove("hidden");
+    upiBox.classList.add("hidden");
+    bankBox.classList.remove("hidden");
   }
 }
 
 function checkCharge(){
-  let amount = Number(document.getElementById("withdrawAmount").value);
-  let text = "";
-
-  if(amount >= 10 && amount < 500){
-    text = "2% Charge: ₹" + (amount * 0.02).toFixed(2);
-  }else if(amount >= 500){
-    text = "0% Charge";
-  }
-
-  document.getElementById("chargeText").innerText = text;
+  let amount = Number(withdrawAmount.value);
+  chargeText.innerText =
+    amount >= 10 && amount < 500 ? "2% Charge: ₹" + (amount*0.02).toFixed(2) :
+    amount >= 500 ? "0% Charge" : "";
 }
 
 function submitWithdraw(){
-  let amount = Number(document.getElementById("withdrawAmount").value);
-  let method = document.getElementById("withdrawMethod").value;
+  let amount = Number(withdrawAmount.value);
+  let method = withdrawMethod.value;
 
-  if(amount < 10){
-    alert("Minimum withdraw ₹10");
-    return;
-  }
-
-  if(amount > balanceAmount){
-    alert("Insufficient balance");
-    return;
-  }
+  if(amount < 10){ alert("Minimum withdraw ₹10"); return; }
+  if(amount > balanceAmount){ alert("Insufficient balance"); return; }
 
   let details = "";
 
   if(method === "UPI"){
-    let upi = document.getElementById("upiId").value.trim();
-    if(upi === ""){
-      alert("Enter UPI ID");
-      return;
-    }
-    details = "UPI ID: " + upi;
+    if(upiId.value.trim() === ""){ alert("Enter UPI ID"); return; }
+    details = "UPI ID: " + upiId.value.trim();
   }else{
-    let acc = document.getElementById("accountNumber").value.trim();
-    let ifsc = document.getElementById("ifscCode").value.trim();
-    let bank = document.getElementById("bankName").value.trim();
-
-    if(acc === "" || ifsc === "" || bank === ""){
-      alert("Bank details fill karo");
-      return;
+    if(accountNumber.value.trim()==="" || ifscCode.value.trim()==="" || bankName.value.trim()===""){
+      alert("Bank details fill karo"); return;
     }
-
-    details = "Account: " + acc + " | IFSC: " + ifsc + " | Bank: " + bank;
+    details = "Account: " + accountNumber.value + " | IFSC: " + ifscCode.value + " | Bank: " + bankName.value;
   }
 
   let charge = amount < 500 ? amount * 0.02 : 0;
@@ -411,20 +422,17 @@ function submitWithdraw(){
     userName: user.name || "User",
     userPhone: user.phone || "N/A",
     userEmail: user.email || "N/A",
-    method: method,
-    amount: amount,
+    method, amount,
     charge: charge.toFixed(2),
     final: finalAmount.toFixed(2),
-    details: details,
+    details,
     status: "Pending",
-    time: new Date().toLocaleString()
+    time: new Date().toLocaleDateString()
   });
 
   balanceAmount -= amount;
   saveAll();
   showBalance();
-  loadHistory();
-
   alert("Withdraw request submitted");
   closeWithdraw();
 }
@@ -435,11 +443,11 @@ function copyRefer(){
 }
 
 function hideAll(){
-  document.getElementById("homeSection").classList.add("hidden");
-  document.getElementById("earnSection").classList.add("hidden");
-  document.getElementById("historySection").classList.add("hidden");
-  document.getElementById("profileSection").classList.add("hidden");
-  document.getElementById("referSection").classList.add("hidden");
+  homeSection.classList.add("hidden");
+  earnSection.classList.add("hidden");
+  historySection.classList.add("hidden");
+  profileSection.classList.add("hidden");
+  referSection.classList.add("hidden");
 }
 
 function setActive(i){
