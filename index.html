@@ -226,46 +226,85 @@ function copyComment(index){
 }
 
 async function submitTask(index){
-  let file = document.getElementById("shot-" + index).files[0];
 
-  if(!file){
-    alert("Screenshot select karo");
-    return;
-  }
+let file =
+document.getElementById(
+"shot-" + index
+).files[0];
 
-  let formData = new FormData();
-  formData.append("file", file);
-  formData.append("upload_preset", "walletapp");
-
-  let response = await fetch("https://api.cloudinary.com/v1_1/djiewwfd5t/image/upload", {
-    method: "POST",
-    body: formData
-  });
-
-  let data = await response.json();
-if(!data.secure_url){
-  alert("Upload failed: " + (data.error ? data.error.message : "Unknown error"));
-  console.log(data);
+if(!file){
+  alert("Screenshot select karo");
   return;
 }
 
-  submissions.push({
-    userPhone: user.phone || "",
-    userName: user.name || "",
-    userEmail: user.email || "",
-    app: tasks[index].app,
-    title: tasks[index].title,
-    reward: Number(tasks[index].reward),
-    comment: document.getElementById("comment-" + index).innerText,
-    proof: data.secure_url,
-    status: "Pending",
-    time: new Date().toLocaleString()
-  });
+let formData = new FormData();
 
-  saveAll();
-  alert("Task submitted. Pending approval.");
-  loadTasks();
-  loadHistory();
+formData.append("file", file);
+
+formData.append(
+"upload_preset",
+"walletapp"
+);
+
+let response = await fetch(
+"https://api.cloudinary.com/v1_1/djiewwfd5t/image/upload",
+{
+method: "POST",
+body: formData
+}
+);
+
+let data = await response.json();
+
+console.log(data);
+
+if(!data.secure_url){
+
+alert(
+"Upload failed"
+);
+
+return;
+
+}
+
+submissions.push({
+
+userPhone: user.phone || "",
+
+userName: user.name || "",
+
+userEmail: user.email || "",
+
+app: tasks[index].app,
+
+title: tasks[index].title,
+
+reward: Number(tasks[index].reward),
+
+comment:
+document.getElementById(
+"comment-" + index
+).innerText,
+
+proof: data.secure_url,
+
+status: "Pending",
+
+time: new Date().toLocaleString()
+
+});
+
+saveAll();
+
+alert(
+"Screenshot uploaded successfully"
+);
+
+loadTasks();
+
+loadHistory();
+
 }
 
 function loadHistory(){
