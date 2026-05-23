@@ -247,7 +247,7 @@ formData.append(
 );
 
 let response = await fetch(
-"https://api.cloudinary.com/v1_1/djiewwfd5t/image/upload",
+"https://api.cloudinary.com/v1_1/diewwfd5t/image/upload",
 {
 method: "POST",
 body: formData
@@ -259,10 +259,12 @@ let data = await response.json();
 console.log(data);
 
 if(!data.secure_url){
-  alert("Upload failed: " + JSON.stringify(data));
-  console.log(data);
-  return;
-}
+
+alert(
+"Upload failed"
+);
+
+return;
 
 }
 
@@ -293,7 +295,10 @@ time: new Date().toLocaleString()
 
 });
 
-saveAll();
+localStorage.setItem(
+"submissions",
+JSON.stringify(submissions)
+);
 
 alert(
 "Screenshot uploaded successfully"
@@ -302,6 +307,8 @@ alert(
 loadTasks();
 
 loadHistory();
+
+}
 
 
 function loadHistory(){
