@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FolloPay Wallet</title>
+
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#6d4df5">
 
@@ -448,11 +449,12 @@ class="hidden">
 <div class="refer-card">
 
 <h1>
-Earn ₹5 Per Friend
+Earn 40% Referral Commission
 </h1>
 
-<div class="refer-code">
-KUK56KO
+<div class="refer-code"
+id="myReferCode">
+CODE
 </div>
 
 <button class="copy-btn"
@@ -494,7 +496,8 @@ onclick="closeWithdraw()">
 
 <div class="withdraw-form">
 
-<select id="withdrawMethod">
+<select id="withdrawMethod"
+onchange="changeWithdrawMethod()">
 
 <option value="UPI">
 UPI Transfer
@@ -506,114 +509,40 @@ Bank Transfer
 
 </select>
 
+<div id="upiBox">
+
 <input type="text"
 id="upiId"
 placeholder="UPI ID">
 
+</div>
+
+<div id="bankBox"
+class="hidden">
+
+<input type="text"
+id="accountNumber"
+placeholder="Account Number">
+
+<input type="text"
+id="ifscCode"
+placeholder="IFSC Code">
+
+<input type="text"
+id="bankName"
+placeholder="Bank Name">
+
+</div>
+
 <input type="number"
 id="withdrawAmount"
-placeholder="Amount">
+placeholder="Amount"
+oninput="checkCharge()">
 
-function submitWithdraw(){
+<p id="chargeText"></p>
 
-let amount =
-Number(document.getElementById("withdrawAmount").value);
-
-let method =
-document.getElementById("withdrawMethod").value;
-
-if(amount < 10){
-  alert("Minimum withdraw ₹10");
-  return;
-}
-
-if(amount > balanceAmount){
-  alert("Insufficient balance");
-  return;
-}
-
-let details = "";
-
-if(method === "UPI"){
-  let upi = document.getElementById("upiId").value;
-
-  if(upi === ""){
-    alert("Enter UPI ID");
-    return;
-  }
-
-  details = "UPI ID: " + upi;
-}
-else{
-  let account = document.getElementById("accountNumber").value;
-  let ifsc = document.getElementById("ifscCode").value;
-  let bank = document.getElementById("bankName").value;
-
-  if(account === "" || ifsc === "" || bank === ""){
-    alert("Bank details fill karo");
-    return;
-  }
-
-  details =
-  "Account: " + account +
-  " | IFSC: " + ifsc +
-  " | Bank: " + bank;
-}
-
-let charge =
-amount < 500 ? amount * 0.02 : 0;
-
-let finalAmount =
-amount - charge;
-
-let user =
-JSON.parse(localStorage.getItem("user")) || {};
-
-withdraws.push({
-
-id: Date.now(),
-
-name: user.name || "User",
-
-phone: user.phone || "N/A",
-
-email: user.email || "N/A",
-
-method: method,
-
-amount: amount,
-
-charge: charge.toFixed(2),
-
-final: finalAmount.toFixed(2),
-
-details: details,
-
-status: "Pending",
-
-time: new Date().toLocaleString()
-
-});
-
-localStorage.setItem(
-"withdraws",
-JSON.stringify(withdraws)
-);
-
-balanceAmount -= amount;
-
-localStorage.setItem(
-"balance",
-balanceAmount
-);
-
-showBalance();
-
-alert("Withdraw request submitted");
-
-closeWithdraw();
-
-}
+<button class="request-btn"
+onclick="submitWithdraw()">
 
 REQUEST PAYOUT
 
@@ -655,248 +584,267 @@ onclick="showRefer()">
 </div>
 
 <script>
+
 if(localStorage.getItem("loggedIn") !== "yes"){
-  window.location.replace("login.html");
+window.location.replace("login.html");
 }
 
-let balanceAmount = Number(localStorage.getItem("balance")) || 0;
-let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-let submissions = JSON.parse(localStorage.getItem("submissions")) || [];
-let withdraws = JSON.parse(localStorage.getItem("withdraws")) || [];
-let user = JSON.parse(localStorage.getItem("user"));
+let balanceAmount =
+Number(localStorage.getItem("balance")) || 0;
+
+let tasks =
+JSON.parse(localStorage.getItem("tasks")) || [];
+
+let submissions =
+JSON.parse(localStorage.getItem("submissions")) || [];
+
+let withdraws =
+JSON.parse(localStorage.getItem("withdraws")) || [];
+
+let user =
+JSON.parse(localStorage.getItem("user")) || {};
 
 function saveAll(){
-  localStorage.setItem("balance", balanceAmount);
-  localStorage.setItem("submissions", JSON.stringify(submissions));
-  localStorage.setItem("withdraws", JSON.stringify(withdraws));
+
+localStorage.setItem(
+"balance",
+balanceAmount
+);
+
+localStorage.setItem(
+"submissions",
+JSON.stringify(submissions)
+);
+
+localStorage.setItem(
+"withdraws",
+JSON.stringify(withdraws)
+);
+
 }
 
 function showBalance(){
-  document.getElementById("balance").innerText = "₹" + balanceAmount.toFixed(2);
 
-  if(document.getElementById("profileBalance")){
-    document.getElementById("profileBalance").innerText = balanceAmount.toFixed(2);
-  }
+document.getElementById("balance")
+.innerText =
+"₹" + balanceAmount.toFixed(2);
 
-  if(document.getElementById("withdrawBalance")){
-    document.getElementById("withdrawBalance").innerText = "₹" + balanceAmount.toFixed(2);
-  }
+document.getElementById("profileBalance")
+.innerText =
+balanceAmount.toFixed(2);
+
+document.getElementById("withdrawBalance")
+.innerText =
+"₹" + balanceAmount.toFixed(2);
+
 }
 
 function loadProfile(){
-  if(user){
-    document.getElementById("profileName").innerText = user.name || "User";
-    document.getElementById("profileEmail").innerText = user.email || "";
-  }
-}
 
-function loadTasks(){
-  let box = document.getElementById("taskList");
-  if(!box) return;
+document.getElementById("profileName")
+.innerText =
+user.name || "User";
 
-  let html = "";
+document.getElementById("profileEmail")
+.innerText =
+user.email || "Email";
 
-  tasks.forEach((task,index)=>{
-    let alreadySubmitted = submissions.some(sub =>
-      sub.app === task.app &&
-      (sub.status === "Pending" || sub.status === "Approved")
-    );
+document.getElementById("myReferCode")
+.innerText =
+user.phone || "CODE";
 
-    if(alreadySubmitted) return;
-
-    let comment = task.comments && task.comments.length > 0 ? task.comments[0] : "No comment";
-
-    html += `
-      <div class="task-card">
-        <h2>${task.app}</h2>
-        <p>${task.title}</p>
-        <div class="reward">₹${task.reward}</div>
-
-        <button class="claim-btn" onclick="claimTask(${index})">Claim →</button>
-
-        <div class="claim-box hidden" id="claimBox-${index}">
-          <h3>Assigned Comment</h3>
-
-          <div class="comment-box" id="comment-${index}">
-            ${comment}
-          </div>
-
-          <button class="copy-btn" onclick="copyComment(${index})">Copy Comment</button>
-
-          <a href="${task.link}" target="_blank">
-            <button class="submit-btn">Open Task Link</button>
-          </a>
-
-          <div class="upload-box">
-            <h3>Upload Screenshot</h3>
-            <input type="file" id="shot-${index}" accept="image/*">
-            <button class="submit-btn" onclick="submitTask(${index})">Submit Screenshot</button>
-          </div>
-        </div>
-      </div>
-    `;
-  });
-
-  if(html === ""){
-    html = "<p>No new task available</p>";
-  }
-
-  box.innerHTML = html;
-}
-
-function claimTask(index){
-  document.getElementById("claimBox-" + index).classList.remove("hidden");
-}
-
-function copyComment(index){
-  let text = document.getElementById("comment-" + index).innerText;
-  navigator.clipboard.writeText(text);
-  alert("Comment copied");
-}
-
-async function submitTask(index){
-  let fileInput = document.getElementById("shot-" + index);
-  let file = fileInput.files[0];
-
-  if(!file){
-    alert("Screenshot select karo");
-    return;
-  }
-
-  let formData = new FormData();
-  formData.append("file", file);
-  formData.append("upload_preset", "walletapp");
-
-  let response = await fetch("https://api.cloudinary.com/v1_1/djiewwfd5t/image/upload", {
-    method: "POST",
-    body: formData
-  });
-
-  let data = await response.json();
-
-  if(!data.secure_url){
-    alert("Image upload failed");
-    return;
-  }
-
-  submissions.push({
-    app: tasks[index].app,
-    title: tasks[index].title,
-    reward: Number(tasks[index].reward),
-    comment: document.getElementById("comment-" + index).innerText,
-    proof: data.secure_url,
-    status: "Pending",
-    time: new Date().toLocaleString()
-  });
-
-  saveAll();
-
-  alert("Task submitted. Pending approval.");
-  loadTasks();
-  loadHistory();
-}
-
-function loadHistory(){
-  let box = document.getElementById("taskHistoryList");
-  if(!box) return;
-
-  let html = "";
-
-  if(submissions.length === 0){
-    html = "<p>No history</p>";
-  }
-
-  submissions.forEach(sub=>{
-    html += `
-      <div class="history-card">
-        <h3>${sub.app}</h3>
-        <p>${sub.title}</p>
-        <p>Reward: ₹${sub.reward}</p>
-        <p>Status: <b>${sub.status}</b></p>
-        <small>${sub.time || ""}</small>
-      </div>
-    `;
-  });
-
-  box.innerHTML = html;
-}
-
-function openWithdraw(){
-  document.getElementById("withdrawPage").style.display = "block";
-  showBalance();
-}
-
-function closeWithdraw(){
-  document.getElementById("withdrawPage").style.display = "none";
-}
-
-function submitWithdraw(){
-  let amount = Number(document.getElementById("withdrawAmount").value);
-
-  if(amount < 10){
-    alert("Minimum withdraw ₹10");
-    return;
-  }
-
-  if(amount > balanceAmount){
-    alert("Insufficient balance");
-    return;
-  }
-
-  let method = document.getElementById("withdrawMethod").value;
-  let charge = amount < 500 ? amount * 0.02 : 0;
-  let finalAmount = amount - charge;
-
-  withdraws.push({
-    method: method,
-    amount: amount,
-    charge: charge.toFixed(2),
-    final: finalAmount.toFixed(2),
-    status: "Pending",
-    time: new Date().toLocaleString()
-  });
-
-  balanceAmount -= amount;
-  saveAll();
-  showBalance();
-
-  alert("Withdraw request submitted");
-  closeWithdraw();
-}
-
-function copyRefer(){
-  navigator.clipboard.writeText("KUK56KO");
-  alert("Referral code copied");
 }
 
 function hideAll(){
-  document.getElementById("homeSection").classList.add("hidden");
-  document.getElementById("earnSection").classList.add("hidden");
-  document.getElementById("historySection").classList.add("hidden");
-  document.getElementById("profileSection").classList.add("hidden");
-  document.getElementById("referSection").classList.add("hidden");
+
+homeSection.classList.add("hidden");
+earnSection.classList.add("hidden");
+historySection.classList.add("hidden");
+profileSection.classList.add("hidden");
+referSection.classList.add("hidden");
+
 }
 
 function setActive(i){
-  document.querySelectorAll(".nav-item").forEach(x=>x.classList.remove("active"));
-  document.querySelectorAll(".nav-item")[i].classList.add("active");
+
+document.querySelectorAll(".nav-item")
+.forEach(x=>x.classList.remove("active"));
+
+document.querySelectorAll(".nav-item")[i]
+.classList.add("active");
+
 }
 
-function showHome(){ hideAll(); homeSection.classList.remove("hidden"); setActive(0); }
-function showEarn(){ hideAll(); earnSection.classList.remove("hidden"); setActive(1); loadTasks(); }
-function showHistory(){ hideAll(); historySection.classList.remove("hidden"); setActive(2); loadHistory(); }
-function showProfile(){ hideAll(); profileSection.classList.remove("hidden"); setActive(3); }
-function showRefer(){ hideAll(); referSection.classList.remove("hidden"); setActive(4); }
+function showHome(){
+
+hideAll();
+
+homeSection.classList.remove("hidden");
+
+setActive(0);
+
+}
+
+function showEarn(){
+
+hideAll();
+
+earnSection.classList.remove("hidden");
+
+setActive(1);
+
+}
+
+function showHistory(){
+
+hideAll();
+
+historySection.classList.remove("hidden");
+
+setActive(2);
+
+}
+
+function showProfile(){
+
+hideAll();
+
+profileSection.classList.remove("hidden");
+
+setActive(3);
+
+}
+
+function showRefer(){
+
+hideAll();
+
+referSection.classList.remove("hidden");
+
+setActive(4);
+
+}
+
+function openWithdraw(){
+
+document.getElementById(
+"withdrawPage"
+).style.display = "block";
+
+showBalance();
+
+}
+
+function closeWithdraw(){
+
+document.getElementById(
+"withdrawPage"
+).style.display = "none";
+
+}
+
+function changeWithdrawMethod(){
+
+let method =
+document.getElementById(
+"withdrawMethod"
+).value;
+
+if(method === "UPI"){
+
+document.getElementById(
+"upiBox"
+).classList.remove("hidden");
+
+document.getElementById(
+"bankBox"
+).classList.add("hidden");
+
+}
+else{
+
+document.getElementById(
+"upiBox"
+).classList.add("hidden");
+
+document.getElementById(
+"bankBox"
+).classList.remove("hidden");
+
+}
+
+}
+
+function checkCharge(){
+
+let amount =
+Number(document.getElementById(
+"withdrawAmount"
+).value);
+
+let text = "";
+
+if(amount >= 10 && amount < 500){
+
+text =
+"2% Charge: ₹" +
+(amount * 0.02).toFixed(2);
+
+}
+else if(amount >= 500){
+
+text = "0% Charge";
+
+}
+
+document.getElementById(
+"chargeText"
+).innerText = text;
+
+}
+
+function submitWithdraw(){
+
+alert("Withdraw Request Submitted");
+
+}
+
+function copyRefer(){
+
+navigator.clipboard.writeText(
+user.phone || "CODE"
+);
+
+alert("Referral Code Copied");
+
+}
 
 function logout(){
-  localStorage.removeItem("loggedIn");
-  window.location.replace("login.html");
+
+localStorage.removeItem(
+"loggedIn"
+);
+
+window.location.replace(
+"login.html"
+);
+
 }
 
 showBalance();
+
 loadProfile();
-loadTasks();
-loadHistory();
+
+</script>
+
+<script>
+
+if ("serviceWorker" in navigator) {
+
+navigator.serviceWorker.register("service-worker.js");
+
+}
+
 </script>
 
 </body>
