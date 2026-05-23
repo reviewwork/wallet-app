@@ -243,11 +243,11 @@ async function submitTask(index){
   });
 
   let data = await response.json();
-
-  if(!data.secure_url){
-    alert("Image upload failed");
-    return;
-  }
+if(!data.secure_url){
+  alert("Upload failed: " + (data.error ? data.error.message : "Unknown error"));
+  console.log(data);
+  return;
+}
 
   submissions.push({
     userPhone: user.phone || "",
