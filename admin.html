@@ -183,6 +183,7 @@ word-break:break-word;
 }
 
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 </head>
 
@@ -235,6 +236,9 @@ class="admin-section active">
 <h2>
 All Users
 </h2>
+<button onclick="downloadAllScreenshotsPDF()">
+📄 Download All Screenshots PDF
+</button>
 
 <div id="userList"></div>
 
@@ -923,6 +927,92 @@ loadTasks();
 loadFolders();
 
 loadWithdraws();
+async function downloadAllScreenshotsPDF(){
+
+const { jsPDF } = window.jspdf;
+
+let doc = new jsPDF();
+
+let y = 20;
+
+doc.setFontSize(20);
+doc.text("All Screenshot Report", 20, y);
+y += 15;
+
+for(let i = 0; i < submissions.length; i++){
+
+let sub = submissions[i];
+
+doc.setFontSize(14);
+doc.text("App: " + (sub.app || ""), 20, y);
+y += 8;
+
+doc.text("User: " + (sub.userName || "User"), 20, y);
+y += 8;
+
+doc.text("Reward: ₹" + (sub.reward || 0), 20, y);
+y += 8;
+
+doc.text("Status: " + (sub.status || "Pending"), 20, y);
+y += 8;
+
+doc.text("Time: " + (sub.time || ""), 20, y);
+y += 8;
+
+doc.text("Comment:", 20, y);
+y += 7;
+
+doc.setFontSize(11);
+doc.text((sub.comment || ""), 20, y, {maxWidth:170});
+y += 20;
+
+if(sub.proof){
+
+try{
+
+let img = new Image();
+img.crossOrigin = "Anonymous";
+img.src = sub.proof;
+
+await new Promise((resolve,reject)=>{
+img.onload = resolve;
+img.onerror = reject;
+});
+
+let canvas = document.createElement("canvas");
+canvas.width = img.width;
+canvas.height = img.height;
+
+let ctx = canvas.getContext("2d");
+ctx.drawImage(img,0,0);
+
+let imgData = canvas.toDataURL("image/jpeg",0.7);
+
+doc.addImage(imgData,"JPEG",20,y,80,120);
+y += 130;
+
+}catch(e){
+
+doc.text("Screenshot image could not load",20,y);
+y += 10;
+
+}
+
+}
+
+doc.line(20,y,190,y);
+y += 15;
+
+if(y > 250 && i < submissions.length - 1){
+doc.addPage();
+y = 20;
+}
+
+}
+
+doc.save("all-screenshot-report.pdf");
+
+}
 
 </script>
 
